@@ -3,9 +3,14 @@ import functools
 from lxml import etree
 
 
-def xml_response():
-    """ Custom decorator to serialize a returned dictionary as XML with a given name. """
+def generate_response_dict(passed_dict) -> dict:
+    passed_dict["apiStatus"] = {"code": 0}
+    passed_dict["version"] = 1
 
+    return passed_dict
+
+
+def response():
     def decorator(func):
         @functools.wraps(func)
         def serialization_wrapper(*args, **kwargs):
@@ -13,6 +18,9 @@ def xml_response():
 
             # Ensure we are truly dealing with a dictionary.
             if isinstance(returned_value, dict):
+                # Insert common elements.
+                returned_value = generate_response_dict(returned_value)
+
                 # Serialize to an ETree.
                 elements = dict_to_etree("response", returned_value)
 

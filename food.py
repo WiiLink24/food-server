@@ -1,12 +1,13 @@
 from flask import request, Flask
 from werkzeug import exceptions
 
-from responses import document_template
+import responses
 
 app = Flask(__name__)
 
 action_list = {
-    "webApi_document_template": document_template,
+    "webApi_document_template": responses.document_template,
+    "webApi_area_list": responses.area_list,
 }
 
 
