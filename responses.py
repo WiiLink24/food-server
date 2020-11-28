@@ -1,14 +1,14 @@
 from lxml import etree
 from werkzeug import exceptions
 
-from helpers import response, dict_to_etree, RepeatedElement
+from helpers import response, dict_to_etree, RepeatedElement, Yomi, Kana
 
 
 @response()
 def document_template(request):
     # Observed to be true in v1 and v512.
-    if request.args["version"] != "00000":
-        return ""
+    if request.args.get("version") != "00000":
+        return exceptions.BadRequest()
 
     return {
         "container0": {"contents": "no terms and conditions"},
@@ -91,3 +91,21 @@ def area_list(request):
         }
 
     return exceptions.NotFound()
+
+
+@response()
+def category_list(request):
+    # TODO: What values can this be? 0 and 1 have been observed.
+    # if request.args.get("reservationType") != "0":
+    #     return exceptions.BadRequest()
+
+    return {
+        # Must be 食事 and encoded in Shift-JIS.
+        "LargeCategoryName": Yomi("食事"),
+        "CategoryList": {
+            "CategoryCode": "1",
+            "ShopList": {
+                "open": 1,
+            },
+        },
+    }

@@ -25,7 +25,7 @@ def response():
                 elements = dict_to_etree("response", returned_value)
 
                 # We now must convert from ETree to actual XML we can respond with.
-                return etree.tostring(elements, pretty_print=True)
+                return etree.tostring(elements, encoding='shift-jis', xml_declaration=False, pretty_print=True)
             else:
                 # We only apply XML operations to dicts.
                 return returned_value
@@ -46,6 +46,12 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             root.text = etree.CDATA("1" if d else "0")
         elif isinstance(d, int):
             root.text = etree.CDATA(f"{d}")
+        elif isinstance(d, Kana):
+            value = etree.SubElement(root, "kana")
+            value.text = d.contents
+        elif isinstance(d, Yomi):
+            value = etree.SubElement(root, "yomi")
+            value.text = d.contents
         elif isinstance(d, str):
             root.text = etree.CDATA(d)
         elif isinstance(d, bytes):
@@ -132,3 +138,24 @@ class RepeatedElement:
         if not isinstance(passed_dict, dict):
             raise ValueError("Please only pass dicts to RepeatedElement.")
         self.contents = passed_dict
+
+
+class Kana:
+    """The Kana class is intended to represent kana. By default, the Demae Channel's parser
+    strips non-ASCII characters. When within a kana tag, this process does not occur. """
+    contents = ""
+
+    def __init__(self, contents):
+        if not isinstance(contents, str):
+            raise ValueError("Please only pass strings to Kana.")
+        self.contents = contents
+
+
+class Yomi:
+    """The Yomi class is intended to represent kanji. By default, the Demae Channel's parser
+    strips non-ASCII characters. When within a kana tag, this process does not occur. """
+
+    def __init__(self, contents):
+        if not isinstance(contents, str):
+            raise ValueError("Please only pass strings to Yomi.")
+        self.contents = contents
