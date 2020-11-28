@@ -15,11 +15,11 @@ action_list = {
 def api():
     try:
         # These values should be consistent for both v1 and v512.
-        if request.args["platform"] != "wii" and request.args["version"] != "00000":
+        if request.args["platform"] != "wii":
             return exceptions.BadRequest()
 
         action = request.args["action"]
-        return action_list[action]()
+        return action_list[action](request)
     except KeyError:
         # This is not an action or a format we know of.
         return exceptions.NotFound()
