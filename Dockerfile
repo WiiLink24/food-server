@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python:3.9-alpine
 
 RUN adduser -D server
 WORKDIR /home/server
@@ -6,10 +6,10 @@ WORKDIR /home/server
 # Copy requirements first as to not disturb cache for other changes.
 COPY requirements.txt .
 
-# Required base dependencies for psycopg2, lxml, and pillow.
-RUN apk add -U --no-cache libpq libxslt-dev libxml2-dev jpeg-dev zlib-dev
+# Required base dependencies for lxml.
+RUN apk add -U --no-cache libxslt-dev libxml2-dev
 
-RUN apk add --no-cache --virtual .build-deps build-base postgresql-dev && \
+RUN apk add --no-cache --virtual .build-deps build-base && \
   pip3 install -r requirements.txt && \
   pip3 install gunicorn && \
   apk del .build-deps
