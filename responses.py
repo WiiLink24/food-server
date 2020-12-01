@@ -98,10 +98,10 @@ def category_list(request):
     # TODO: What values can this be? 0 and 1 have been observed.
     # if request.args.get("reservationType") != "0":
     #     return exceptions.BadRequest()
-
+    # 0 = Reservations today, 1 = Reservations tommorow
     return {
         # Must be 食事 and encoded in Shift-JIS.
-        "LargeCategoryName": "食事",
+        "LargeCategoryName": Yomi("食事"),
         "CategoryList": {
             "CategoryCode": "1",
             "ShopList": {
