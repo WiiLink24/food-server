@@ -101,7 +101,7 @@ def category_list(request):
     # 0 = Reservations today, 1 = Reservations tommorow
     return {
         # Must be 食事 and encoded in Shift-JIS.
-        "LargeCategoryName": "食事",
+        "LargeCategoryName": Yomi("食事"),
         "CategoryList": {
             "CategoryCode": "1",
             "ShopList": {
