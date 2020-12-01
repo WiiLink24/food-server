@@ -33,7 +33,7 @@ def error_api():
         try:
             print(f"{key} -> {value}".decode('shift-jis').encode('utf-8')) # Encode as UTF-8
         except:
-            print(f"{key} -> {value}") # if it errors, leave as is. 
+            print(f"{key} -> {value} (not decoded)") # if it errors, leave as is with a note.
 
     return ""
 
