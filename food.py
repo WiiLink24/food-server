@@ -30,7 +30,10 @@ def api():
 def error_api():
     print("Received an error!")
     for key, value in request.form.items():
-        print(f"{key} -> {value}")
+        try:
+            print(f"{key} -> {value}".decode('shift-jis').encode('utf-8')) # Encode as UTF-8
+        except:
+            print(f"{key} -> {value}") # if it errors, leave as is. 
 
     return ""
 
