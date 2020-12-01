@@ -2,6 +2,9 @@ import base64
 import functools
 from lxml import etree
 
+class CDATA:
+    def __init__(self,val):
+        self.val = val
 
 def generate_response_dict(passed_dict) -> dict:
     passed_dict["apiStatus"] = {"code": 0}
@@ -57,6 +60,8 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = etree.CDATA(base64.b64encode(d))
+        elif isinstance(d,CDATA):
+            root.text = etree.CDATA(d.val)
         elif isinstance(d, tuple) or isinstance(d, list):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special
