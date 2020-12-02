@@ -102,7 +102,7 @@ def category_list(request):
     return {
         # Must be 食事 and encoded in Shift-JIS.
         "LargeCategoryName": {
-            "yomiLargeCategoryName":"食事",
+            Yomi("食事"),
         },
         "CategoryList": {
             "CategoryCode": "1",
