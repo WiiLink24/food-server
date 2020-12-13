@@ -114,7 +114,7 @@ def category_list(request):
                 "activate":1,
                 "waitTime":1,
                 "paymentList":{
-                    "athing":"not a payment type" # Change this back to 代金引換
+                    "athing":"代金引換" 
                 },
                 "shopStatus":{
                     "status":{
