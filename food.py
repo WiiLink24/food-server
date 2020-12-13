@@ -9,6 +9,7 @@ action_list = {
     "webApi_document_template": responses.document_template,
     "webApi_area_list": responses.area_list,
     "webApi_category_list": responses.category_list,
+    "webApi_area_shopinfo": responses.shop_info
 }
 
 
