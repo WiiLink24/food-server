@@ -3,7 +3,9 @@ from werkzeug import exceptions
 
 from helpers import response, response_with_no_footer, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA, DontCDATAMii
 
-
+@response()
+def shopinfo(request):
+    return {} # Return a blank dict for now
 @response()
 def document_template(request):
     # Observed to be true in v1 and v512.
