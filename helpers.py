@@ -5,7 +5,10 @@ from lxml import etree
 class CDATA:
     def __init__(self,val):
         self.val = val
-
+class DontCDATAMii:
+    def __init__(self,val):
+        self.val = val
+        # Excludes a node from auto CDATAing
 def generate_response_dict(passed_dict) -> dict:
     passed_dict["apiStatus"] = {"code": 0}
     passed_dict["version"] = 1
@@ -77,6 +80,8 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             value.text = d.contents
         elif isinstance(d, str):
             root.text = etree.CDATA(d)
+        elif isinstance(d, DontCDATAMii):
+            root.text = d.val
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = etree.CDATA(base64.b64encode(d))
