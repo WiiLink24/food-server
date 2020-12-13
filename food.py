@@ -36,7 +36,7 @@ def error_api():
             print(f"An error occured while decoding: {e}")
             print(f"{key} -> {value} (not decoded)") # if it errors, leave as is with a note.
 
-       return action_list['webApi_document_template'](request)
+        return action_list['webApi_document_template'](request)
 
 
 if __name__ == "__main__":
