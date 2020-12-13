@@ -123,8 +123,3 @@ def category_list(request):
                 }
             }
         }
-                
-                "open": 1,
-            },
-        },
-    }
