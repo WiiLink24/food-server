@@ -106,7 +106,7 @@ def category_list(request):
     return {
         # Must be 食事 and encoded in Shift-JIS.
         "BigBoiCategory":{
-            "LargeCategoryName":Yomi("meal"),
+            "LargeCategoryName":"meal",
             "CategoryList": {
                 "ACategory":{
                     "CategoryCode": "1",
