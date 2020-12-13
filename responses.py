@@ -1,7 +1,7 @@
 from lxml import etree
 from werkzeug import exceptions
 
-from helpers import response, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA
+from helpers import response, response_with_no_footer, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA
 
 
 @response()
