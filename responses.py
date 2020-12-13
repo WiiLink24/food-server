@@ -8,8 +8,11 @@ from helpers import response, response_with_no_footer, dict_to_etree, RepeatedEl
 def document_template(request):
     # Observed to be true in v1 and v512.
     # Actually not, the version is different when making an order request
-    # if request.args.get("version") != "00000":
-    # return exceptions.BadRequest()
+    if request.args.get("version") != "00000":
+        # Dump request data
+        print(request.args)
+        print(request.json)
+        
 
     return {
         "container0": {"contents": "no terms and conditions"},
