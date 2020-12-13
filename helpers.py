@@ -36,7 +36,27 @@ def response():
         return serialization_wrapper
 
     return decorator
+def response_with_no_footer():
+    def decorator(func):
+        @functools.wraps(func)
+        def serialization_wrapper(*args, **kwargs):
+            returned_value = func(*args, **kwargs)
 
+            # Ensure we are truly dealing with a dictionary.
+            if isinstance(returned_value, dict):
+
+                # Serialize to an ETree.
+                elements = dict_to_etree("response", returned_value)
+
+                # We now must convert from ETree to actual XML we can respond with.
+                return etree.tostring(elements, encoding='shift-jis', xml_declaration=False, pretty_print=True)
+            else:
+                # We only apply XML operations to dicts.
+                return returned_value
+
+        return serialization_wrapper
+
+    return decorator
 
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     """ Derived from https://stackoverflow.com/a/10076823. """
