@@ -1,7 +1,7 @@
 from lxml import etree
 from werkzeug import exceptions
 
-from helpers import response, response_with_no_footer, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA
+from helpers import response, response_with_no_footer, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA, DontCDATAMii
 
 
 @response()
@@ -102,7 +102,7 @@ def category_list(request):
     return {
         # Must be 食事 and encoded in Shift-JIS.
         "BigBoiCategory":{
-            "LargeCategoryName":Yomi("meal"),
+            "LargeCategoryName":DontCDATAMii("meal"),
             "CategoryList": {
                 "ACategory":{
                     "CategoryCode": "1",
