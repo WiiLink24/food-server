@@ -137,32 +137,15 @@ def category_list(request):
     '''
     return {
         # Must be 食事 and encoded in Shift-JIS.
-        "LargeCategoryName":"meal",
-        "sushi":{
+        "BigCategory": {
+            "LargeCategoryName":"meal",
             "CategoryList": {
-                "ACategory":{
-                    "CategoryCode": 1,
-                    "ShopList": {
-                        "TheShopShop":{
-                            "shopCode":1,
-                            "homeCode":1,
-                            "name":1,
-                            "catchphrase":1,
-                            "minPrice":1,
-                            "yoyaku":1,
-                            "activate":1,
-                            "waitTime":1,
-                            "paymentList":{
-                                "athing":"hi" 
-                            },
-                            "shopStatus":{
-                                "status":{
-                                    "isOpen":1,
-                                }
-                            }
-                        }
-                    }
+                "yummy_food": {
+                    "CategoryCode":1
                 }
             }
         }
-    }
+                    
+                    
+            
+        }
