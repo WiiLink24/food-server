@@ -109,7 +109,7 @@ def category_list(request):
         "LargeCategoryName":"meal",
         "CategoryList": {
             "ACategory":{
-                "CategoryCode": "1",
+                "CategoryCode": 1,
                 "ShopList": {
                     "TheShopShop":{
                         "shopCode":1,
@@ -141,13 +141,13 @@ def category_list(request):
         "sushi":{
             "CategoryList": {
                 "ACategory":{
-                    "CategoryCode": "1",
+                    "CategoryCode": 1,
                     "ShopList": {
                         "TheShopShop":{
                             "shopCode":1,
                             "homeCode":1,
-                            "name":"You wanted a name?",
-                            "catchphrase":"on",
+                            "name":1,
+                            "catchphrase":1,
                             "minPrice":1,
                             "yoyaku":1,
                             "activate":1,
@@ -157,7 +157,7 @@ def category_list(request):
                             },
                             "shopStatus":{
                                 "status":{
-                                    "isOpen":"1",
+                                    "isOpen":1,
                                 }
                             }
                         }
