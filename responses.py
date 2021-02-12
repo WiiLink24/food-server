@@ -99,7 +99,7 @@ def area_list(request):
     return exceptions.NotFound()
 
 
-@response_with_no_footer()
+@response()
 def category_list(request):
     # TODO: What values can this be? 0 and 1 have been observed.
     # if request.args.get("reservationType") != "0":
