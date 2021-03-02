@@ -140,7 +140,12 @@ def category_list(request):
             "LargeCategoryName":Yomi("meal"),
             "CategoryList": {
                 "ACategory":{
-                    "CategoryCode": "please just work :(((((("
+                    "CategoryCode": {
+                        "when":"will",
+                        "this":"xml",
+                        "file":"be",
+                        "valid":"lol"
+                    }
                 }
             }
         }
