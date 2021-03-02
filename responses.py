@@ -140,7 +140,7 @@ def category_list(request):
         "LargeCategoryName":"meal",
         "CategoryList": {
             "ACategory":{
-                "CategoryCode": 1,
+                "CategoryCode": 0,
                 "ShopList": {
                     "TheShopShop":{
                         "shopCode":1,
