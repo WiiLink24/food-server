@@ -137,31 +137,11 @@ def category_list(request):
     '''
     return {
         "BigBoiCategory":{
-        "LargeCategoryName":Yomi("meal"),
-        "CategoryList": {
-            "ACategory":{
-                "CategoryCode": Yomi("0"),
-                "ShopList": {
-                    "TheShopShop":{
-                        "shopCode":1,
-                        "homeCode":1,
-                        "name":"You wanted a name?",
-                        "catchphrase":"on",
-                        "minPrice":1,
-                        "yoyaku":1,
-                        "activate":1,
-                        "waitTime":1,
-                        "paymentList":{
-                            "athing":"hi" 
-                        },
-                        "shopStatus":{
-                            "status":{
-                                "isOpen":"1",
-                            }
-                        }
-                    }
+            "LargeCategoryName":Yomi("meal"),
+            "CategoryList": {
+                "ACategory":{
+                    "CategoryCode": 1,
                 }
             }
         }
     }
-  }
