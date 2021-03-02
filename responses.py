@@ -140,7 +140,7 @@ def category_list(request):
             "LargeCategoryName":Yomi("meal"),
             "CategoryList": {
                 "ACategory":{
-                    "CategoryCode": DontCDATAMii(1),
+                    "CategoryCode": DontCDATAMii('1'),
                 }
             }
         }
