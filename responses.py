@@ -11,7 +11,7 @@ def document_template(request):
     # Observed to be true in v1 and v512.
     # Actually not, the version is different when making an order request
     if request.args.get("version") != "00000":
-        # Dump request data
+        # Dump request dataD
         print(request.args)
         print(request.json)
         
@@ -140,7 +140,7 @@ def category_list(request):
             "LargeCategoryName":Yomi("meal"),
             "CategoryList": {
                 "ACategory":{
-                    "CategoryCode": 1,
+                    "CategoryCode": DontCDATAMii(1),
                 }
             }
         }
