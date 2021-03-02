@@ -164,3 +164,4 @@ def category_list(request):
             }
         }
     }
+  }
