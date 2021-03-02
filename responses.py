@@ -137,10 +137,10 @@ def category_list(request):
     '''
     return {
         "BigBoiCategory":{
-        "LargeCategoryName":"meal",
+        "LargeCategoryName":Yomi("meal"),
         "CategoryList": {
             "ACategory":{
-                "CategoryCode": 0,
+                "CategoryCode": Yomi("0"),
                 "ShopList": {
                     "TheShopShop":{
                         "shopCode":1,
