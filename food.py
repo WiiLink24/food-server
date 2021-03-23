@@ -17,6 +17,7 @@ action_list = {
     "webApi_item_one": responses.item_one,
     "webApi_Authkey": responses.auth_key,
     "webApi_basket_list": responses.basket_list,
+    "webApi_basket_reset": responses.basket_reset,
 }
 
 
