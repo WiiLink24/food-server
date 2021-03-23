@@ -5,20 +5,14 @@ from helpers import (
     response,
     response_with_no_footer,
     dict_to_etree,
+    hacky_apistatus_response,
 )
 
 
+@hacky_apistatus_response()
 @response()
 def shop_one(request):
-    result = category_list(request)
-
-    return (
-        b"""<apiStatus>
-            <code><![CDATA[0]]></code>
-            <version><![CDATA[1]]></version>
-        </apiStatus>"""
-        + result
-    )
+    return category_list(request)
 
 
 @response()
@@ -29,15 +23,7 @@ def shop_info(request):
 
 @response()
 def shop_list(request):
-    result = category_list(request)
-
-    return (
-        b"""<apiStatus>
-        <code><![CDATA[0]]></code>
-        <version><![CDATA[1]]></version>
-    </apiStatus>"""
-        + result
-    )
+    return category_list(request)
 
 
 @response()
@@ -132,6 +118,7 @@ def area_list(request):
     return exceptions.NotFound()
 
 
+@hacky_apistatus_response()
 @response_with_no_footer()
 def category_list(request):
     # TODO: What values can this be? 0 and 1 have been observed.
@@ -192,42 +179,3 @@ def category_list(request):
             },
         },
     }
-
-
-def actual_category_list(request):
-    """
-    Nintendo makes questionable decisions. This is a fact.
-    Some of them one may consider somewhat justified, based on development
-    time and constraint.
-
-    Consider the following C pseudocode:
-
-    int index = 0;
-    int count = GetChildNodeCount(responseNode);
-    while (index < count - 1) {
-      // [...]
-    }
-
-    Nintendo loops through the count of all response codes.
-    As having apiStatus -> code and version normally
-    would mean response has a child count of 2 and other restaurants,
-    they violate every XML standard known to humankind and parse it separately.
-
-    It would not hurt them to have put the data inside of a separate node.
-    It would not hurt them to subtract 2 should they require "response" for unknown standards.
-    Even worse, this is Wii-specific, as none of their mobile applications
-    (iPhone OS 3.1 or Android 2.2, earliest found) rely on any of this functionality.
-    Yet, here we are.
-
-    We append such manually, written out, bypassing lxml because it's not worth
-    our time to handle otherwise.
-    """
-    result = category_list(request)
-
-    return (
-        b"""<apiStatus>
-    <code><![CDATA[0]]></code>
-    <version><![CDATA[1]]></version>
-</apiStatus>"""
-        + result
-    )

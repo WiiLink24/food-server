@@ -8,7 +8,7 @@ app = Flask(__name__)
 action_list = {
     "webApi_document_template": responses.document_template,
     "webApi_area_list": responses.area_list,
-    "webApi_category_list": responses.actual_category_list,
+    "webApi_category_list": responses.category_list,
     "webApi_area_shopinfo": responses.shop_info,
     "webApi_shop_list": responses.shop_list,
     "webApi_shop_one": responses.shop_one,

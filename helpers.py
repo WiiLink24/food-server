@@ -3,17 +3,6 @@ import functools
 from lxml import etree
 
 
-class CDATA:
-    def __init__(self, val):
-        self.val = val
-
-
-class DontCDATAMii:
-    def __init__(self, val):
-        self.val = val
-        # Excludes a node from auto CDATAing
-
-
 def generate_response_dict(passed_dict) -> dict:
     passed_dict["apiStatus"] = {"code": 0}
     passed_dict["version"] = 1
@@ -79,6 +68,58 @@ def response_with_no_footer():
     return decorator
 
 
+def hacky_apistatus_response():
+    """
+    Nintendo makes questionable decisions. This is a fact.
+    Some of them one may consider somewhat justified, based on development
+    time and constraint.
+
+    Consider the following C pseudocode:
+
+    int index = 0;
+    int count = GetChildNodeCount(responseNode);
+    while (index < count - 1) {
+      // [...]
+    }
+
+    Nintendo loops through the count of all response codes.
+    As having apiStatus -> code and version normally
+    would mean response has a child count of 2 and other restaurants,
+    they violate every XML standard known to humankind and parse it separately.
+
+    It would not hurt them to have put the data inside of a separate node.
+    It would not hurt them to subtract 2 should they require "response" for unknown standards.
+    Even worse, this is Wii-specific, as none of their mobile applications
+    (iPhone OS 3.1 or Android 2.2, earliest found) rely on any of this functionality.
+    Yet, here we are.
+
+    We append such manually, written out, bypassing lxml because it's not worth
+    our time to handle otherwise.
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def serialization_wrapper(*args, **kwargs):
+            returned_value = func(*args, **kwargs)
+
+            # Only append if we've serialized.
+            if isinstance(returned_value, bytes):
+                return (
+                    b"""<apiStatus>
+    <code><![CDATA[0]]></code>
+    <version><![CDATA[1]]></version>
+</apiStatus>
+"""
+                    + returned_value
+                )
+            else:
+                return returned_value
+
+        return serialization_wrapper
+
+    return decorator
+
+
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     """ Derived from https://stackoverflow.com/a/10076823. """
 
@@ -98,13 +139,9 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             value.text = d.contents
         elif isinstance(d, str):
             root.text = etree.CDATA(d)
-        elif isinstance(d, DontCDATAMii):
-            root.text = d.val
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = etree.CDATA(base64.b64encode(d))
-        elif isinstance(d, CDATA):
-            root.text = etree.CDATA(d.val)
         elif isinstance(d, tuple) or isinstance(d, list):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special
