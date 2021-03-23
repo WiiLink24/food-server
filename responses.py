@@ -9,6 +9,56 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def basket_list(request):
+    return {
+        "basketPrice": "99999.99",
+        "chargePrice": "999999999",
+        "discountPrice": "999999999",
+        "totalPrice": 0,
+        "Status": {"isOrder": 1, "messages": {"hey": "how are you?"}},
+        "List": {
+            "generic": {
+                "basketNo": 1,
+                "menuCode": 1,
+                "itemCode": 1,
+                "name": "Pizza Hut",
+                "price": 1,
+                "size": 1,
+                "isSoldout": 0,
+                "quantity": 1,
+                "subTotalPrice": 1,
+                "Menu": {
+                    "name": "Menu",
+                    "lunchMenuList": {
+                        "isLunchTimeMenu": 1,
+                        "isOpen": 1,
+                    },
+                },
+                "optionList": {
+                    "testing": {
+                        "info": "Known to blow up in your face",
+                        "code": 1,
+                        "type": 1,
+                        "name": "Pizza Hut",
+                        "list": {
+                            "item_one": {
+                                "name": "Item One",
+                                "menuCode": 1,
+                                "itemCode": 1,
+                                "image": 1,
+                                "isSoldout": 0,
+                                "info": "Known to blow up in your face",
+                                "price": "5.99",
+                            }
+                        },
+                    }
+                },
+            }
+        },
+    }
+
+
+@multiple_root_nodes()
 def auth_key(request):
     return {
         "authKey": "lol",
