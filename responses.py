@@ -554,7 +554,7 @@ def category_list(request):
                     }
                 },
             },
-            "Party Foods": {
+            "Party": {
                 "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
