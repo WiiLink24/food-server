@@ -40,35 +40,7 @@ def response():
     return decorator
 
 
-def response_with_no_footer():
-    def decorator(func):
-        @functools.wraps(func)
-        def serialization_wrapper(*args, **kwargs):
-            returned_value = func(*args, **kwargs)
-
-            # Ensure we are truly dealing with a dictionary.
-            if isinstance(returned_value, dict):
-
-                # Serialize to an ETree.
-                elements = dict_to_etree("response", returned_value)
-
-                # We now must convert from ETree to actual XML we can respond with.
-                return etree.tostring(
-                    elements,
-                    encoding="shift-jis",
-                    xml_declaration=False,
-                    pretty_print=True,
-                )
-            else:
-                # We only apply XML operations to dicts.
-                return returned_value
-
-        return serialization_wrapper
-
-    return decorator
-
-
-def hacky_apistatus_response():
+def multiple_root_nodes():
     """
     Nintendo makes questionable decisions. This is a fact.
     Some of them one may consider somewhat justified, based on development
@@ -93,8 +65,7 @@ def hacky_apistatus_response():
     (iPhone OS 3.1 or Android 2.2, earliest found) rely on any of this functionality.
     Yet, here we are.
 
-    We append such manually, written out, bypassing lxml because it's not worth
-    our time to handle otherwise.
+    We append such manually, as they use this syntax in multiple locations.
     """
 
     def decorator(func):
@@ -102,16 +73,26 @@ def hacky_apistatus_response():
         def serialization_wrapper(*args, **kwargs):
             returned_value = func(*args, **kwargs)
 
-            # Only append if we've serialized.
-            if isinstance(returned_value, bytes):
-                return (
-                    b"""<apiStatus>
-    <code><![CDATA[0]]></code>
-    <version><![CDATA[1]]></version>
-</apiStatus>
-"""
-                    + returned_value
-                )
+            # Only operate on dictionaries.
+            if isinstance(returned_value, dict):
+                # Insert common elements.
+                returned_value = generate_response_dict(returned_value)
+
+                working_response = b""
+
+                for root_name, children in returned_value.items():
+                    elements = dict_to_etree(root_name, children)
+
+                    # Convert to bytes.
+                    working_response += etree.tostring(
+                        elements,
+                        encoding="shift-jis",
+                        xml_declaration=False,
+                        pretty_print=True,
+                    )
+
+                # We now have all root nodes.
+                return working_response
             else:
                 return returned_value
 
@@ -167,7 +148,6 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             if should_delete:
                 # Delete ourselves once added as other repeated elements have replaced us.
                 root.getparent().remove(root)
-
         elif isinstance(d, dict):
             for k, v in d.items():
                 assert isinstance(k, str)
@@ -175,7 +155,6 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
         else:
             assert d == "invalid type", (type(d), d)
 
-    assert isinstance(d, dict)
     node = etree.Element(tag_name)
     _to_etree(d, node)
     return node

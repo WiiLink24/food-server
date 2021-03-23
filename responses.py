@@ -3,16 +3,78 @@ from werkzeug import exceptions
 
 from helpers import (
     response,
-    response_with_no_footer,
     dict_to_etree,
-    hacky_apistatus_response,
+    multiple_root_nodes,
 )
 
 
-@hacky_apistatus_response()
-@response()
+@multiple_root_nodes()
 def shop_one(request):
-    return category_list(request)
+    return {
+        "response": {
+            "categoryCode": "02",
+            "address": "123 Four Five Ln.",
+            "attention": "Your attention please.",
+            "amenity": "Free mints with all orders",
+            "menuListCode": 1,
+            "activate": "on",
+            "waitTime": 1,
+            "timeorder": 1,
+            "tel": "1478640183279",
+            "yoyakuMinDate": 1,
+            "yoyakuMaxDate": 2,
+            "paymentList": {"athing": "Fox Card"},
+            "shopStatus": {
+                "hours": {
+                    "all": {
+                        "message": "We never close.",
+                    },
+                    "today": {
+                        "values": {
+                            "start": "now",
+                            "end": "now",
+                            "holiday": "never",
+                        }
+                    },
+                    "delivery": {
+                        "values": {
+                            "start": "now",
+                            "end": "now",
+                            "holiday": "never",
+                        }
+                    },
+                    "holiday": {
+                        "status": {
+                            "isOpen": 1,
+                        }
+                    },
+                },
+                "selList": {"values": {"id": 1, "name": "test"}},
+            },
+            "interval": 1,
+        },
+        "recommendItemList": {
+            "container0": {
+                "menuCode": 1,
+                "itemCode": 1,
+                "name": "AAAA",
+                "price": 1,
+                "info": "Freshly charred",
+                "size": 1,
+                "image": 1,
+                "isSoldout": 0,
+                "sizeList": {
+                    "itemCode": 1,
+                    "name": "AAAA",
+                    "price": 1,
+                    "info": "Freshly charred",
+                    "size": 1,
+                    "image": 1,
+                    "isSoldout": 0,
+                },
+            },
+        },
+    }
 
 
 @response()
@@ -118,64 +180,65 @@ def area_list(request):
     return exceptions.NotFound()
 
 
-@hacky_apistatus_response()
-@response_with_no_footer()
+@multiple_root_nodes()
 def category_list(request):
     # TODO: What values can this be? 0 and 1 have been observed.
     # if request.args.get("reservationType") != "0":
     #     return exceptions.BadRequest()
 
     return {
-        "UnknownWrappingNodeName": {
-            "LargeCategoryName": "Meal",
-            "CategoryList": {
-                "TestingCategory": {
-                    "CategoryCode": "02",
-                    "ShopList": {
-                        "TheShopShop": {
-                            "shopCode": 1,
-                            "homeCode": 1,
-                            "name": "You wanted a name?",
-                            "catchphrase": "on",
-                            "minPrice": 1,
-                            "yoyaku": 1,
-                            "activate": "on",
-                            "waitTime": 1,
-                            "paymentList": {"athing": "Fox Card"},
-                            "shopStatus": {
-                                "status": {
-                                    "isOpen": "1",
-                                }
-                            },
-                        }
-                    },
-                }
+        "response": {
+            "UnknownWrappingNodeName": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "02",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "You wanted a name?",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
             },
-        },
-        "TestingNoName": {
-            "LargeCategoryName": "Meal",
-            "CategoryList": {
-                "TestingCategory": {
-                    "CategoryCode": "01",
-                    "ShopList": {
-                        "TheShopShop": {
-                            "shopCode": 1,
-                            "homeCode": 1,
-                            "name": "You wanted a name?",
-                            "catchphrase": "on",
-                            "minPrice": 1,
-                            "yoyaku": 1,
-                            "activate": "on",
-                            "waitTime": 1,
-                            "paymentList": {"athing": "Fox Card"},
-                            "shopStatus": {
-                                "status": {
-                                    "isOpen": "1",
-                                }
-                            },
-                        }
-                    },
-                }
+            "TestingNoName": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "01",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "You wanted a name?",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
             },
         },
     }

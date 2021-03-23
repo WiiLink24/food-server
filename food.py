@@ -56,6 +56,7 @@ def error_api():
     return action_list["webApi_document_template"](request)
 
 
+@app.route("/itemimg/<filename>")
 @app.route("/logoimg2/<filename>")
 def serve_logo(filename):
     return send_from_directory("./images", filename)
