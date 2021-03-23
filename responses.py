@@ -9,6 +9,12 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def basket_reset(request):
+    return {
+    }
+
+
+@multiple_root_nodes()
 def basket_list(request):
     return {
         "basketPrice": "99999.99",
