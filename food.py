@@ -8,7 +8,7 @@ app = Flask(__name__)
 action_list = {
     "webApi_document_template": responses.document_template,
     "webApi_area_list": responses.area_list,
-    "webApi_category_list": responses.category_list,
+    "webApi_category_list": responses.actual_category_list,
     "webApi_area_shopinfo": responses.shopinfo,
 }
 
@@ -32,12 +32,12 @@ def error_api():
     print("Received an error!")
     for key, value in request.form.items():
         try:
-            print(f"{key} -> {value}".encode("utf-8"))  # Encode as UTF-8
+            # Encode as UTF-8
+            print(f"{key} -> {value}".encode("utf-8"))
         except Exception as e:
-            print(f"An error occured while decoding: {e}")
-            print(
-                f"{key} -> {value} (not decoded)"
-            )  # if it errors, leave as is with a note.
+            # If it errors, leave as is with a note.
+            print(f"An error occurred while decoding: {e}")
+            print(f"{key} -> {value} (not decoded)")
 
         return action_list["webApi_document_template"](request)
 
