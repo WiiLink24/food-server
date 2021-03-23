@@ -9,6 +9,32 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def item_one(request):
+    return {
+        "price": "5.99",
+        "optionList": {
+            "testing": {
+                "info": "Known to blow up in your face",
+                "code": 1,
+                "type": 1,
+                "name": "Pizza Hut",
+                "list": {
+                    "item_one": {
+                        "name": "Item One",
+                        "menuCode": 1,
+                        "itemCode": 1,
+                        "image": 1,
+                        "isSoldout": 0,
+                        "info": "Known to blow up in your face",
+                        "price": "5.99",
+                    }
+                },
+            }
+        },
+    }
+
+
+@multiple_root_nodes()
 def item_list(request):
     return {
         "Count": 1,
