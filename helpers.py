@@ -2,13 +2,18 @@ import base64
 import functools
 from lxml import etree
 
+
 class CDATA:
-    def __init__(self,val):
+    def __init__(self, val):
         self.val = val
+
+
 class DontCDATAMii:
-    def __init__(self,val):
+    def __init__(self, val):
         self.val = val
         # Excludes a node from auto CDATAing
+
+
 def generate_response_dict(passed_dict) -> dict:
     passed_dict["apiStatus"] = {"code": 0}
     passed_dict["version"] = 1
@@ -31,7 +36,12 @@ def response():
                 elements = dict_to_etree("response", returned_value)
 
                 # We now must convert from ETree to actual XML we can respond with.
-                return etree.tostring(elements, encoding='shift-jis', xml_declaration=False, pretty_print=True)
+                return etree.tostring(
+                    elements,
+                    encoding="shift-jis",
+                    xml_declaration=False,
+                    pretty_print=True,
+                )
             else:
                 # We only apply XML operations to dicts.
                 return returned_value
@@ -39,6 +49,8 @@ def response():
         return serialization_wrapper
 
     return decorator
+
+
 def response_with_no_footer():
     def decorator(func):
         @functools.wraps(func)
@@ -52,7 +64,12 @@ def response_with_no_footer():
                 elements = dict_to_etree("response", returned_value)
 
                 # We now must convert from ETree to actual XML we can respond with.
-                return etree.tostring(elements, encoding='shift-jis', xml_declaration=False, pretty_print=True)
+                return etree.tostring(
+                    elements,
+                    encoding="shift-jis",
+                    xml_declaration=False,
+                    pretty_print=True,
+                )
             else:
                 # We only apply XML operations to dicts.
                 return returned_value
@@ -60,6 +77,7 @@ def response_with_no_footer():
         return serialization_wrapper
 
     return decorator
+
 
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
     """ Derived from https://stackoverflow.com/a/10076823. """
@@ -85,7 +103,7 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = etree.CDATA(base64.b64encode(d))
-        elif isinstance(d,CDATA):
+        elif isinstance(d, CDATA):
             root.text = etree.CDATA(d.val)
         elif isinstance(d, tuple) or isinstance(d, list):
             # As we're backed by K/V notation,a tuple or a list is useless.
@@ -172,7 +190,8 @@ class RepeatedElement:
 
 class Kana:
     """The Kana class is intended to represent kana. By default, the Demae Channel's parser
-    strips non-ASCII characters. When within a kana tag, this process does not occur. """
+    strips non-ASCII characters. When within a kana tag, this process does not occur."""
+
     contents = ""
 
     def __init__(self, contents):
@@ -183,7 +202,7 @@ class Kana:
 
 class Yomi:
     """The Yomi class is intended to represent kanji. By default, the Demae Channel's parser
-    strips non-ASCII characters. When within a kana tag, this process does not occur. """
+    strips non-ASCII characters. When within a kana tag, this process does not occur."""
 
     def __init__(self, contents):
         if not isinstance(contents, str):

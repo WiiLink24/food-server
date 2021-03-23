@@ -1,11 +1,23 @@
 from lxml import etree
 from werkzeug import exceptions
 
-from helpers import response, response_with_no_footer, dict_to_etree, RepeatedElement, Yomi, Kana, CDATA, DontCDATAMii
+from helpers import (
+    response,
+    response_with_no_footer,
+    dict_to_etree,
+    RepeatedElement,
+    Yomi,
+    Kana,
+    CDATA,
+    DontCDATAMii,
+)
+
 
 @response()
 def shopinfo(request):
-    return {} # Return a blank dict for now
+    return {}  # Return a blank dict for now
+
+
 @response()
 def document_template(request):
     # Observed to be true in v1 and v512.
@@ -14,7 +26,6 @@ def document_template(request):
         # Dump request dataD
         print(request.args)
         print(request.json)
-        
 
     return {
         "container0": {"contents": "no terms and conditions"},
@@ -104,7 +115,7 @@ def category_list(request):
     # TODO: What values can this be? 0 and 1 have been observed.
     # if request.args.get("reservationType") != "0":
     #     return exceptions.BadRequest()
-    '''
+    """
     "BigBoiCategory":{
         "LargeCategoryName":"meal",
         "CategoryList": {
@@ -121,7 +132,7 @@ def category_list(request):
                         "activate":1,
                         "waitTime":1,
                         "paymentList":{
-                            "athing":"hi" 
+                            "athing":"hi"
                         },
                         "shopStatus":{
                             "status":{
@@ -134,14 +145,10 @@ def category_list(request):
         }
     }
     removed because it doesn't work
-    '''
+    """
     return {
-        "BigBoiCategory":{
-            "LargeCategoryName":Yomi("meal"),
-            "CategoryList": {
-                "ACategory":{
-                    "CategoryCode": Kana("1")
-                }
-            }
+        "BigBoiCategory": {
+            "LargeCategoryName": Yomi("meal"),
+            "CategoryList": {"ACategory": {"CategoryCode": Kana("1")}},
         }
     }
