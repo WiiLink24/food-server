@@ -9,6 +9,33 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def item_list(request):
+    return {
+        "Count": 1,
+        "List": {
+            "container0": {
+                "name": "Hello!!!!",
+                "item": {
+                    "menuCode": 1,
+                    "itemCode": 1,
+                    "price": "5.99",
+                    "info": "Not known to the state of California to cause cancer",
+                    "size": 1,
+                    "image": 1,
+                    "isSoldout": 0,
+                    "sizeList": {
+                        "itemCode": 1,
+                        "size": 1,
+                        "price": "5.99",
+                        "isSoldout": 0,
+                    },
+                },
+            }
+        },
+    }
+
+
+@multiple_root_nodes()
 def menu_list(request):
     return {
         "response": {
