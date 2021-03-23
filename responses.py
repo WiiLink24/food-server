@@ -9,6 +9,48 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def menu_list(request):
+    return {
+        "response": {
+            "testing": {
+                "menuCode": 1,
+                "linkTitle": "Mmmm food",
+                "enabledLink": 1,
+                "name": "Yeah! Good food.",
+                "info": "Screamingly delightful.",
+                "setNum": 0,
+                "lunchMenuList": {
+                    "isLunchTimeMenu": 1,
+                    "hour": {
+                        "start": 1,
+                        "end": 1,
+                    },
+                    "isOpen": 1,
+                },
+                "message": "Where does this show up?",
+            },
+            "testing_two": {
+                "menuCode": 2,
+                "linkTitle": "More food!",
+                "enabledLink": 1,
+                "name": "Amazing food",
+                "info": "Screamingly delightful.",
+                "setNum": 0,
+                "lunchMenuList": {
+                    "isLunchTimeMenu": 1,
+                    "hour": {
+                        "start": 1,
+                        "end": 1,
+                    },
+                    "isOpen": 1,
+                },
+                "message": "Where does this show up?",
+            },
+        }
+    }
+
+
+@multiple_root_nodes()
 def shop_one(request):
     return {
         "response": {

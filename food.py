@@ -12,6 +12,7 @@ action_list = {
     "webApi_area_shopinfo": responses.shop_info,
     "webApi_shop_list": responses.shop_list,
     "webApi_shop_one": responses.shop_one,
+    "webApi_menu_list": responses.menu_list,
 }
 
 
