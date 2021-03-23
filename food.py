@@ -15,6 +15,7 @@ action_list = {
     "webApi_menu_list": responses.menu_list,
     "webApi_item_list": responses.item_list,
     "webApi_item_one": responses.item_one,
+    "webApi_Authkey": responses.auth_key,
 }
 
 

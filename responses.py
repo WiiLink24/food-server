@@ -9,6 +9,13 @@ from helpers import (
 
 
 @multiple_root_nodes()
+def auth_key(request):
+    return {
+        "authKey": "lol",
+    }
+
+
+@multiple_root_nodes()
 def item_one(request):
     return {
         "price": "5.99",
