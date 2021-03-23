@@ -346,7 +346,7 @@ def category_list(request):
 
     return {
         "response": {
-            "UnknownWrappingNodeName": {
+            "Bento": {
                 "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
@@ -355,7 +355,59 @@ def category_list(request):
                             "TheShopShop": {
                                 "shopCode": 1,
                                 "homeCode": 1,
-                                "name": "You wanted a name?",
+                                "name": "La Italiano",
+                                "catchphrase": "Run by dhtdht020",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "0",
+                                    }
+                                },
+                            },
+                        },
+                    }
+                },
+            },
+            "Pizza": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "01",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            },
+                        },
+                    }
+                },
+            },
+            "Sushi": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "03",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
                                 "catchphrase": "on",
                                 "minPrice": 1,
                                 "yoyaku": 1,
@@ -372,16 +424,224 @@ def category_list(request):
                     }
                 },
             },
-            "TestingNoName": {
+            "Fish": {
                 "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
-                        "CategoryCode": "01",
+                        "CategoryCode": "04",
                         "ShopList": {
                             "TheShopShop": {
                                 "shopCode": 1,
                                 "homeCode": 1,
-                                "name": "You wanted a name?",
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Seafood": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "05",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "American": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "06",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Fast": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "07",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Indian": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "08",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Party Foods": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "09",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Drinks": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "10",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Other": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "11",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
+                                "catchphrase": "on",
+                                "minPrice": 1,
+                                "yoyaku": 1,
+                                "activate": "on",
+                                "waitTime": 1,
+                                "paymentList": {"athing": "Fox Card"},
+                                "shopStatus": {
+                                    "status": {
+                                        "isOpen": "1",
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+            },
+            "Placeholder": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "12",
+                        "ShopList": {
+                            "TheShopShop": {
+                                "shopCode": 1,
+                                "homeCode": 1,
+                                "name": "La Italiano",
                                 "catchphrase": "on",
                                 "minPrice": 1,
                                 "yoyaku": 1,
