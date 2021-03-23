@@ -5,17 +5,39 @@ from helpers import (
     response,
     response_with_no_footer,
     dict_to_etree,
-    RepeatedElement,
-    Yomi,
-    Kana,
-    CDATA,
-    DontCDATAMii,
 )
 
 
 @response()
-def shopinfo(request):
-    return {}  # Return a blank dict for now
+def shop_one(request):
+    result = category_list(request)
+
+    return (
+        b"""<apiStatus>
+            <code><![CDATA[0]]></code>
+            <version><![CDATA[1]]></version>
+        </apiStatus>"""
+        + result
+    )
+
+
+@response()
+def shop_info(request):
+    # Return a blank dict for now
+    return {}
+
+
+@response()
+def shop_list(request):
+    result = category_list(request)
+
+    return (
+        b"""<apiStatus>
+        <code><![CDATA[0]]></code>
+        <version><![CDATA[1]]></version>
+    </apiStatus>"""
+        + result
+    )
 
 
 @response()
@@ -130,9 +152,9 @@ def category_list(request):
                             "catchphrase": "on",
                             "minPrice": 1,
                             "yoyaku": 1,
-                            "activate": 1,
+                            "activate": "on",
                             "waitTime": 1,
-                            "paymentList": {"athing": "hi"},
+                            "paymentList": {"athing": "Fox Card"},
                             "shopStatus": {
                                 "status": {
                                     "isOpen": "1",
@@ -156,9 +178,9 @@ def category_list(request):
                             "catchphrase": "on",
                             "minPrice": 1,
                             "yoyaku": 1,
-                            "activate": 1,
+                            "activate": "on",
                             "waitTime": 1,
-                            "paymentList": {"athing": "hi"},
+                            "paymentList": {"athing": "Fox Card"},
                             "shopStatus": {
                                 "status": {
                                     "isOpen": "1",

@@ -1,4 +1,4 @@
-from flask import request, Flask
+from flask import request, Flask, send_from_directory
 from werkzeug import exceptions
 
 import responses
@@ -9,7 +9,9 @@ action_list = {
     "webApi_document_template": responses.document_template,
     "webApi_area_list": responses.area_list,
     "webApi_category_list": responses.actual_category_list,
-    "webApi_area_shopinfo": responses.shopinfo,
+    "webApi_area_shopinfo": responses.shop_info,
+    "webApi_shop_list": responses.shop_list,
+    "webApi_shop_one": responses.shop_one,
 }
 
 
@@ -30,16 +32,33 @@ def api():
 @app.route("/nwapi.php", methods=["POST"])
 def error_api():
     print("Received an error!")
-    for key, value in request.form.items():
+
+    for key, value in request.args.items(multi=True):
         try:
             # Encode as UTF-8
-            print(f"{key} -> {value}".encode("utf-8"))
+            value = value.encode("shift-jis").decode("utf-8")
+            print(f"{key} -> {value}")
         except Exception as e:
             # If it errors, leave as is with a note.
             print(f"An error occurred while decoding: {e}")
             print(f"{key} -> {value} (not decoded)")
 
-        return action_list["webApi_document_template"](request)
+    for key, value in request.form.items(multi=True):
+        try:
+            # Encode as UTF-8
+            value = value.encode("shift-jis").decode("utf-8")
+            print(f"{key} -> {value}")
+        except Exception as e:
+            # If it errors, leave as is with a note.
+            print(f"An error occurred while decoding: {e}")
+            print(f"{key} -> {value} (not decoded)")
+
+    return action_list["webApi_document_template"](request)
+
+
+@app.route("/logoimg2/<filename>")
+def serve_logo(filename):
+    return send_from_directory("./images", filename)
 
 
 if __name__ == "__main__":
