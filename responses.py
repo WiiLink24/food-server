@@ -10,8 +10,7 @@ from helpers import (
 
 @multiple_root_nodes()
 def basket_reset(request):
-    return {
-    }
+    return {}
 
 
 @multiple_root_nodes()
@@ -20,7 +19,7 @@ def basket_list(request):
         "basketPrice": "99999.99",
         "chargePrice": "999999999",
         "discountPrice": "999999999",
-        "totalPrice": 0,
+        "totalPrice": 1,
         "Status": {"isOrder": 1, "messages": {"hey": "how are you?"}},
         "List": {
             "generic": {
@@ -638,7 +637,7 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "12",
                     },
-                }
+                },
             },
         }
     }
