@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 
 .idea
-
 .DS_Store
+
+images/
+!images/.gitkeep
