@@ -637,26 +637,8 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "12",
-                        "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
-                    }
-                },
+                    },
+                }
             },
-        },
+        }
     }
