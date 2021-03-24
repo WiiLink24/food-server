@@ -65,7 +65,7 @@ def error_api():
 @app.route("/itemimg/<filename>")
 @app.route("/logoimg2/<filename>")
 def serve_logo(filename):
-    return send_from_directory("./images", filename)
+    return send_from_directory("images", filename)
 
 
 if __name__ == "__main__":
