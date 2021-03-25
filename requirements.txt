@@ -1,2 +1,4 @@
 Flask>=1.1
 lxml>=4.6
+flask_sqlalchemy>=2.4
+flask-migrate>=2.5
