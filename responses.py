@@ -5,6 +5,7 @@ from helpers import (
     response,
     dict_to_etree,
     multiple_root_nodes,
+    get_restaurant,
 )
 
 
