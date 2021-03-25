@@ -2,6 +2,8 @@ import base64
 import functools
 from lxml import etree
 
+from models import Shops
+
 
 def generate_response_dict(passed_dict) -> dict:
     passed_dict["apiStatus"] = {"code": 0}
@@ -224,3 +226,35 @@ class Yomi:
         if not isinstance(contents, str):
             raise ValueError("Please only pass strings to Yomi.")
         self.contents = contents
+
+
+def get_restaurant(categoryid):
+    queried_categories = (
+        Shops.query.filter_by(category_code=categoryid).all()
+    )
+    results = []
+
+    for i, restaurant in enumerate(queried_categories):
+        # Items must be indexed by 1.
+        results.append(
+            RepeatedElement(
+                {
+                    "shopCode": 1,
+                    "homeCode": 1,
+                    "name": restaurant.name,
+                    "catchphrase": "on",
+                    "minPrice": 1,
+                    "yoyaku": 1,
+                    "activate": "on",
+                    "waitTime": 1,
+                    "paymentList": {"athing": "Fox Card"},
+                    "shopStatus": {
+                        "status": {
+                            "isOpen": "1",
+                        }
+                    },
+                }
+            )
+        )
+
+    return results
