@@ -239,7 +239,7 @@ def get_restaurant(categoryid):
         results.append(
             RepeatedElement(
                 {
-                    "shopCode": 1,
+                    "shopCode": restaurant.shop_code,
                     "homeCode": restaurant.restaurant_id,
                     "name": restaurant.name,
                     "catchphrase": restaurant.description,
