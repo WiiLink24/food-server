@@ -351,23 +351,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "02",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "Run by dhtdht020",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "0",
-                                    }
-                                },
-                            },
-                        },
+                            "Shop": get_restaurant(2)
+                        }
                     }
                 },
             },
@@ -377,49 +362,19 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "01",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            },
-                        },
+                            "Shop": get_restaurant(1)
+                        }
                     }
                 },
             },
             "Sushi": {
-                "LargeCategoryName": "Meal",
+               "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "03",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(3)
+                        }
                     }
                 },
             },
@@ -429,23 +384,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "04",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(4)
+                        }
                     }
                 },
             },
@@ -455,23 +395,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "05",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(5)
+                        }
                     }
                 },
             },
@@ -481,23 +406,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "06",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(6)
+                        }
                     }
                 },
             },
@@ -507,23 +417,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "07",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(7)
+                        }
                     }
                 },
             },
@@ -533,23 +428,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "08",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(8)
+                        }
                     }
                 },
             },
@@ -559,23 +439,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "09",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(9)
+                        }
                     }
                 },
             },
@@ -585,23 +450,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "10",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(10)
+                        }
                     }
                 },
             },
@@ -611,23 +461,8 @@ def category_list(request):
                     "TestingCategory": {
                         "CategoryCode": "11",
                         "ShopList": {
-                            "TheShopShop": {
-                                "shopCode": 1,
-                                "homeCode": 1,
-                                "name": "La Italiano",
-                                "catchphrase": "on",
-                                "minPrice": 1,
-                                "yoyaku": 1,
-                                "activate": "on",
-                                "waitTime": 1,
-                                "paymentList": {"athing": "Fox Card"},
-                                "shopStatus": {
-                                    "status": {
-                                        "isOpen": "1",
-                                    }
-                                },
-                            }
-                        },
+                            "Shop": get_restaurant(11)
+                        }
                     }
                 },
             },
