@@ -240,17 +240,17 @@ def get_restaurant(categoryid):
             RepeatedElement(
                 {
                     "shopCode": 1,
-                    "homeCode": 1,
+                    "homeCode": restaurant.restaurant_id,
                     "name": restaurant.name,
-                    "catchphrase": "on",
+                    "catchphrase": restaurant.description,
                     "minPrice": 1,
                     "yoyaku": 1,
                     "activate": "on",
-                    "waitTime": 1,
+                    "waitTime": restaurant.wait_time,
                     "paymentList": {"athing": "Fox Card"},
                     "shopStatus": {
                         "status": {
-                            "isOpen": "1",
+                            "isOpen": restaurant.open,
                         }
                     },
                 }
