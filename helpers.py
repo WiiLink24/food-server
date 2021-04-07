@@ -229,6 +229,9 @@ class Yomi:
 
 
 def get_restaurant(categoryid):
+    """This function grabs basic restaurant information recursively, so we can have
+    multiple restaurants without having to insert it manually in responses.py"""
+    # All category names and values: https://gist.github.com/SketchMaster2001/42172c8b00075b4b827fa2f78a9eb9e1
     queried_categories = (
         Shops.query.filter_by(category_code=categoryid).all()
     )
