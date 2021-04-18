@@ -346,21 +346,21 @@ def category_list(request):
 
     return {
         "response": {
-            "Bento": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "02",
-                        "ShopList": {"Shop": get_restaurant(2)},
-                    }
-                },
-            },
             "Pizza": {
                 "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "01",
                         "ShopList": {"Shop": get_restaurant(1)},
+                    }
+                },
+            },
+            "Bento": {
+                "LargeCategoryName": "Meal",
+                "CategoryList": {
+                    "TestingCategory": {
+                        "CategoryCode": "02",
+                        "ShopList": {"Shop": get_restaurant(2)},
                     }
                 },
             },
