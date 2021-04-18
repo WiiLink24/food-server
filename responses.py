@@ -351,9 +351,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "02",
-                        "ShopList": {
-                            "Shop": get_restaurant(2)
-                        }
+                        "ShopList": {"Shop": get_restaurant(2)},
                     }
                 },
             },
@@ -362,20 +360,16 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "01",
-                        "ShopList": {
-                            "Shop": get_restaurant(1)
-                        }
+                        "ShopList": {"Shop": get_restaurant(1)},
                     }
                 },
             },
             "Sushi": {
-               "LargeCategoryName": "Meal",
+                "LargeCategoryName": "Meal",
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "03",
-                        "ShopList": {
-                            "Shop": get_restaurant(3)
-                        }
+                        "ShopList": {"Shop": get_restaurant(3)},
                     }
                 },
             },
@@ -384,9 +378,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "04",
-                        "ShopList": {
-                            "Shop": get_restaurant(4)
-                        }
+                        "ShopList": {"Shop": get_restaurant(4)},
                     }
                 },
             },
@@ -395,9 +387,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "05",
-                        "ShopList": {
-                            "Shop": get_restaurant(5)
-                        }
+                        "ShopList": {"Shop": get_restaurant(5)},
                     }
                 },
             },
@@ -406,9 +396,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "06",
-                        "ShopList": {
-                            "Shop": get_restaurant(6)
-                        }
+                        "ShopList": {"Shop": get_restaurant(6)},
                     }
                 },
             },
@@ -417,9 +405,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "07",
-                        "ShopList": {
-                            "Shop": get_restaurant(7)
-                        }
+                        "ShopList": {"Shop": get_restaurant(7)},
                     }
                 },
             },
@@ -428,9 +414,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "08",
-                        "ShopList": {
-                            "Shop": get_restaurant(8)
-                        }
+                        "ShopList": {"Shop": get_restaurant(8)},
                     }
                 },
             },
@@ -439,9 +423,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "09",
-                        "ShopList": {
-                            "Shop": get_restaurant(9)
-                        }
+                        "ShopList": {"Shop": get_restaurant(9)},
                     }
                 },
             },
@@ -450,9 +432,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "10",
-                        "ShopList": {
-                            "Shop": get_restaurant(10)
-                        }
+                        "ShopList": {"Shop": get_restaurant(10)},
                     }
                 },
             },
@@ -461,9 +441,7 @@ def category_list(request):
                 "CategoryList": {
                     "TestingCategory": {
                         "CategoryCode": "11",
-                        "ShopList": {
-                            "Shop": get_restaurant(11)
-                        }
+                        "ShopList": {"Shop": get_restaurant(11)},
                     }
                 },
             },

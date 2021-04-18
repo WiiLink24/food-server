@@ -85,4 +85,3 @@ def serve_logo(filename):
 
 if __name__ == "__main__":
     app.run()
-    
