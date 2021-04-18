@@ -7,9 +7,9 @@ WORKDIR /home/server
 COPY requirements.txt .
 
 # Required base dependencies for lxml.
-RUN apk add -U --no-cache libxslt-dev libxml2-dev
+RUN apk add -U --no-cache libxslt-dev libxml2-dev postgresql-dev
 
-RUN apk add --no-cache --virtual .build-deps build-base postgresql-dev && \
+RUN apk add --no-cache --virtual .build-deps build-base && \
   pip3 install -r requirements.txt && \
   pip3 install gunicorn && \
   apk del .build-deps
