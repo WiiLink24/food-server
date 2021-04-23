@@ -1,5 +1,4 @@
 from food import db
-import sqlalchemy
 
 
 class Shops(db.Model):

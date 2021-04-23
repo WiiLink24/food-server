@@ -248,13 +248,6 @@ def shop_list(request):
 
 @response()
 def document_template(request):
-    # Observed to be true in v1 and v512.
-    # Actually not, the version is different when making an order request
-    if request.args.get("version") != "00000":
-        # Dump request dataD
-        print(request.args)
-        print(request.json)
-
     return {
         "container0": {"contents": "no terms and conditions"},
         "container1": {"contents": "no seriously, stop trying"},

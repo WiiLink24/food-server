@@ -2,6 +2,7 @@ from flask import request, Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug import exceptions
+from werkzeug.datastructures import ImmutableMultiDict
 
 import config
 
@@ -50,29 +51,27 @@ def api():
         return exceptions.NotFound()
 
 
+def print_multi(passed_dict):
+    if isinstance(passed_dict, ImmutableMultiDict):
+        passed_dict = passed_dict.items(multi=True)
+
+    for key, value in passed_dict:
+        try:
+            # Encode as UTF-8
+            value = value.encode("shift-jis").decode("utf-8")
+            print(f"{key} -> {value}")
+        except Exception as e:
+            # If it errors, leave as is with a note.
+            print(f"An error occurred while decoding key {e}")
+            print(f"Its value is '{value}' (not decoded)")
+
+
 @app.route("/nwapi.php", methods=["POST"])
 def error_api():
     print("Received an error!")
 
-    for key, value in request.args.items(multi=True):
-        try:
-            # Encode as UTF-8
-            value = value.encode("shift-jis").decode("utf-8")
-            print(f"{key} -> {value}")
-        except Exception as e:
-            # If it errors, leave as is with a note.
-            print(f"An error occurred while decoding: {e}")
-            print(f"{key} -> {value} (not decoded)")
-
-    for key, value in request.form.items(multi=True):
-        try:
-            # Encode as UTF-8
-            value = value.encode("shift-jis").decode("utf-8")
-            print(f"{key} -> {value}")
-        except Exception as e:
-            # If it errors, leave as is with a note.
-            print(f"An error occurred while decoding: {e}")
-            print(f"{key} -> {value} (not decoded)")
+    print_multi(request.args)
+    print_multi(request.form)
 
     return action_list["webApi_document_template"](request)
 
