@@ -1,5 +1,5 @@
-# food-server
-tasty
+# `food-server`
+`food-server` is a server implementation for the Demae channel. It allows you to order food directly from your Wii, and create restaurant reservations.
 
 ## Self-Hosting
 If you decide to self-host, you will need a basic understanding of Python as well as Python 3.

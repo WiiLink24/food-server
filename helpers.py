@@ -104,7 +104,7 @@ def multiple_root_nodes():
 
 
 def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
-    """ Derived from https://stackoverflow.com/a/10076823. """
+    """Derived from https://stackoverflow.com/a/10076823."""
 
     def _to_etree(d, root):
         if d is None:
@@ -114,12 +114,6 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             root.text = etree.CDATA("1" if d else "0")
         elif isinstance(d, int):
             root.text = etree.CDATA(f"{d}")
-        elif isinstance(d, Kana):
-            value = etree.SubElement(root, "kana")
-            value.text = d.contents
-        elif isinstance(d, Yomi):
-            value = etree.SubElement(root, "yomi")
-            value.text = d.contents
         elif isinstance(d, str):
             root.text = etree.CDATA(d)
         elif isinstance(d, bytes):
@@ -206,33 +200,11 @@ class RepeatedElement:
         self.contents = passed_dict
 
 
-class Kana:
-    """The Kana class is intended to represent kana. By default, the Demae Channel's parser
-    strips non-ASCII characters. When within a kana tag, this process does not occur."""
-
-    contents = ""
-
-    def __init__(self, contents):
-        if not isinstance(contents, str):
-            raise ValueError("Please only pass strings to Kana.")
-        self.contents = contents
-
-
-class Yomi:
-    """The Yomi class is intended to represent kanji. By default, the Demae Channel's parser
-    strips non-ASCII characters. When within a kana tag, this process does not occur."""
-
-    def __init__(self, contents):
-        if not isinstance(contents, str):
-            raise ValueError("Please only pass strings to Yomi.")
-        self.contents = contents
-
-
-def get_restaurant(categoryid):
+def get_restaurant(category_id: int):
     """This function grabs basic restaurant information recursively, so we can have
     multiple restaurants without having to insert it manually in responses.py"""
     # All category names and values: https://gist.github.com/SketchMaster2001/42172c8b00075b4b827fa2f78a9eb9e1
-    queried_categories = Shops.query.filter_by(category_code=categoryid).all()
+    queried_categories = Shops.query.filter_by(category_code=category_id).all()
     results = []
 
     for i, restaurant in enumerate(queried_categories):

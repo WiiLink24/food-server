@@ -38,7 +38,7 @@ action_list = {
 
 
 @app.route("/nwapi.php", methods=["GET"])
-def api():
+def base_api():
     try:
         # These values should be consistent for both v1 and v512.
         if request.args["platform"] != "wii":

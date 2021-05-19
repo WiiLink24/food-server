@@ -331,120 +331,34 @@ def area_list(request):
     return exceptions.NotFound()
 
 
-@multiple_root_nodes()
-def category_list(request):
-    # TODO: What values can this be? 0 and 1 have been observed.
-    # if request.args.get("reservationType") != "0":
-    #     return exceptions.BadRequest()
+def formulate_restaurant(category_id: int) -> dict:
+    return {
+        "LargeCategoryName": "Meal",
+        "CategoryList": {
+            "TestingCategory": {
+                "CategoryCode": f"{category_id:02}",
+                "ShopList": {"Shop": get_restaurant(category_id)},
+            }
+        },
+    }
 
+
+@multiple_root_nodes()
+def category_list(_):
+    # TODO: formulate properly
     return {
         "response": {
-            "Pizza": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "01",
-                        "ShopList": {"Shop": get_restaurant(1)},
-                    }
-                },
-            },
-            "Bento": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "02",
-                        "ShopList": {"Shop": get_restaurant(2)},
-                    }
-                },
-            },
-            "Sushi": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "03",
-                        "ShopList": {"Shop": get_restaurant(3)},
-                    }
-                },
-            },
-            "Fish": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "04",
-                        "ShopList": {"Shop": get_restaurant(4)},
-                    }
-                },
-            },
-            "Seafood": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "05",
-                        "ShopList": {"Shop": get_restaurant(5)},
-                    }
-                },
-            },
-            "American": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "06",
-                        "ShopList": {"Shop": get_restaurant(6)},
-                    }
-                },
-            },
-            "Fast": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "07",
-                        "ShopList": {"Shop": get_restaurant(7)},
-                    }
-                },
-            },
-            "Indian": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "08",
-                        "ShopList": {"Shop": get_restaurant(8)},
-                    }
-                },
-            },
-            "Party": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "09",
-                        "ShopList": {"Shop": get_restaurant(9)},
-                    }
-                },
-            },
-            "Drinks": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "10",
-                        "ShopList": {"Shop": get_restaurant(10)},
-                    }
-                },
-            },
-            "Other": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "11",
-                        "ShopList": {"Shop": get_restaurant(11)},
-                    }
-                },
-            },
-            "Placeholder": {
-                "LargeCategoryName": "Meal",
-                "CategoryList": {
-                    "TestingCategory": {
-                        "CategoryCode": "12",
-                    },
-                },
-            },
+            "Pizza": formulate_restaurant(1),
+            "Bento": formulate_restaurant(2),
+            "Sushi": formulate_restaurant(3),
+            "Fish": formulate_restaurant(4),
+            "Seafood": formulate_restaurant(5),
+            "American": formulate_restaurant(6),
+            "Fast": formulate_restaurant(7),
+            "Indian": formulate_restaurant(8),
+            "Party": formulate_restaurant(9),
+            "Drinks": formulate_restaurant(10),
+            "Other": formulate_restaurant(11),
+            "Placeholder": formulate_restaurant(12),
         }
     }
