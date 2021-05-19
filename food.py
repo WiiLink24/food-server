@@ -1,10 +1,23 @@
+import sentry_sdk
+
 from flask import request, Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug import exceptions
 from werkzeug.datastructures import ImmutableMultiDict
 
 import config
+
+if config.use_sentry:
+    sentry_sdk.init(
+        dsn=config.sentry_dsn,
+        integrations=[FlaskIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+    )
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
