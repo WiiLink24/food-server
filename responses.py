@@ -381,3 +381,13 @@ def basket_add(_):
             }
         }
     }
+
+
+@multiple_root_nodes()
+def validate_condition(_):
+    return {}
+
+
+@multiple_root_nodes()
+def order_done(_):
+    return {}

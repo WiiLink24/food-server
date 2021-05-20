@@ -48,6 +48,8 @@ action_list = {
     "webApi_basket_list": responses.basket_list,
     "webApi_basket_reset": responses.basket_reset,
     "webApi_basket_add": responses.basket_add,
+    "webApi_validate_condition": responses.validate_condition,
+    "webApi_order_done": responses.order_done,
 }
 
 
