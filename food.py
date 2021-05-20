@@ -47,6 +47,7 @@ action_list = {
     "webApi_Authkey": responses.auth_key,
     "webApi_basket_list": responses.basket_list,
     "webApi_basket_reset": responses.basket_reset,
+    "webApi_basket_add": responses.basket_add,
 }
 
 
@@ -81,12 +82,24 @@ def print_multi(passed_dict):
 
 @app.route("/nwapi.php", methods=["POST"])
 def error_api():
-    print("Received an error!")
+    if request.form.get("action") is None:
+        print("Received an error!")
 
-    print_multi(request.args)
-    print_multi(request.form)
+        print_multi(request.args)
+        print_multi(request.form)
 
-    return action_list["webApi_document_template"](request)
+        return action_list["webApi_document_template"](request)
+
+    try:
+        # These values should be consistent for both v1 and v512.
+        if request.form["platform"] != "wii":
+            return exceptions.BadRequest()
+
+        action = request.form["action"]
+        return action_list[action](request)
+    except KeyError:
+        # This is not an action or a format we know of.
+        return exceptions.NotFound()
 
 
 @app.route("/itemimg/<filename>")

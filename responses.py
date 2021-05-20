@@ -167,7 +167,7 @@ def menu_list(request):
 
 
 @multiple_root_nodes()
-def shop_one(request):
+def shop_one(_):
     return {
         "response": {
             "categoryCode": "02",
@@ -189,16 +189,16 @@ def shop_one(request):
                     },
                     "today": {
                         "values": {
-                            "start": "now",
-                            "end": "now",
-                            "holiday": "never",
+                            "start": "12:34:56",
+                            "end": "12:34:56",
+                            "holiday": "n",
                         }
                     },
                     "delivery": {
                         "values": {
-                            "start": "now",
-                            "end": "now",
-                            "holiday": "never",
+                            "start": "12:34:56",
+                            "end": "12:34:56",
+                            "holiday": "n",
                         }
                     },
                     "holiday": {
@@ -360,5 +360,24 @@ def category_list(_):
             "Drinks": formulate_restaurant(10),
             "Other": formulate_restaurant(11),
             "Placeholder": formulate_restaurant(12),
+        }
+    }
+
+
+@multiple_root_nodes()
+def basket_add(_):
+    return {
+        "Count": {
+            "List": {
+                "container0": {
+                    "itemCode": 1,
+                    "name": "AAAA",
+                    "price": 1,
+                    "info": "Freshly charred",
+                    "size": 1,
+                    "image": 1,
+                    "isSoldout": 0,
+                }
+            }
         }
     }
