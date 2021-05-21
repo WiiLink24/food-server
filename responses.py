@@ -189,15 +189,15 @@ def shop_one(_):
                     },
                     "today": {
                         "values": {
-                            "start": "12:34:56",
-                            "end": "12:34:56",
+                            "start": "00:00:00",
+                            "end": "24:59:59",
                             "holiday": "n",
                         }
                     },
                     "delivery": {
                         "values": {
-                            "start": "12:34:56",
-                            "end": "12:34:56",
+                            "start": "00:00:00",
+                            "end": "24:59:59",
                             "holiday": "n",
                         }
                     },
