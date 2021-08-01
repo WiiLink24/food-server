@@ -9,6 +9,16 @@ from helpers import (
 )
 
 
+@response()
+def inquiry_done(_):
+    """The request a restaurant part.
+    In the forms, it give us the telephone of the restaurant,
+    name of the restaurant, and restaurant type.
+    TODO: append to database"""
+
+    return {}
+
+
 @multiple_root_nodes()
 def basket_reset(request):
     return {}
