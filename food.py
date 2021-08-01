@@ -50,6 +50,7 @@ action_list = {
     "webApi_basket_add": responses.basket_add,
     "webApi_validate_condition": responses.validate_condition,
     "webApi_order_done": responses.order_done,
+    "webApi_inquiry_done": responses.inquiry_done
 }
 
 
