@@ -50,7 +50,7 @@ action_list = {
     "webApi_basket_add": responses.basket_add,
     "webApi_validate_condition": responses.validate_condition,
     "webApi_order_done": responses.order_done,
-    "webApi_inquiry_done": responses.inquiry_done
+    "webApi_inquiry_done": responses.inquiry_done,
 }
 
 
@@ -105,11 +105,11 @@ def error_api():
         return exceptions.NotFound()
 
 
-@app.route("/itemimg/<filename>")
 @app.route("/logoimg2/<filename>")
 def serve_logo(filename):
     return send_from_directory("images", filename)
 
 
-if __name__ == "__main__":
-    app.run()
+@app.route("/itemimg/<category_code>/<filename>")
+def serve_food_image(category_code, filename):
+    return send_from_directory(f"images/{category_code}/", filename)
