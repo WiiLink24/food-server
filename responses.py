@@ -1,11 +1,15 @@
 from lxml import etree
 from werkzeug import exceptions
+from food import db
+from models import Shops, MenuList, ItemList, User
 
 from helpers import (
     response,
     dict_to_etree,
     multiple_root_nodes,
     get_restaurant,
+    RepeatedElement,
+    generate_random,
 )
 
 
@@ -26,56 +30,67 @@ def basket_reset(request):
 
 @multiple_root_nodes()
 def basket_list(request):
-    return {
-        "basketPrice": "99999.99",
-        "chargePrice": "999999999",
-        "discountPrice": "999999999",
-        "totalPrice": 1,
-        "Status": {"isOrder": 1, "messages": {"hey": "how are you?"}},
-        "List": {
-            "generic": {
-                "basketNo": 1,
-                "menuCode": 1,
-                "itemCode": 1,
-                "name": "Pizza Hut",
-                "price": 1,
-                "size": 1,
-                "isSoldout": 0,
-                "quantity": 1,
-                "subTotalPrice": 1,
-                "Menu": {
-                    "name": "Menu",
-                    "lunchMenuList": {
-                        "isLunchTimeMenu": 1,
-                        "isOpen": 1,
-                    },
-                },
-                "optionList": {
-                    "testing": {
-                        "info": "Known to blow up in your face",
-                        "code": 1,
-                        "type": 1,
-                        "name": "Pizza Hut",
-                        "list": {
-                            "item_one": {
-                                "name": "Item One",
-                                "menuCode": 1,
-                                "itemCode": 1,
-                                "image": 1,
-                                "isSoldout": 0,
-                                "info": "Known to blow up in your face",
-                                "price": "5.99",
-                            }
+    zip_code = request.args.get("areaCode")
+    query = User.query.filter_by(zip_code=zip_code).first()
+    price = 0
+
+    # Subtract the amount of indices in the list by 2 to get the amount we have to range over
+    num = len(query.basket)
+    data = []
+
+    for i in range(num):
+        price = int(query.basket[i]["price"]) * int(query.basket[i]["qty"]) + price
+        data.append(
+            RepeatedElement(
+                {
+                    "basketNo": i,
+                    "menuCode": 1,
+                    "itemCode": 1,
+                    "name": query.basket[i]["name"],
+                    "price": query.basket[i]["price"],
+                    "size": 1,
+                    "isSoldout": 0,
+                    "quantity": query.basket[i]["qty"],
+                    "subTotalPrice": 1,
+                    "Menu": {
+                        "name": "Menu",
+                        "lunchMenuList": {
+                            "isLunchTimeMenu": 1,
+                            "isOpen": 1,
                         },
-                    }
-                },
-            }
-        },
+                    },
+                    "optionList": {
+                        "testing": {
+                            "info": "Known to blow up in your face",
+                            "code": 1,
+                            "type": 1,
+                            "name": "Pizza Hut",
+                            "list": {
+                                "item_one": {
+                                    "name": "Item One",
+                                    "menuCode": 1,
+                                    "itemCode": 1,
+                                    "image": 1,
+                                    "isSoldout": 0,
+                                    "info": "Known to blow up in your face",
+                                    "price": "5.99",
+                                }
+                            },
+                        }
+                    },
+                }
+            )
+        )
+    return {
+        "basketPrice": price,
+        "totalPrice": price,
+        "Status": {"isOrder": 1, "messages": {"hey": "how are you?"}},
+        "List": {"generic": data},
     }
 
 
 @multiple_root_nodes()
-def auth_key(request):
+def auth_key(_):
     return {
         "authKey": "lol",
     }
@@ -83,23 +98,27 @@ def auth_key(request):
 
 @multiple_root_nodes()
 def item_one(request):
+    menu_code = request.args.get("menuCode")
+    item_code = request.args.get("itemCode")
+    queried_food = ItemList.query.filter_by(item_code=item_code).first()
+
     return {
-        "price": "5.99",
+        "price": queried_food.price,
         "optionList": {
             "testing": {
-                "info": "Known to blow up in your face",
+                "info": queried_food.description,
                 "code": 1,
                 "type": 1,
-                "name": "Pizza Hut",
+                "name": queried_food.name,
                 "list": {
                     "item_one": {
-                        "name": "Item One",
-                        "menuCode": 1,
-                        "itemCode": 1,
-                        "image": 1,
+                        "name": queried_food.name,
+                        "menuCode": menu_code,
+                        "itemCode": item_code,
+                        "image": queried_food.item_code,
                         "isSoldout": 0,
-                        "info": "Known to blow up in your face",
-                        "price": "5.99",
+                        "info": queried_food.description,
+                        "price": queried_food.price,
                     }
                 },
             }
@@ -109,53 +128,81 @@ def item_one(request):
 
 @multiple_root_nodes()
 def item_list(request):
-    return {
-        "Count": 1,
-        "List": {
-            "container0": {
-                "name": "Hello!!!!",
-                "item": {
-                    "menuCode": 1,
-                    "itemCode": 1,
-                    "price": "5.99",
-                    "info": "Not known to the state of California to cause cancer",
+    menuCode = request.args.get("menuCode")
+    queried_food = (
+        ItemList.query.filter_by(menu_code=menuCode)
+        .order_by(ItemList.item_code.asc())
+        .all()
+    )
+
+    return_dict = {"Count": 0, "List": {}}
+
+    for i, item in enumerate(queried_food):
+        return_dict["Count"] = return_dict["Count"] + 1
+
+        food_list = {
+            "name": item.name,
+            "item": {
+                "menuCode": menuCode,
+                "itemCode": item.item_code,
+                "price": item.price,
+                "info": item.description,
+                "size": 1,
+                "image": item.item_code,
+                "isSoldout": 0,
+                "sizeList": {
+                    "itemCode": item.item_code,
                     "size": 1,
-                    "image": 1,
+                    "price": item.price,
                     "isSoldout": 0,
-                    "sizeList": {
-                        "itemCode": 1,
-                        "size": 1,
-                        "price": "5.99",
-                        "isSoldout": 0,
-                    },
                 },
-            }
-        },
-    }
+            },
+        }
+
+        return_dict["List"].update({f"container{i}": food_list})
+
+    return return_dict
 
 
 @multiple_root_nodes()
 def menu_list(request):
+    shopCode = request.args.get("shopCode")
+    query = (
+        MenuList.query.filter_by(shop_code=shopCode)
+        .order_by(MenuList.menu_code.asc())
+        .all()
+    )
+    print(query)
+    data = []
+
+    for menu in query:
+        data.append(
+            RepeatedElement(
+                {
+                    "menuCode": menu.menu_code,
+                    "linkTitle": menu.title,
+                    "enabledLink": 1,
+                    "name": menu.title,
+                    "info": menu.info,
+                    "setNum": 0,
+                    "lunchMenuList": {
+                        "isLunchTimeMenu": 1,
+                        "hour": {
+                            "start": 1,
+                            "end": 1,
+                        },
+                        "isOpen": 1,
+                    },
+                    "message": "Where does this show up?",
+                }
+            )
+        )
+
     return {
         "response": {
-            "testing": {
-                "menuCode": 1,
-                "linkTitle": "Mmmm food",
-                "enabledLink": 1,
-                "name": "Yeah! Good food.",
-                "info": "Screamingly delightful.",
-                "setNum": 0,
-                "lunchMenuList": {
-                    "isLunchTimeMenu": 1,
-                    "hour": {
-                        "start": 1,
-                        "end": 1,
-                    },
-                    "isOpen": 1,
-                },
-                "message": "Where does this show up?",
-            },
-            "testing_two": {
+            "menu": data,
+            # Placeholder menu item so the rest can show
+            "menu2": {
                 "menuCode": 2,
                 "linkTitle": "More food!",
                 "enabledLink": 1,
@@ -177,25 +224,27 @@ def menu_list(request):
 
 
 @multiple_root_nodes()
-def shop_one(_):
+def shop_one(request):
+    shopCode = request.args.get("shopCode")
+    query = Shops.query.filter_by(shop_code=shopCode).first()
     return {
         "response": {
-            "categoryCode": "02",
-            "address": "123 Four Five Ln.",
-            "attention": "Your attention please.",
-            "amenity": "Free mints with all orders",
+            "categoryCode": f"{query.category_code:02}",
+            "address": query.address,
+            "attention": "",
+            "amenity": query.amenity,
             "menuListCode": 1,
             "activate": "on",
             "waitTime": 1,
             "timeorder": 1,
-            "tel": "1478640183279",
+            "tel": query.phone,
             "yoyakuMinDate": 1,
             "yoyakuMaxDate": 2,
             "paymentList": {"athing": "Fox Card"},
             "shopStatus": {
                 "hours": {
                     "all": {
-                        "message": "We never close.",
+                        "message": query.message,
                     },
                     "today": {
                         "values": {
@@ -316,6 +365,16 @@ def area_list(request):
 
     if area_code == "2":
         # An area code of 0 is passed upon first search. All else is deterministic.
+        # Assign the user a unique area code upon first launch of the channel
+        zip_code = generate_random(11)
+
+        data = User(
+            zip_code=zip_code,
+            basket=[],
+        )
+
+        db.session.add(data)
+        db.session.commit()
         return {
             "areaList": {
                 "place": {
@@ -324,7 +383,7 @@ def area_list(request):
                     "list": {
                         "areaPlace": {
                             "areaName": "place one",
-                            "areaCode": 3,
+                            "areaCode": area_code,
                             "isNextArea": 0,
                             "display": 1,
                             "kanji1": "title",
@@ -355,7 +414,6 @@ def formulate_restaurant(category_id: int) -> dict:
 
 @multiple_root_nodes()
 def category_list(_):
-    # TODO: formulate properly
     return {
         "response": {
             "Pizza": formulate_restaurant(1),
@@ -375,22 +433,24 @@ def category_list(_):
 
 
 @multiple_root_nodes()
-def basket_add(_):
-    return {
-        "Count": {
-            "List": {
-                "container0": {
-                    "itemCode": 1,
-                    "name": "AAAA",
-                    "price": 1,
-                    "info": "Freshly charred",
-                    "size": 1,
-                    "image": 1,
-                    "isSoldout": 0,
-                }
-            }
-        }
-    }
+def basket_add(request):
+    zip_code = request.form.get("areaCode")
+    item_code = request.form.get("itemCode")
+    qty = request.form.get("quantity")
+
+    query = User.query.filter_by(zip_code=zip_code).first()
+    queried_food = ItemList.query.filter_by(item_code=item_code).first()
+
+    # Append data to the database
+    order: list = query.basket
+    basket = order + [
+        {"name": queried_food.name, "price": queried_food.price, "qty": qty}
+    ]
+
+    query.basket = basket
+    db.session.commit()
+
+    return {"sketch": True}
 
 
 @multiple_root_nodes()
@@ -399,5 +459,5 @@ def validate_condition(_):
 
 
 @multiple_root_nodes()
-def order_done(_):
+def order_done(request):
     return {}

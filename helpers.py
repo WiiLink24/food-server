@@ -1,5 +1,7 @@
 import base64
 import functools
+import secrets
+import string
 from lxml import etree
 
 from models import Shops
@@ -213,7 +215,7 @@ def get_restaurant(category_id: int):
             RepeatedElement(
                 {
                     "shopCode": restaurant.shop_code,
-                    "homeCode": restaurant.restaurant_id,
+                    "homeCode": restaurant.shop_code,
                     "name": restaurant.name,
                     "catchphrase": restaurant.description,
                     "minPrice": 1,
@@ -231,3 +233,11 @@ def get_restaurant(category_id: int):
         )
 
     return results
+
+
+def generate_random(length: int):
+    # We will use this function to generate an area code for the user.
+    letters = string.digits
+    random = "".join(secrets.choice(letters) for i in range(length))
+
+    return random
