@@ -1,3 +1,5 @@
+import enum
+
 from food import db
 import sqlalchemy, json
 
@@ -18,9 +20,22 @@ class DictType(sqlalchemy.types.TypeDecorator):
         return value
 
 
+class CategoryTypes(enum.Enum):
+    Pizza = 1
+    Bento_Box = 2
+    Sushi = 3
+    Fish = 4
+    Seafood = 5
+    Western = 6
+    Fast_Food = 7
+    Curry = 8
+    Party_Food = 9
+    Drinks = 10
+    Others = 11
+
 class Shops(db.Model):
     name = db.Column(db.String, nullable=False)
-    category_code = db.Column(db.Integer, nullable=False)
+    category_code = db.Column(db.Enum(CategoryTypes), nullable=False)
     description = db.Column(db.String, nullable=False)
     shop_code = db.Column(db.Integer, nullable=False, primary_key=True, unique=True)
     wait_time = db.Column(db.Integer, nullable=False)

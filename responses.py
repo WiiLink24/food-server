@@ -1,8 +1,7 @@
 from lxml import etree
 from werkzeug import exceptions
 from food import db
-from models import Shops, MenuList, ItemList, User
-
+from models import Shops, MenuList, ItemList, User, CategoryTypes
 from helpers import (
     response,
     dict_to_etree,
@@ -58,25 +57,6 @@ def basket_list(request):
                             "isLunchTimeMenu": 1,
                             "isOpen": 1,
                         },
-                    },
-                    "optionList": {
-                        "testing": {
-                            "info": "Known to blow up in your face",
-                            "code": 1,
-                            "type": 1,
-                            "name": "Pizza Hut",
-                            "list": {
-                                "item_one": {
-                                    "name": "Item One",
-                                    "menuCode": 1,
-                                    "itemCode": 1,
-                                    "image": 1,
-                                    "isSoldout": 0,
-                                    "info": "Known to blow up in your face",
-                                    "price": "5.99",
-                                }
-                            },
-                        }
                     },
                 }
             )
@@ -229,7 +209,7 @@ def shop_one(request):
     query = Shops.query.filter_by(shop_code=shopCode).first()
     return {
         "response": {
-            "categoryCode": f"{query.category_code:02}",
+            "categoryCode": f"{query.category_code.value:02}",
             "address": query.address,
             "attention": "",
             "amenity": query.amenity,
@@ -400,12 +380,12 @@ def area_list(request):
     return exceptions.NotFound()
 
 
-def formulate_restaurant(category_id: int) -> dict:
+def formulate_restaurant(category_id: CategoryTypes) -> dict:
     return {
         "LargeCategoryName": "Meal",
         "CategoryList": {
             "TestingCategory": {
-                "CategoryCode": f"{category_id:02}",
+                "CategoryCode": f"{category_id.value:02}",
                 "ShopList": {"Shop": get_restaurant(category_id)},
             }
         },
@@ -416,18 +396,18 @@ def formulate_restaurant(category_id: int) -> dict:
 def category_list(_):
     return {
         "response": {
-            "Pizza": formulate_restaurant(1),
-            "Bento": formulate_restaurant(2),
-            "Sushi": formulate_restaurant(3),
-            "Fish": formulate_restaurant(4),
-            "Seafood": formulate_restaurant(5),
-            "American": formulate_restaurant(6),
-            "Fast": formulate_restaurant(7),
-            "Indian": formulate_restaurant(8),
-            "Party": formulate_restaurant(9),
-            "Drinks": formulate_restaurant(10),
-            "Other": formulate_restaurant(11),
-            "Placeholder": formulate_restaurant(12),
+            "Pizza": formulate_restaurant(CategoryTypes.Pizza),
+            "Bento": formulate_restaurant(CategoryTypes.Bento_Box),
+            "Sushi": formulate_restaurant(CategoryTypes.Sushi),
+            "Fish": formulate_restaurant(CategoryTypes.Fish),
+            "Seafood": formulate_restaurant(CategoryTypes.Seafood),
+            "American": formulate_restaurant(CategoryTypes.Western),
+            "Fast": formulate_restaurant(CategoryTypes.Fast_Food),
+            "Indian": formulate_restaurant(CategoryTypes.Curry),
+            "Party": formulate_restaurant(CategoryTypes.Party_Food),
+            "Drinks": formulate_restaurant(CategoryTypes.Drinks),
+            "Other": formulate_restaurant(CategoryTypes.Others),
+            "Placeholder": formulate_restaurant(CategoryTypes.Others),
         }
     }
 

@@ -4,7 +4,7 @@ import secrets
 import string
 from lxml import etree
 
-from models import Shops
+from models import Shops, CategoryTypes
 
 
 def generate_response_dict(passed_dict) -> dict:
@@ -202,7 +202,7 @@ class RepeatedElement:
         self.contents = passed_dict
 
 
-def get_restaurant(category_id: int):
+def get_restaurant(category_id: CategoryTypes):
     """This function grabs basic restaurant information recursively, so we can have
     multiple restaurants without having to insert it manually in responses.py"""
     # All category names and values: https://gist.github.com/SketchMaster2001/42172c8b00075b4b827fa2f78a9eb9e1
