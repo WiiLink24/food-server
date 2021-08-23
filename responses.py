@@ -171,7 +171,6 @@ def menu_list(request):
         .order_by(MenuList.menu_code.asc())
         .all()
     )
-    print(query)
     data = []
 
     for menu in query:
