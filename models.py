@@ -33,6 +33,7 @@ class CategoryTypes(enum.Enum):
     Drinks = 10
     Others = 11
 
+
 class Shops(db.Model):
     name = db.Column(db.String, nullable=False)
     category_code = db.Column(db.Enum(CategoryTypes), nullable=False)
