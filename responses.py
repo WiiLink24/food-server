@@ -24,7 +24,34 @@ def inquiry_done(_):
 
 @multiple_root_nodes()
 def basket_reset(request):
-    return {}
+    zip_code = request.args.get("areaCode")
+
+    query = User.query.filter_by(zip_code=zip_code).first()
+
+    query.basket = []
+    db.session.commit()
+    return {"spot": True}
+
+
+@multiple_root_nodes()
+def basket_delete(request):
+    num = request.args.get("basketNo")
+    zip_code = request.args.get("areaCode")
+
+    query = User.query.filter_by(zip_code=zip_code).first()
+
+    basket = query.basket
+
+    del basket[int(num)]
+
+    # Postgres does not like the idea of updating lists, so we must save the data in another variable then append later.
+    query.basket = []
+    db.session.commit()
+
+    query.basket = query.basket + basket
+    db.session.commit()
+
+    return {"fox": True}
 
 
 @multiple_root_nodes()

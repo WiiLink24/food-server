@@ -51,6 +51,7 @@ action_list = {
     "webApi_validate_condition": responses.validate_condition,
     "webApi_order_done": responses.order_done,
     "webApi_inquiry_done": responses.inquiry_done,
+    "webApi_basket_delete": responses.basket_delete,
 }
 
 
