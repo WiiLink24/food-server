@@ -58,6 +58,25 @@ def basket_list(request):
                             "isOpen": 1,
                         },
                     },
+                    "optionList": {
+                        "testing": {
+                            "info": "Here so everything works!",
+                            "code": 1,
+                            "type": 1,
+                            "name": "WiiLink",
+                            "list": {
+                                "item_one": {
+                                    "name": "Item One",
+                                    "menuCode": 1,
+                                    "itemCode": 1,
+                                    "image": 1,
+                                    "isSoldout": 0,
+                                    "info": "Here so everything works!",
+                                    "price": "5.99",
+                                }
+                            },
+                        }
+                    },
                 }
             )
         )
