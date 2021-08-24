@@ -227,7 +227,7 @@ def get_restaurant(category_id: CategoryTypes):
                     "paymentList": {"athing": "Fox Card"},
                     "shopStatus": {
                         "status": {
-                            "isOpen": restaurant.open,
+                            "isOpen": 1,
                         }
                     },
                 }
