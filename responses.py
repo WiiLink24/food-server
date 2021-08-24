@@ -178,7 +178,7 @@ def item_list(request):
                 "isSoldout": 0,
                 "sizeList": {
                     "itemCode": item.item_code,
-                    "size": 1,
+                    "size": "Regular",
                     "price": item.price,
                     "isSoldout": 0,
                 },
