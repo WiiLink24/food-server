@@ -116,6 +116,8 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
             root.text = etree.CDATA("1" if d else "0")
         elif isinstance(d, int):
             root.text = etree.CDATA(f"{d}")
+        elif isinstance(d, float):
+            root.text = etree.CDATA(f"{d}")
         elif isinstance(d, str):
             root.text = etree.CDATA(d)
         elif isinstance(d, bytes):
