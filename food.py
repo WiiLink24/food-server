@@ -1,6 +1,7 @@
 import sentry_sdk
 
 from flask import request, Flask, send_from_directory
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -22,8 +23,13 @@ if config.use_sentry:
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SECRET_KEY"] = config.db_url
+
+# Allow authentication.
+login = LoginManager(app)
 
 db = SQLAlchemy()
+import thepantry
 import models
 import responses
 
@@ -32,7 +38,6 @@ migrate = Migrate(app, db, compare_type=True)
 with app.test_request_context():
     db.init_app(app)
     db.create_all()
-
 
 action_list = {
     "webApi_document_template": responses.document_template,

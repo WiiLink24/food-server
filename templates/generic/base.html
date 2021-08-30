@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('common_css') }}"/>
+    {% include 'includes/header.html' %}
+</head>
+<body>
+{% include 'includes/navigation.html' %}
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+        <p>
+            <span class="warning">{{ message }}</span>
+        </p>
+    {% endfor %}
+{% endwith %}
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-quarter">
+                {% include 'includes/sidebar.html' %}
+            </div>
+            <div class="column">
+                <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                    <ul>
+                        <li><a href="{{ url_for('root') }}">The Pantry</a></li>
+                        <li class="is-active"><a href="" aria-current="page">{{ self.title() }}</a></li>
+                    </ul>
+                </nav>
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

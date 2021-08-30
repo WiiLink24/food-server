@@ -1,0 +1,25 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Add a Food Item
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.name.label(class_="label") }} {{ form.name(class_="input") }}
+            <br>
+            <br>
+            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
+            <br>
+            <br>
+            {{ form.price.label(class_="label") }} {{ form.price(class_="input") }}
+            <br>
+            <br>
+            {{ form.image.label(class_="label") }} {{ form.image() }}
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+{% endblock %}

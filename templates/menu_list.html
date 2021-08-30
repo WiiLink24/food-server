@@ -1,0 +1,62 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}menus{% endblock %}
+{% block type_name_singular %}menu{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Menu ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Info</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for menu in menus.items %}
+            <tr>
+                <td>{{ menu.menu_code }}</td>
+                <td>{{ menu.title }}</td>
+                <td>{{ menu.info }}</td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_menu', restaurant_id=menu.shop_code, menu_id=menu.menu_code) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('list_food_items', restaurant_id=menu.shop_code, menu_code=menu.menu_code) }}" class="button is-link">
+                            <span class="icon is-small">
+                                <i class="fas fa-list"></i>
+                            </span>
+                                <span>Manage Menu</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('remove_menu', restaurant_id=menu.shop_code, menu_code=menu.menu_code) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('add_menu', restaurant_id=restaurant_id) }}">
+        <button class="button is-success">
+            <span>Add a Menu Category</span>
+        </button>
+    </a>
+{% endblock %}

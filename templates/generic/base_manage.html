@@ -1,0 +1,55 @@
+{% extends "generic/base.html" %}
+
+{# Used to verbally identify the type singularly, such as for usage in "1 poster". #}
+{% block type_name_singular %}{% endblock %}
+{# Used to verbally identify the type pluralized, such as for usage in "Manage Miis" or "22 posters". #}
+{% block type_name %}{% endblock %}
+
+{# Used to show content. #}
+{% block table_listing %}{% endblock %}
+{# Used to show an add button. #}
+{% block add_footer %}{% endblock %}
+
+{#### Actual content ####}
+
+{% block title %}
+    Manage {{ self.type_name() | title }}
+{% endblock %}
+
+{% block content %}
+    {# type_length must be passed from a call to render_template. #}
+    {# type_max_count may as well. #}
+
+    {% set type_name=self.type_name() %}
+    {% if not type_max_count %}
+        {# By default, have an absurdly high value. #}
+        {% set type_max_count=99999999 %}
+    {% endif %}
+
+    {% if type_length == 0 %}
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            You have no {{ type_name }}. Demae will break. Please add some {{ type_name }}.
+        </div>
+    {% elif type_length == 1 %}
+        <h2 class="subtitle">There is currently <strong>1</strong> {{ self.type_name_singular() }}.</h2>
+    {% elif type_length >= type_max_count %}
+        <span class="warning">
+            There are currently <strong>{{ type_length }}</strong> {{ type_name }}.
+            Wii no Ma can only handle up to {{ type_max_count }}.
+            Please remove some {{ type_name }}.
+        </span>
+    {% else %}
+        <h2 class="subtitle">There are currently <strong>{{ type_length }}</strong> {{ type_name }}.</h2>
+    {% endif %}
+
+    {{ self.table_listing() }}
+
+    {# Only show the add footer if we have not hit the max for this type. #}
+    {% if type_length < type_max_count %}
+        {{ self.add_footer() }}
+    {% else %}
+        <span class="warning">Remove some {{ type_name }} to add more.</span>
+    {% endif %}
+{% endblock %}
+

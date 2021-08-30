@@ -1,0 +1,47 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Add a Category
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.restaurant_name.label(class_="label") }} {{ form.restaurant_name(class_="input") }}
+            <br>
+            <br>
+            {{ form.food_type.label(class_="label") }}
+            <div class="control has-icons-left">
+                <div class="select">{{ form.food_type }}
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-pizza-slice"></i>
+                </div>
+            </div>
+            <br>
+            <br>
+            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
+            <br>
+            <br>
+            {{ form.wait_time.label(class_="label") }} {{ form.wait_time(class_="input") }}
+            <br>
+            <br>
+            {{ form.address.label(class_="label") }} {{ form.address(class_="input") }}
+            <br>
+            <br>
+            {{ form.amenity.label(class_="label") }} {{ form.amenity(class_="input") }}
+            <br>
+            <br>
+            {{ form.phone.label(class_="label") }} {{ form.phone(class_="input") }}
+            <br>
+            <br>
+            {{ form.message.label(class_="label") }} {{ form.message(class_="input") }}
+            <br>
+            <br>
+            {{ form.logo.label(class_="label") }} {{ form.logo() }}
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+{% endblock %}

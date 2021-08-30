@@ -1,0 +1,67 @@
+{% extends "generic/base_manage.html" %}
+
+{% block type_name %}restaurants{% endblock %}
+{% block type_name_singular %}restaurant{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Restaurant ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for store in stores.items %}
+            <tr>
+                <td>{{ store.shop_code }}</td>
+                <td>{{ store.name }}</td>
+                <td>
+                    <img src="{{ url_for('get_restaurant_logo', shop_code=store.shop_code) }}"
+                         alt="Logo for restaurant ID {{ store.shop_code }}"
+                         width="50%"
+                    />
+                </td>
+                <td>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a href="{{ url_for('edit_restaurant', restaurant_id=store.shop_code) }}" class="button">
+                            <span class="icon is-small">
+                                <i class="fas fa-edit"></i>
+                            </span>
+                                <span>Edit</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('list_menus', restaurant_id=store.shop_code) }}" class="button is-link">
+                            <span class="icon is-small">
+                                <i class="fas fa-list"></i>
+                            </span>
+                                <span>Manage Restaurant</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a href="{{ url_for('remove_restaurant', restaurant_id=store.shop_code) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+    <a href="{{ url_for('add_restaurant') }}">
+        <button class="button is-success">
+            <span>Add a Restaurant</span>
+        </button>
+    </a>
+{% endblock %}

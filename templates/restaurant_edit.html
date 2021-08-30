@@ -1,0 +1,56 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Edit a Restaurant
+{% endblock %}
+
+{% block content %}
+    <article class="message is-info">
+        <div class="message-header">
+            <p>Information</p>
+        </div>
+        <div class="message-body">
+             This category currently has the following thumbnail:
+            <br>
+            <img
+                src="{{ url_for('get_restaurant_logo', shop_code=store.shop_code) }}"
+                alt="Thumbnail for category ID {{ store.shop_code }}"
+                width="10%"
+            />
+            <br>
+            You can set a new one below, or leave it empty to keep the current one.
+        </div>
+    </article>
+
+    <br>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.restaurant_name.label(class_="label") }} {{ form.restaurant_name(class_="input") }}
+            <br>
+            <br>
+            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
+            <br>
+            <br>
+            {{ form.wait_time.label(class_="label") }} {{ form.wait_time(class_="input") }}
+            <br>
+            <br>
+            {{ form.address.label(class_="label") }} {{ form.address(class_="input") }}
+            <br>
+            <br>
+            {{ form.amenity.label(class_="label") }} {{ form.amenity(class_="input") }}
+            <br>
+            <br>
+            {{ form.phone.label(class_="label") }} {{ form.phone(class_="input") }}
+            <br>
+            <br>
+            {{ form.message.label(class_="label") }} {{ form.message(class_="input") }}
+            <br>
+            <br>
+            {{ form.logo.label(class_="label") }} {{ form.logo() }}
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+{% endblock %}
