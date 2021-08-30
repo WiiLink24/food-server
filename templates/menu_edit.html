@@ -1,0 +1,19 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Edit a Menu Category
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.menu_name.label(class_="label") }} {{ form.menu_name(class_="input") }}
+            <br>
+            <br>
+            {{ form.info.label(class_="label") }} {{ form.info(class_="input") }}
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+{% endblock %}

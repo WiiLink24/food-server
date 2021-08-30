@@ -1,0 +1,41 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Edit a Food Item
+{% endblock %}
+
+{% block content %}
+    <article class="message is-info">
+        <div class="message-header">
+            <p>Information</p>
+        </div>
+        <div class="message-body">
+             This category currently has the following thumbnail:
+            <br>
+            <img
+                src="{{ url_for('get_food_image', restaurant_id=restaurant_id, item_code=item.item_code) }}"
+                alt="Image for item {{ item.item_code }}"
+                width="10%"
+            />
+            <br>
+            You can set a new one below, or leave it empty to keep the current one.
+        </div>
+    </article>
+    <form action="" method="post" enctype="multipart/form-data">
+        <p>
+            {{ form.hidden_tag() }}
+            {{ form.name.label(class_="label") }} {{ form.name(class_="input") }}
+            <br>
+            <br>
+            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
+            <br>
+            <br>
+            {{ form.price.label(class_="label") }} {{ form.price(class_="input") }}
+            <br>
+            <br>
+            {{ form.image.label(class_="label") }} {{ form.image() }}
+        </p>
+        <br>
+        <p>{{ form.submit(class_="button is-success") }}</p>
+    </form>
+{% endblock %}

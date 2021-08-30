@@ -1,0 +1,31 @@
+{% extends "generic/base.html" %}
+
+{% block title %}
+    Delete {{ type_name | title }}
+{% endblock %}
+
+{% block content %}
+    <article class="message is-danger">
+        <div class="message-header">
+            <p>Delete {{ type_name | title }}</p>
+        </div>
+        <div class="message-body">
+            You are about to <strong>delete</strong> the {{ type_name }} with ID {{ item_id }}.
+            <br>
+            Are you certain you want to continue?
+            <br/>
+            If so, please enter its ID in the textfield below and submit.
+            <br/>
+
+            <br>
+            <form action="" method="post">
+                <p>
+                    {{ form.hidden_tag() }}
+                    {{ form.given_id.label(class_="label") }} {{ form.given_id(size=32, class_="input") }}
+                </p>
+                <br>
+                <p>{{ form.submit(class_="button is-danger") }}</p>
+            </form>
+        </div>
+    </article>
+{% endblock %}

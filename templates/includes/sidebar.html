@@ -1,0 +1,38 @@
+{% macro menu_item(name, redirect_func, icon_name) %}
+    <ul class="menu-list">
+        <li>
+            <a href="{{ url_for(redirect_func) }}" {% if request.url_rule | string == url_for(redirect_func) %} class="is-active"{% endif %}>
+                <i class="navigation-list-item fas {{ icon_name }}"></i>{{ name }}
+            </a>
+        </li>
+    </ul>
+{% endmacro %}
+
+<aside class="menu">
+    {% if current_user.is_authenticated %}
+    <p class="menu-label">
+        General
+    </p>
+    {{ menu_item('Dashboard', 'admin', 'fa-home') }}
+    <p class="menu-label">
+        Management
+    </p>
+    {{ menu_item('Resturants', 'select_food_type', 'fa-store') }}
+    <p class="menu-label">
+        Account
+    </p>
+    {{ menu_item('Change Password', 'change_password', 'fa-key') }}
+    <ul class="menu-list">
+        <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Logout</a></li>
+    </ul>
+    {% else %}
+    <p class="menu-label">
+        I wonder if restaurants also have food servers
+    </p>
+    <ul class="menu-list">
+        <figure class="image is-2by3">
+            <img src="/static/images/loginbo.png">
+        </figure>
+    </ul>
+    {% endif %}
+</aside>
