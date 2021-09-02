@@ -81,16 +81,13 @@ class ItemList(db.Model):
     price = db.Column(db.String, nullable=False)
 
 
-class Orders(db.Model):
-    zip_code = db.Column(db.String, primary_key=True, nullable=False)
-    basket = db.Column(DictType, nullable=False)
-
-
 class User(db.Model, UserMixin):
     # Used to login to the Admin Panel
     id = db.Column(db.Integer, primary_key=True, default=1)
     username = db.Column(db.String(100))
     password_hash = db.Column(db.String)
+    zip_code = db.Column(db.String, primary_key=True, nullable=False)
+    basket = db.Column(DictType, nullable=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
