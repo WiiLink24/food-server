@@ -23,7 +23,7 @@ if config.use_sentry:
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SECRET_KEY"] = config.db_url
+app.config["SECRET_KEY"] = config.secret_key
 
 # Allow authentication.
 login = LoginManager(app)
