@@ -1,6 +1,6 @@
 FROM python:3.9
 
-RUN RUN addgroup --gid 1000 server && adduser --uid 1000 --gid 1000 --system server
+RUN addgroup --gid 1000 server && adduser --uid 1000 --gid 1000 --system server
 WORKDIR /home/server
 
 # Copy requirements first as to not disturb cache for other changes.
