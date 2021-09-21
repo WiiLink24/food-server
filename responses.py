@@ -1,7 +1,7 @@
 from lxml import etree
 from werkzeug import exceptions
 from food import db
-from models import Shops, MenuList, ItemList, User, CategoryTypes
+from models import Shops, MenuList, ItemList, UserOrders, CategoryTypes
 from helpers import (
     response,
     dict_to_etree,
@@ -26,7 +26,7 @@ def inquiry_done(_):
 def basket_reset(request):
     zip_code = request.args.get("areaCode")
 
-    query = User.query.filter_by(zip_code=zip_code).first()
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
 
     query.basket = []
     db.session.commit()
@@ -38,7 +38,7 @@ def basket_delete(request):
     num = request.args.get("basketNo")
     zip_code = request.args.get("areaCode")
 
-    query = User.query.filter_by(zip_code=zip_code).first()
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
 
     basket = query.basket
 
@@ -57,7 +57,7 @@ def basket_delete(request):
 @multiple_root_nodes()
 def basket_list(request):
     zip_code = request.args.get("areaCode")
-    query = User.query.filter_by(zip_code=zip_code).first()
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
     price = 0
 
     # Subtract the amount of indices in the list by 2 to get the amount we have to range over
@@ -393,7 +393,7 @@ def area_list(request):
         # Assign the user a unique area code upon first launch of the channel
         zip_code = generate_random(11)
 
-        data = User(
+        data = UserOrders(
             zip_code=zip_code,
             basket=[],
         )
@@ -463,7 +463,7 @@ def basket_add(request):
     item_code = request.form.get("itemCode")
     qty = request.form.get("quantity")
 
-    query = User.query.filter_by(zip_code=zip_code).first()
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
     queried_food = ItemList.query.filter_by(item_code=item_code).first()
 
     # Append data to the database
