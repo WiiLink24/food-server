@@ -408,7 +408,7 @@ def area_list(request):
                     "list": {
                         "areaPlace": {
                             "areaName": "place one",
-                            "areaCode": area_code,
+                            "areaCode": zip_code,
                             "isNextArea": 0,
                             "display": 1,
                             "kanji1": "title",
