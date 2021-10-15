@@ -3,14 +3,14 @@ from PIL import Image, ImageFile
 
 
 def save_restaurant_logo(in_bytes: bytes, restaurant_id: int):
-    logo_data = generic_encode(in_bytes, 600, 600)
+    logo_data = generic_encode(in_bytes, 160, 160)
     logo = open(f"./images/{restaurant_id}.jpg", "wb")
     logo.write(logo_data)
     logo.close()
 
 
 def save_food_image(in_bytes: bytes, restaurant_id: int, item_code: int):
-    image_data = generic_encode(in_bytes, 600, 600)
+    image_data = generic_encode(in_bytes, 160, 160)
     image = open(f"./images/{restaurant_id}/{item_code}.jpg", "wb")
     image.write(image_data)
     image.close()
