@@ -3,7 +3,7 @@ from PIL import Image, ImageFile
 
 
 def save_restaurant_logo(in_bytes: bytes, restaurant_id: int):
-    logo_data = generic_encode(in_bytes, 160, 160)
+    logo_data = generic_encode(in_bytes, 144, 144)
     logo = open(f"./images/{restaurant_id}.jpg", "wb")
     logo.write(logo_data)
     logo.close()
