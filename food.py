@@ -111,11 +111,12 @@ def error_api():
         return exceptions.NotFound()
 
 
-@app.route("/logoimg2/<filename>")
-def serve_logo(filename):
-    return send_from_directory("images", filename)
+if app.debug:
+    @app.route("/logoimg2/<filename>")
+    def serve_logo(filename):
+        return send_from_directory("images", filename)
 
 
-@app.route("/itemimg/<category_code>/<filename>")
-def serve_food_image(category_code, filename):
-    return send_from_directory(f"images/{category_code}/", filename)
+    @app.route("/itemimg/<category_code>/<filename>")
+    def serve_food_image(category_code, filename):
+        return send_from_directory(f"images/{category_code}/", filename)
