@@ -83,6 +83,7 @@ class ItemList(db.Model):
 
 class UserOrders(db.Model):
     zip_code = db.Column(db.String, primary_key=True, nullable=False)
+    auth_key = db.Column(db.String)
     basket = db.Column(DictType, nullable=False)
 
 

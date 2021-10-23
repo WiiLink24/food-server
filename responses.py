@@ -1,6 +1,7 @@
 from lxml import etree
 from werkzeug import exceptions
 from food import db
+from uuid import uuid4
 from models import Shops, MenuList, ItemList, UserOrders, CategoryTypes
 from helpers import (
     response,
@@ -24,9 +25,8 @@ def inquiry_done(_):
 
 @multiple_root_nodes()
 def basket_reset(request):
-    zip_code = request.args.get("areaCode")
-
-    query = UserOrders.query.filter_by(zip_code=zip_code).first()
+    auth_key = request.args.get("authKey")
+    query = UserOrders.query.filter_by(auth_key=auth_key).first()
 
     query.basket = []
     db.session.commit()
@@ -58,6 +58,11 @@ def basket_delete(request):
 def basket_list(request):
     zip_code = request.args.get("areaCode")
     query = UserOrders.query.filter_by(zip_code=zip_code).first()
+
+    # Since basketReset sends the authKey instead of the areaCode, we will append the authKey to the database.
+    # This is the only request in the channel that does this, which is very very annoying but oh well
+    query.auth_key = request.args.get("authKey")
+    db.session.commit()
     price = 0
 
     # Subtract the amount of indices in the list by 2 to get the amount we have to range over
@@ -118,7 +123,7 @@ def basket_list(request):
 @multiple_root_nodes()
 def auth_key(_):
     return {
-        "authKey": "lol",
+        "authKey": str(uuid4()),
     }
 
 
@@ -192,9 +197,9 @@ def item_list(request):
 
 @multiple_root_nodes()
 def menu_list(request):
-    shopCode = request.args.get("shopCode")
+    shop_code = request.args.get("shopCode")
     query = (
-        MenuList.query.filter_by(shop_code=shopCode)
+        MenuList.query.filter_by(shop_code=shop_code)
         .order_by(MenuList.menu_code.asc())
         .all()
     )
@@ -250,8 +255,8 @@ def menu_list(request):
 
 @multiple_root_nodes()
 def shop_one(request):
-    shopCode = request.args.get("shopCode")
-    query = Shops.query.filter_by(shop_code=shopCode).first()
+    shop_code = request.args.get("shopCode")
+    query = Shops.query.filter_by(shop_code=shop_code).first()
     return {
         "response": {
             "categoryCode": f"{query.category_code.value:02}",
@@ -422,6 +427,7 @@ def area_list(request):
             "areaCount": 1,
         }
 
+    # If area_code isn't 2, something went terribly wrong
     return exceptions.NotFound()
 
 
@@ -485,4 +491,10 @@ def validate_condition(_):
 
 @multiple_root_nodes()
 def order_done(request):
+    """Now that the order is complete, remove our basket from the database."""
+    auth_key = request.form.get("authKey")
+    query = UserOrders.query.filter_by(auth_key=auth_key).first()
+
+    query.basket = []
+    db.session.commit()
     return {}

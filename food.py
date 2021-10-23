@@ -112,10 +112,10 @@ def error_api():
 
 
 if app.debug:
+
     @app.route("/logoimg2/<filename>")
     def serve_logo(filename):
         return send_from_directory("images", filename)
-
 
     @app.route("/itemimg/<category_code>/<filename>")
     def serve_food_image(category_code, filename):
