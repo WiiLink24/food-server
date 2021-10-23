@@ -74,7 +74,7 @@ def add_menu(restaurant_id):
 
         db.session.add(new_menu)
         db.session.commit()
-        
+
         if not os.path.isdir(f"./images/{restaurant_id}"):
             os.mkdir(f"./images/{restaurant_id}")
 
