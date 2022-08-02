@@ -17,6 +17,13 @@ pip3 install -r requirements.txt
 pip3 install python-dotenv
 ```
 
+For MacOS environments assuming you use Brew run the following 
+```
+brew install postgres
+&
+brew services start postgres
+```
+
 Finally, run in development mode, and enjoy!
 ```
 flask run -h :: -p 80
