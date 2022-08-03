@@ -1,3 +1,5 @@
+import shutil
+
 from food import app, db
 from flask_login import login_required
 from thepantry.forms import FoodTypes, RestaurantEditForm, RestaurantAddForm
@@ -109,24 +111,30 @@ def edit_restaurant(restaurant_id):
 @login_required
 def remove_restaurant(restaurant_id):
     def drop_restaurant():
-        # Since we are deleting the entire restaurant, we will need to delete the corresponding menus and food items
-        db.session.delete(Shops.query.filter_by(shop_code=restaurant_id).first())
-        menus = MenuList.query.filter_by(shop_code=restaurant_id).all()
-
-        for menu in menus:
-            items = ItemList.query.filter_by(menu_code=menu.menu_code).all()
-            for item in items:
-                db.session.delete(item)
-
-            db.session.delete(menu)
-
+        # Since we are deleting the entire restaurant, we will need to delete food items.
+        ItemList.query.filter(MenuList.shop_code == restaurant_id).filter(
+            MenuList.menu_code == ItemList.menu_code
+        ).delete(synchronize_session=False)
         db.session.commit()
-        os.remove(f"./images/{restaurant_id}.jpg")
-        os.unlink(f"./images/{restaurant_id}")
+
+        # Next, delete the menus itself.
+        MenuList.query.filter_by(shop_code=restaurant_id).delete()
+        db.session.commit()
+
+        # As there are no more menu items referencing this shop, delete it.
+        Shops.query.filter_by(shop_code=restaurant_id).delete()
+        db.session.commit()
+
+        # Lastly, remove assets on disk, where possible.
+        if os.path.exists(f"./images/{restaurant_id}.jpg"):
+            os.remove(f"./images/{restaurant_id}.jpg")
+
+        if os.path.isdir(f"./images/{restaurant_id}"):
+            shutil.rmtree(f"./images/{restaurant_id}")
 
         return redirect(url_for("select_food_type"))
 
-    return manage_delete_item(restaurant_id, "restaurant", drop_restaurant())
+    return manage_delete_item(restaurant_id, "restaurant", drop_restaurant)
 
 
 @app.route("/thepantry/restaurants/<shop_code>/logo.jpg")
