@@ -17,14 +17,49 @@ pip3 install -r requirements.txt
 pip3 install python-dotenv
 ```
 
-For MacOS environments assuming you use Brew run the following 
+### Setting up Postgres
+
+#### MacOS
+
+Install Postgres
 ```
 brew install postgres
-&
-brew services start postgres
 ```
 
-Finally, run in development mode, and enjoy!
+Starting Postgres on MacOS.
+```
+brew services start postgres (do this if you want to have the database run every boot)
+```
+or
+```
+brew services run postgres
+```
+
+#### Linux
+
+Debian based distros.
+```
+apt install libpq-dev python3-dev postgresql postgresql-client
+```
+
+RHEL based distros.
+```
+dnf install libpq-devel python3-devel postgresql-server
+```
+
+Start Postgres on Linux.
+```
+systemctl enable postgresql (do this if you want to have the database run every boot)
+&
+systemctl start postgresql
+```
+
+Its also a good idea to install [pgAdmin](https://www.pgadmin.org/) so you can manage the database server easily.
+
+### Starting food-server
+Finally, After you have added your settings to config.py (check config-example.py)
+
+Run in development mode, and enjoy!
 ```
 flask run -h :: -p 80
 ```
