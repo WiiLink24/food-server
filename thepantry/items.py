@@ -104,7 +104,7 @@ def add_item(restaurant_id, menu_code):
 @login_required
 def remove_item(restaurant_id, menu_code, item_code):
     def drop_item():
-        item = ItemList.query.filter_by(menu_code=menu_code).first()
+        item = ItemList.query.filter_by(item_code=item_code).first()
         db.session.delete(item)
 
         db.session.commit()
@@ -114,7 +114,7 @@ def remove_item(restaurant_id, menu_code, item_code):
             url_for("list_food_items", restaurant_id=restaurant_id, menu_code=menu_code)
         )
 
-    return manage_delete_item(restaurant_id, "item", drop_item())
+    return manage_delete_item(restaurant_id, "item", drop_item)
 
 
 @app.route("/thepantry/restaurants/items/<restaurant_id>/<item_code>.jpg")
