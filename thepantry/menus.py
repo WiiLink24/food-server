@@ -95,14 +95,18 @@ def remove_menu(restaurant_id, menu_code):
         # Delete the menu and it's children
         items = ItemList.query.filter_by(menu_code=menu_code).all()
         for item in items:
+            # Remove this item's image.
+            item_image = f"./images/{restaurant_id}/{item.item_code}.jpg"
+            if os.path.exists(item_image):
+                os.remove(item_image)
+
             db.session.delete(item)
 
         menu = MenuList.query.filter_by(menu_code=menu_code).first()
         db.session.delete(menu)
 
         db.session.commit()
-        os.unlink(f"./images/{restaurant_id}")
 
         return redirect(url_for("list_menus", restaurant_id=restaurant_id))
 
-    return manage_delete_item(restaurant_id, "menu", drop_menu())
+    return manage_delete_item(restaurant_id, "menu", drop_menu)
