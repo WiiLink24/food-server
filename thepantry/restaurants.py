@@ -38,7 +38,7 @@ def view_restaurants(category):
     )
 
 
-@app.route("/theunderground/categories/add", methods=["GET", "POST"])
+@app.route("/thepantry/categories/add", methods=["GET", "POST"])
 @login_required
 def add_restaurant():
     form = RestaurantAddForm()
@@ -66,7 +66,7 @@ def add_restaurant():
     return render_template("restaurant_add.html", form=form)
 
 
-@app.route("/theunderground/categories/<restaurant_id>/edit", methods=["GET", "POST"])
+@app.route("/thepantry/categories/<restaurant_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_restaurant(restaurant_id):
     form = RestaurantEditForm()
@@ -105,7 +105,7 @@ def edit_restaurant(restaurant_id):
     return render_template("restaurant_edit.html", store=current_restaurant, form=form)
 
 
-@app.route("/theunderground/categories/<restaurant_id>/delete", methods=["GET", "POST"])
+@app.route("/thepantry/categories/<restaurant_id>/delete", methods=["GET", "POST"])
 @login_required
 def remove_restaurant(restaurant_id):
     def drop_restaurant():
