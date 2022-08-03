@@ -44,7 +44,7 @@ class RestaurantEditForm(FlaskForm):
     amenity = StringField("Amenity", validators=[DataRequired()])
     phone = StringField("Phone Number", validators=[DataRequired()])
     message = StringField("Message", validators=[DataRequired()])
-    logo = FileField("Restaurant logo")
+    logo = FileField("Restaurant logo (PNG Only)")
     submit = SubmitField("Edit")
 
 
@@ -61,7 +61,7 @@ class RestaurantAddForm(FlaskForm):
     amenity = StringField("Amenity", validators=[DataRequired()])
     phone = StringField("Phone Number", validators=[DataRequired()])
     message = StringField("Message", validators=[DataRequired()])
-    logo = FileField("Restaurant logo", validators=[DataRequired()])
+    logo = FileField("Restaurant logo (PNG Only)", validators=[DataRequired()])
     submit = SubmitField("Submit")
 
 
@@ -81,7 +81,7 @@ class ItemEditForm(FlaskForm):
     name = StringField("Food Name", validators=[DataRequired()])
     description = StringField("Food Description", validators=[DataRequired()])
     price = StringField("Price", validators=[DataRequired()])
-    image = FileField("Item Image", validators=[DataRequired()])
+    image = FileField("Item Image (PNG Only)", validators=[DataRequired()])
     submit = SubmitField("Edit")
 
 
@@ -89,7 +89,7 @@ class ItemAddForm(FlaskForm):
     name = StringField("Food Name", validators=[DataRequired()])
     description = StringField("Food Description", validators=[DataRequired()])
     price = StringField("Price", validators=[DataRequired()])
-    image = FileField("Item Image", validators=[DataRequired()])
+    image = FileField("Item Image (PNG Only)", validators=[DataRequired()])
     submit = SubmitField("Add")
 
 
