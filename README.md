@@ -4,64 +4,74 @@
 ## Self-Hosting
 If you decide to self-host, you will need a basic understanding of Python as well as Python 3.
 
+### Setting up the environment
 You'll most likely want to [create a virtualenv](https://docs.python.org/3/library/venv.html) to install things. For example:
 ```
 python3 -m venv virtualenv
 ```
-Ensure you active the environment.
+Ensure you active the environment via `source venv/bin/activate`.
 
-Regardless of the above, ensure you have installed requirements:
+Once done, ensure you install requirements:
 ```
 pip3 install -r requirements.txt
 # Useful for reading .flaskenv.
 pip3 install python-dotenv
 ```
 
+You will need to copy `config-example.py` to `config.py` and edit accordingly.
+
 ### Setting up Postgres
+We recommend using [PostgreSQL](https://postgresql.org) for the database, as this is tested.
+While others will likely work ([SQLAlchemy](https://www.sqlalchemy.org) is used), we will not provide support for such configurations.
 
-#### MacOS
-
-Install Postgres
+#### macOS
+Assuming you use [Homebrew](https://brew.sh), run the following:
 ```
 brew install postgres
 ```
 
-Starting Postgres on MacOS.
+To start PostgreSQL temporarily:
 ```
-brew services start postgres (do this if you want to have the database run every boot)
+brew services run postgres (do this if you want to have the database run every boot)
 ```
-or
+To have PostgreSQL start, and run on boot:
 ```
-brew services run postgres
+brew services start postgres
 ```
 
 #### Linux
 
-Debian based distros.
+On Debian-based distributions:
 ```
 apt install libpq-dev python3-dev postgresql postgresql-client
 ```
 
-RHEL based distros.
+For RHEL-based distributions:
 ```
 dnf install libpq-devel python3-devel postgresql-server
 ```
 
-Start Postgres on Linux.
+To start PostgreSQL temporarily:
 ```
-systemctl enable postgresql (do this if you want to have the database run every boot)
-&
 systemctl start postgresql
 ```
 
-Its also a good idea to install [pgAdmin](https://www.pgadmin.org/) so you can manage the database server easily.
+To have PostgreSQL start, and run on boot:
+```
+systemctl enable --now postgresql
+```
+
+You may wish to install a tool such as [pgAdmin](https://www.pgadmin.org/) to easily make database changes.
 
 ### Starting food-server
-Finally, After you have added your settings to config.py (check config-example.py)
-
 Run in development mode, and enjoy!
 ```
-flask run -h :: -p 80
+flask run --host :: --port 80
 ```
+
+For development, we recommend using `dev.wiilink24.com` as the base domain, resolving to 127.0.0.1.
+
+
+A web panel is available as subdirectory `/thepantry/`. Its default credentials are username `admin`/password `admin`. Please change them.
 
 NOTE: Aside from these instructions, we will not be helping people self-host. Please do not ask.
