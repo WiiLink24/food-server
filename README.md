@@ -32,7 +32,7 @@ brew install postgres
 
 To start PostgreSQL temporarily:
 ```
-brew services run postgres (do this if you want to have the database run every boot)
+brew services run postgres
 ```
 To have PostgreSQL start, and run on boot:
 ```
