@@ -39,6 +39,11 @@ To have PostgreSQL start, and run on boot:
 brew services start postgres
 ```
 
+To stop PostgreSQL (this also stops it from starting on boot):
+```
+brew services stop postgres
+```
+
 #### Linux
 
 On Debian-based distributions:
@@ -59,6 +64,16 @@ systemctl start postgresql
 To have PostgreSQL start, and run on boot:
 ```
 systemctl enable --now postgresql
+```
+
+To stop PostgreSQL:
+```
+systemctl stop postgresql
+```
+
+To prevent PostgreSQL from starting on boot:
+```
+systemctl disable postgresql
 ```
 
 You may wish to install a tool such as [pgAdmin](https://www.pgadmin.org/) to easily make database changes.
