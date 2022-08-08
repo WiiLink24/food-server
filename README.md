@@ -41,14 +41,19 @@ brew services start postgres
 
 #### Linux
 
-On Debian-based distributions:
+On Debian-based distributions (i.e. Ubuntu or Linux Mint):
 ```
 apt install libpq-dev python3-dev postgresql postgresql-client
 ```
 
-For RHEL-based distributions:
+For RHEL-based distributions (i.e. CentOS/Fedora):
 ```
 dnf install libpq-devel python3-devel postgresql-server
+```
+
+For Arch Linux (Additional config may or may not be required. Check the [Wiki](https://wiki.archlinux.org/title/PostgreSQL#Installation)):
+```
+pacman -S postgresql-libs postgresql
 ```
 
 To start PostgreSQL temporarily:
