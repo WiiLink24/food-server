@@ -266,11 +266,12 @@ def shop_one(request):
             "menuListCode": 1,
             "activate": "on",
             "waitTime": 1,
-            "timeorder": 1,
+            "timeorder": "y",
             "tel": query.phone,
             "yoyakuMinDate": 1,
             "yoyakuMaxDate": 2,
             "paymentList": {"athing": "Fox Card"},
+            "interval": 5,
             "shopStatus": {
                 "hours": {
                     "all": {
@@ -278,27 +279,36 @@ def shop_one(request):
                     },
                     "today": {
                         "values": {
-                            "start": "00:00:00",
-                            "end": "24:59:59",
-                            "holiday": "n",
+                            "hours": {
+                                "start": "01:01:01",
+                                "end": "24:59:59",
+                                "holiday": "n",
+                            }
                         }
                     },
                     "delivery": {
                         "values": {
-                            "start": "00:00:00",
-                            "end": "24:59:59",
-                            "holiday": "n",
-                        }
-                    },
-                    "holiday": {
-                        "status": {
-                            "isOpen": 1,
+                            "hours": {
+                                "start": "01:01:01",
+                                "end": "24:59:59",
+                                "holiday": "n",
+                            }
                         }
                     },
                 },
-                "selList": {"values": {"id": 1, "name": "test"}},
+                "selList": {
+                    "values": {
+                        "option": {
+                            "id": 1,
+                            "name": "test",
+                        }
+                    }
+                },
+                "holiday": "We're on holiday. Back soon!",
+                "status": {
+                    "isOpen": 1,
+                },
             },
-            "interval": 1,
         },
         "recommendItemList": {
             "container0": {
