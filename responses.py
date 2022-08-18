@@ -510,7 +510,8 @@ def order_done(request):
     query = UserOrders.query.filter_by(auth_key=auth_key).first()
 
     # We require this specific format.
-    # The channel only parses the hour at [8:10], and minute at [10:12].
+    # With "orderDay", this handles the year [0:4], month [4:6], and day [6:8].
+    # Meanwhile, the channel only parses "hour" at [8:10], and minute at [10:12].
     current_time = datetime.utcnow().strftime("%Y%m%d%H%S")
 
     query.basket = []
@@ -518,7 +519,7 @@ def order_done(request):
     return {
         "Message": {"contents": "Thank you! Your order has been placed."},
         "order_id": 17,
-        "orderDay": "Testing",
+        "orderDay": current_time,
         "hashKey": "Testing: 1, 2, 3",
         "hour": current_time,
     }
