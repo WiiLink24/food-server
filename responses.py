@@ -133,7 +133,6 @@ def auth_key(_):
 
 @multiple_root_nodes()
 def item_one(request):
-    menu_code = request.args.get("menuCode")
     item_code = request.args.get("itemCode")
     queried_food = ItemList.query.filter_by(item_code=item_code).first()
 
@@ -145,17 +144,7 @@ def item_one(request):
                 "code": 1,
                 "type": 1,
                 "name": queried_food.name,
-                "list": {
-                    "item_one": {
-                        "name": queried_food.name,
-                        "menuCode": menu_code,
-                        "itemCode": item_code,
-                        "image": queried_food.item_code,
-                        "isSoldout": 0,
-                        "info": queried_food.description,
-                        "price": queried_food.price,
-                    }
-                },
+                "list": {"item_one": formulate_item(queried_food)},
             }
         },
     }
@@ -163,40 +152,29 @@ def item_one(request):
 
 @multiple_root_nodes()
 def item_list(request):
-    menuCode = request.args.get("menuCode")
+    menu_code = request.args.get("menuCode")
     queried_food = (
-        ItemList.query.filter_by(menu_code=menuCode)
+        ItemList.query.filter_by(menu_code=menu_code)
         .order_by(ItemList.item_code.asc())
         .all()
     )
 
-    return_dict = {"Count": 0, "List": {}}
+    item_count = 0
+    full_item_list = {}
 
-    for i, item in enumerate(queried_food):
-        return_dict["Count"] = return_dict["Count"] + 1
+    for index, current_item in enumerate(queried_food):
+        item_count += 1
 
-        food_list = {
-            "name": item.name,
-            "item": {
-                "menuCode": menuCode,
-                "itemCode": item.item_code,
-                "price": item.price,
-                "info": item.description,
-                "size": 1,
-                "image": item.item_code,
-                "isSoldout": 0,
-                "sizeList": {
-                    "itemCode": item.item_code,
-                    "size": "Regular",
-                    "price": item.price,
-                    "isSoldout": 0,
-                },
-            },
+        current_item_list = {
+            "name": current_item.name,
+            "item": formulate_item(current_item),
         }
 
-        return_dict["List"].update({f"container{i}": food_list})
+        # We need to populate sizes manually.
+        current_item_list["item"]["sizeList"] = formulate_size_list(current_item)
+        full_item_list.update({f"container{index}": current_item_list})
 
-    return return_dict
+    return {"Count": item_count, "List": full_item_list}
 
 
 @multiple_root_nodes()
@@ -257,10 +235,65 @@ def menu_list(request):
     }
 
 
+def formulate_size_list(item: ItemList) -> dict:
+    """Formulates a complete size list for the given item."""
+
+    # TODO: sizeList should be populated from actual data, instead of hardcoded.
+    # For now, we will populate sizes with the generic size "Regular",
+    # using the item's existing, configured properties.
+    return {
+        "itemCode": item.item_code,
+        "name": item.name,
+        "price": item.price,
+        "info": item.description,
+        "size": "Regular",
+        "image": item.item_code,
+        "isSoldout": 0,
+    }
+
+
+def formulate_item(item: ItemList) -> dict:
+    """Generates a usable item description for the given item.
+
+    Note that this only returns item metadata.
+    You will need to provide size data separately."""
+
+    return {
+        "menuCode": item.menu_code,
+        "itemCode": item.item_code,
+        "name": item.name,
+        "price": item.price,
+        "info": item.description,
+        "size": "Regular",
+        "image": item.item_code,
+        "isSoldout": 0,
+    }
+
+
 @multiple_root_nodes()
 def shop_one(request):
     shop_code = request.args.get("shopCode")
     query = Shops.query.filter_by(shop_code=shop_code).first()
+
+    # We'll synthesize recommended items using the first item of each
+    # of this shop's menus.
+    recommended_item_list = {}
+    menus = MenuList.query.filter_by(shop_code=shop_code).all()
+    for index, menu in enumerate(menus):
+        # Every item within our recommendedItemList must be named
+        # containerN, in an incremental fashion.
+        container_name = f"container{index}"
+
+        # Retrieve the first item of every menu.
+        # TODO: This and the above MenuList query should be joined
+        # for performance reasons.
+        current_item = ItemList.query.filter_by(menu_code=menu.menu_code).first()
+        item_contents = formulate_item(current_item)
+        # We need to populate sizes manually.
+        item_contents["sizeList"] = formulate_size_list(current_item)
+
+        recommended_item_list[container_name] = item_contents
+
     return {
         "response": {
             "categoryCode": f"{query.category_code.value:02}",
@@ -314,27 +347,7 @@ def shop_one(request):
                 },
             },
         },
-        "recommendItemList": {
-            "container0": {
-                "menuCode": 1,
-                "itemCode": 1,
-                "name": "AAAA",
-                "price": 1,
-                "info": "Freshly charred",
-                "size": 1,
-                "image": 1,
-                "isSoldout": 0,
-                "sizeList": {
-                    "itemCode": 1,
-                    "name": "AAAA",
-                    "price": 1,
-                    "info": "Freshly charred",
-                    "size": 1,
-                    "image": 1,
-                    "isSoldout": 0,
-                },
-            },
-        },
+        "recommendItemList": recommended_item_list,
     }
 
 
