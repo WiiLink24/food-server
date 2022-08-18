@@ -125,7 +125,7 @@ def basket_list(request):
 
 
 @multiple_root_nodes()
-def auth_key(_):
+def generate_auth_key(_):
     return {
         "authKey": str(uuid4()),
     }
@@ -516,7 +516,7 @@ def validate_condition(_):
     return {}
 
 
-@response()
+@multiple_root_nodes()
 def order_done(request):
     """Now that the order is complete, remove our basket from the database."""
     auth_key = request.form.get("authKey")
