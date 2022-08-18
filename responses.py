@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from lxml import etree
 from werkzeug import exceptions
 from food import db
@@ -112,6 +114,8 @@ def basket_list(request):
                 }
             )
         )
+
+    # TODO: There is also "chargePrice" and "discountPrice".
     return {
         "basketPrice": price,
         "totalPrice": price,
@@ -499,12 +503,22 @@ def validate_condition(_):
     return {}
 
 
-@multiple_root_nodes()
+@response()
 def order_done(request):
     """Now that the order is complete, remove our basket from the database."""
     auth_key = request.form.get("authKey")
     query = UserOrders.query.filter_by(auth_key=auth_key).first()
 
+    # We require this specific format.
+    # The channel only parses the hour at [8:10], and minute at [10:12].
+    current_time = datetime.utcnow().strftime("%Y%m%d%H%S")
+
     query.basket = []
     db.session.commit()
-    return {}
+    return {
+        "Message": {"contents": "Thank you! Your order has been placed."},
+        "order_id": 17,
+        "orderDay": "Testing",
+        "hashKey": "Testing: 1, 2, 3",
+        "hour": current_time,
+    }
