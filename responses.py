@@ -2,6 +2,8 @@ from datetime import datetime
 
 from lxml import etree
 from werkzeug import exceptions
+
+from config import eula_text
 from food import db
 from uuid import uuid4
 from models import Shops, MenuList, ItemList, UserOrders, CategoryTypes
@@ -365,7 +367,7 @@ def shop_list(request):
 @response()
 def document_template(request):
     return {
-        "container0": {"contents": "no terms and conditions"},
+        "container0": {"contents": eula_text},
         "container1": {"contents": "no seriously, stop trying"},
         "container2": {"contents": "the heck are you doing"},
     }
