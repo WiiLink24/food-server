@@ -518,7 +518,7 @@ def validate_condition(_):
     return {}
 
 
-@multiple_root_nodes()
+@response()
 def order_done(request):
     """Now that the order is complete, remove our basket from the database."""
     auth_key = request.form.get("authKey")
