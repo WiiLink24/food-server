@@ -502,7 +502,8 @@ def basket_add(request):
     queried_food = ItemList.query.filter_by(item_code=item_code).first()
 
     # Append data to the database
-    order: list = query.basket
+    # Temporary hack to allow basket migration.
+    order: list = query.basket or []
     basket = order + [
         {"name": queried_food.name, "price": queried_food.price, "qty": qty}
     ]
