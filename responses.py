@@ -339,7 +339,7 @@ def shop_one(request):
                     "values": {
                         "option": {
                             "id": 1,
-                            "name": "test",
+                            "name": "Today",
                         }
                     }
                 },
