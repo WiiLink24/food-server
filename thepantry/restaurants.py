@@ -10,6 +10,25 @@ from thepantry.encodemii import save_restaurant_logo
 from thepantry.operations import manage_delete_item
 import os
 
+@app.route("/thepantry/resturantrequests", methods=["GET", "POST"])
+@login_required
+def list_resturantrequests():
+    shoprequests = ShopRequests.query.all()
+    return render_template(
+        "requests.html", shoprequests=shoprequests, type_length=len(shoprequests), type_max_count=64
+    )
+
+@app.route("/theunderground/resturantrequests/<resturantrequest_id>/remove", methods=["GET", "POST"])
+@login_required
+def remove_resturantrequest(resturantrequest_id):
+    def drop_resturantrequest():
+        db.session.delete(ShopRequests.query.filter_by(id=resturantrequest_id).first())
+        db.session.commit()
+        return redirect(url_for("list_resturantrequests"))
+
+    return manage_delete_item(resturantrequest_id, "shoprequests", drop_resturantrequest)
+
+
 
 @app.route("/thepantry/restaurants", methods=["GET", "POST"])
 @login_required
