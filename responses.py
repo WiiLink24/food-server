@@ -6,7 +6,7 @@ from werkzeug import exceptions
 from config import eula_text
 from food import db
 from uuid import uuid4
-from models import Shops, MenuList, ItemList, UserOrders, CategoryTypes
+from models import Shops, MenuList, ItemList, UserOrders, CategoryTypes, ShopRequests
 from helpers import (
     response,
     dict_to_etree,
@@ -19,10 +19,22 @@ from helpers import (
 
 @response()
 def inquiry_done(_):
-    """The request a restaurant part.
-    In the forms, it give us the telephone of the restaurant,
-    name of the restaurant, and restaurant type.
-    TODO: append to database"""
+def inquiry_done(request):
+    raw_message = (request.form["message"])
+    
+    part_2_category = raw_message.replace("Pizza", "01").replace("Bento Box", "02").replace("Sushi", "03").replace("Japanese", "04").replace("Chinese", "05").replace("Western", "06").replace("Fast Food", "07").replace("Curry", "08").replace("Party", "09").replace("Desserts", "10").replace("Other", "11") #I Know there is easier & neater ways to do this but this is fine for now.
+    category_3 = (part_2_category[0:2])
+    category = category_3.replace("01", "Pizza").replace("02", "Bento Box").replace("03", "Sushi").replace("04", "Japanese").replace("05", "Chinese").replace("06", "Western").replace("07", "Fast Food").replace("08", "Curry").replace("09", "Party").replace("10", "Desserts").replace("11", "Other") 
+   
+    
+    resturant_name = (part_2_category[4:])
+    phone_number = (request.form["tel"])
+    mac = (request.form["termInfo"]) 
+    data = ShopRequests(shop_name=resturant_name, phone_number=phone_number, category=category)
+    
+    #Commit To DB
+    db.session.add(data)
+    db.session.commit() 
 
     return {}
 
