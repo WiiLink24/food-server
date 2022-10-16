@@ -1,0 +1,44 @@
+{% extends "generic/base_manage_edited_warning.html" %}
+
+{% block type_name %}Resturant Requests{% endblock %}
+{% block type_name_singular %}Resturant Request{% endblock %}
+
+{% block table_listing %}
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+        <tr>
+            <th scope="col">Request ID</th>
+            <th scope="col">Requested Shop Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for shoprequests_item in shoprequests %}
+            <tr>
+                <td>{{ shoprequests_item.id }}</td>
+                <td>{{ shoprequests_item.shop_name }}</td>                
+                <td>{{ shoprequests_item.category }}</td>
+                <td>{{ shoprequests_item.phone_number }}</td>
+		<td>
+                        <p class="control">
+                            <a href="{{ url_for('remove_resturantrequest', resturantrequest_id=shoprequests_item.id) }}" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                                <span>Delete</span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block add_footer %}
+
+    </a>
+{% endblock %}
