@@ -5,7 +5,7 @@ from flask_login import login_required
 from thepantry.forms import FoodTypes, RestaurantEditForm, RestaurantAddForm
 from flask import render_template, url_for, redirect, send_from_directory
 from werkzeug import exceptions
-from models import Shops, CategoryTypes, ItemList, MenuList
+from models import Shops, CategoryTypes, ItemList, MenuList, ShopRequests
 from thepantry.encodemii import save_restaurant_logo
 from thepantry.operations import manage_delete_item
 import os
