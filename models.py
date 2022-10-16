@@ -67,6 +67,12 @@ class Shops(db.Model):
     phone = db.Column(db.String, nullable=False)
     message = db.Column(db.String, nullable=False)
 
+class ShopRequests(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    shop_name = db.Column(db.String, nullable=False)
+    category = db.Column(db.String, nullable=False)
+    phone_number = db.Column(db.Integer, nullable=False)
+
 
 class MenuList(db.Model):
     menu_code = db.Column(db.Integer, nullable=False, primary_key=True, unique=True)
