@@ -1,5 +1,6 @@
 # `food-server`
 `food-server` is a server implementation for the Demae channel. It allows you to order food directly from your Wii, and create restaurant reservations.
+
 [Wiki](https://wiilink.atlassian.net/wiki/spaces/DC)
 
 ## Self-Hosting
