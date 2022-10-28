@@ -3,7 +3,7 @@
 
 ## Self-Hosting
 If you decide to self-host, you will need a basic understanding of Python as well as Python 3.
-Please see information available on [our wiki](https://github.com/WiiLink24/food-server/wiki/Self-Hosting).
+Please see information available on [our wiki](https://wiilink.atlassian.net/wiki/spaces/DC/pages/1376271/Self+Hosting).
 
 NOTE: Aside from these instructions, we will not be helping people self-host. Please do not ask.
 
