@@ -1,11 +1,9 @@
 # `food-server`
 `food-server` is a server implementation for the Demae channel. It allows you to order food directly from your Wii, and create restaurant reservations.
+[Wiki](https://wiilink.atlassian.net/wiki/spaces/DC)
 
 ## Self-Hosting
-If you decide to self-host, you will need a basic understanding of Python as well as Python 3.
-Please see information available on [our wiki](https://wiilink.atlassian.net/wiki/spaces/DC/pages/1376271/Self+Hosting).
-
-NOTE: Aside from these instructions, we will not be helping people self-host. Please do not ask.
+Refer to [this page](https://wiilink.atlassian.net/wiki/spaces/DC/pages/1376271/Self+Hosting) for instructions on Self Hosting.
 
 ## Contributing
 We strongly appreciate all contributions, no matter how big or small! Thank you for your interest in our work!
