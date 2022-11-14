@@ -3,7 +3,7 @@ flask-login>=0.6.2
 flask-wtf>=1.0.1
 lxml>=4.9.1
 pillow>=9.2
-flask_sqlalchemy>=2.5
+flask_sqlalchemy==2.5
 flask-migrate>=3.1
 psycopg2>=2.9
 sentry-sdk[flask]>=1.9
