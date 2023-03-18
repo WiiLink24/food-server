@@ -473,7 +473,20 @@ def formulate_restaurant(category_id: CategoryTypes) -> dict:
 
 
 @multiple_root_nodes()
-def category_list(_):
+def category_list(request):
+    zip_code = request.form.get("areaCode")
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
+    if not query:
+        # The actual fix for this is for people to delete their save data and redo region setup.
+        # I don't know why they won't just do that so here we are.
+        query = UserOrders(
+            zip_code=zip_code,
+            basket=[],
+        )
+
+        db.session.add(query)
+        db.session.commit()
+
     return {
         "response": {
             "Pizza": formulate_restaurant(CategoryTypes.Pizza),
