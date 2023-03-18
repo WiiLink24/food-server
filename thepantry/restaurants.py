@@ -28,7 +28,7 @@ def view_restaurants(category):
     restaurants = (
         Shops.query.filter_by(category_code=CategoryTypes(int(category)).name)
         .order_by(Shops.shop_code.asc())
-        .paginate(1, 15, error_out=False)
+        .paginate(page=1, per_page=15, error_out=False)
     )
 
     return render_template(

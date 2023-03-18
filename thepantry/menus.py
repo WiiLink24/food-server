@@ -14,7 +14,7 @@ def list_menus(restaurant_id):
     menus = (
         MenuList.query.filter_by(shop_code=int(restaurant_id))
         .order_by(MenuList.menu_code.asc())
-        .paginate(1, 15, error_out=False)
+        .paginate(page=1, per_page=15, error_out=False)
     )
 
     return render_template(
