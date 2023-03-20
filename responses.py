@@ -474,7 +474,7 @@ def formulate_restaurant(category_id: CategoryTypes) -> dict:
 
 @multiple_root_nodes()
 def category_list(request):
-    zip_code = request.form.get("areaCode")
+    zip_code = request.args.get("areaCode")
     query = UserOrders.query.filter_by(zip_code=zip_code).first()
     if not query:
         # The actual fix for this is for people to delete their save data and redo region setup.
