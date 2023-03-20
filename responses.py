@@ -74,7 +74,7 @@ def basket_list(request):
     data = []
 
     for i in range(num):
-        price = int(query.basket[i]["price"].replace("$", "")) * int(query.basket[i]["qty"]) + price
+        price = float(query.basket[i]["price"].replace("$", "")) * float(query.basket[i]["qty"]) + float(price)
         data.append(
             RepeatedElement(
                 {
