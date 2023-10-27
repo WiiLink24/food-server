@@ -123,7 +123,7 @@ def dict_to_etree(tag_name: str, d: dict) -> etree.Element:
         elif isinstance(d, bytes):
             # We're going to assume this needs to be Base64 encoded.
             root.text = etree.CDATA(base64.b64encode(d))
-        elif isinstance(d, tuple) or isinstance(d, list):
+        elif isinstance(d, (tuple, list)):
             # As we're backed by K/V notation,a tuple or a list is useless.
             # It should only contain our special
             # RepeatedKeys and RepeatedNodes types.
@@ -209,37 +209,30 @@ def get_restaurant(category_id: CategoryTypes):
     multiple restaurants without having to insert it manually in responses.py"""
     # All category names and values: https://gist.github.com/SketchMaster2001/42172c8b00075b4b827fa2f78a9eb9e1
     queried_categories = Shops.query.filter_by(category_code=category_id).all()
-    results = []
-
-    for i, restaurant in enumerate(queried_categories):
-        # Items must be indexed by 1.
-        results.append(
-            RepeatedElement(
-                {
-                    "shopCode": restaurant.shop_code,
-                    "homeCode": restaurant.shop_code,
-                    "name": restaurant.name,
-                    "catchphrase": restaurant.description,
-                    "minPrice": 1,
-                    "yoyaku": 1,
-                    "activate": "on",
-                    "waitTime": restaurant.wait_time,
-                    "paymentList": {"athing": "Fox Card"},
-                    "shopStatus": {
-                        "status": {
-                            "isOpen": 1,
-                        }
-                    },
-                }
-            )
+    return [
+        RepeatedElement(
+            {
+                "shopCode": restaurant.shop_code,
+                "homeCode": restaurant.shop_code,
+                "name": restaurant.name,
+                "catchphrase": restaurant.description,
+                "minPrice": 1,
+                "yoyaku": 1,
+                "activate": "on",
+                "waitTime": restaurant.wait_time,
+                "paymentList": {"athing": "Fox Card"},
+                "shopStatus": {
+                    "status": {
+                        "isOpen": 1,
+                    }
+                },
+            }
         )
-
-    return results
+        for restaurant in queried_categories
+    ]
 
 
 def generate_random(length: int):
     # We will use this function to generate an area code for the user.
     letters = string.digits
-    random = "".join(secrets.choice(letters) for i in range(length))
-
-    return random
+    return "".join(secrets.choice(letters) for _ in range(length))

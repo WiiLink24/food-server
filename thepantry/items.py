@@ -120,4 +120,4 @@ def remove_item(restaurant_id, menu_code, item_code):
 @app.route("/thepantry/restaurants/items/<restaurant_id>/<item_code>.jpg")
 @login_required
 def get_food_image(restaurant_id, item_code):
-    return send_from_directory(f"./images/{restaurant_id}/", item_code + ".jpg")
+    return send_from_directory(f"./images/{restaurant_id}/", f"{item_code}.jpg")
