@@ -12,18 +12,16 @@ def save_restaurant_logo(in_bytes: bytes, restaurant_id: int):
     ensure_images_exists()
 
     logo_data = generic_encode(in_bytes, 144, 144)
-    logo = open(f"./images/{restaurant_id}.jpg", "wb")
-    logo.write(logo_data)
-    logo.close()
+    with open(f"./images/{restaurant_id}.jpg", "wb") as logo:
+        logo.write(logo_data)
 
 
 def save_food_image(in_bytes: bytes, restaurant_id: int, item_code: int):
     ensure_images_exists()
 
     image_data = generic_encode(in_bytes, 160, 160)
-    image = open(f"./images/{restaurant_id}/{item_code}.jpg", "wb")
-    image.write(image_data)
-    image.close()
+    with open(f"./images/{restaurant_id}/{item_code}.jpg", "wb") as image:
+        image.write(image_data)
 
 
 def generic_encode(in_bytes: bytes, w: int, h: int) -> bytes:

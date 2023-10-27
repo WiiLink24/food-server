@@ -52,7 +52,7 @@ def basket_delete(request):
     query.basket = []
     db.session.commit()
 
-    query.basket = query.basket + basket
+    query.basket += basket
     db.session.commit()
 
     return {"fox": True}
@@ -174,7 +174,7 @@ def item_list(request):
 
         # We need to populate sizes manually.
         current_item_list["item"]["sizeList"] = formulate_size_list(current_item)
-        full_item_list.update({f"container{index}": current_item_list})
+        full_item_list[f"container{index}"] = current_item_list
 
     return {"Count": item_count, "List": full_item_list}
 
@@ -187,31 +187,28 @@ def menu_list(request):
         .order_by(MenuList.menu_code.asc())
         .all()
     )
-    data = []
-
-    for menu in query:
-        data.append(
-            RepeatedElement(
-                {
-                    "menuCode": menu.menu_code,
-                    "linkTitle": menu.title,
-                    "enabledLink": 1,
-                    "name": menu.title,
-                    "info": menu.info,
-                    "setNum": 0,
-                    "lunchMenuList": {
-                        "isLunchTimeMenu": 1,
-                        "hour": {
-                            "start": 1,
-                            "end": 1,
-                        },
-                        "isOpen": 1,
+    data = [
+        RepeatedElement(
+            {
+                "menuCode": menu.menu_code,
+                "linkTitle": menu.title,
+                "enabledLink": 1,
+                "name": menu.title,
+                "info": menu.info,
+                "setNum": 0,
+                "lunchMenuList": {
+                    "isLunchTimeMenu": 1,
+                    "hour": {
+                        "start": 1,
+                        "end": 1,
                     },
-                    "message": "Where does this show up?",
-                }
-            )
+                    "isOpen": 1,
+                },
+                "message": "Where does this show up?",
+            }
         )
-
+        for menu in query
+    ]
     return {
         "response": {
             "menu": data,
