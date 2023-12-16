@@ -16,7 +16,6 @@ def load_user(id):
 
 
 class DictType(sqlalchemy.types.TypeDecorator):
-
     impl = sqlalchemy.Text()
 
     def process_bind_param(self, value, dialect):
