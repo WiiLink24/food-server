@@ -135,3 +135,5 @@ config.py
 
 images/
 !images/.gitkeep
+
+passwd.txt
