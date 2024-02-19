@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.event import listens_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, LoginManager
-import sqlalchemy, json
+import sqlalchemy, json, string, random
 
 db = SQLAlchemy()
 login = LoginManager()
@@ -108,9 +108,15 @@ def create_default_user(target, connection, **kw):
     """Adds a default user to The Pantry.
     By default, we assume admin:admin."""
     table = User.__table__
+
+    default_password = ''.join(random.SystemRandom().choice(string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation) for _ in range(32))
+    with open("passwd.txt", 'x', encoding='UTF-8') as f:
+        f.write(default_password)
+    print(f"The default password is:\n{default_password}\nThis has been saved to 'passwd.txt'. Please keep this safe!")
+    
     connection.execute(
         table.insert().values(
             username="admin",
-            password_hash=generate_password_hash("admin"),
+            password_hash=generate_password_hash(default_password),
         )
     )
