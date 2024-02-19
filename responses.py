@@ -38,6 +38,24 @@ def basket_reset(request):
 
 
 @multiple_root_nodes()
+def basket_modify(request):
+    num = request.form.get("basketNo")
+    zip_code = request.form.get("areaCode")
+
+    query = UserOrders.query.filter_by(zip_code=zip_code).first()
+    basket = query.basket
+    basket[int(num)]["qty"] = request.form.get("quantity")
+
+    query.basket = []
+    db.session.commit()
+
+    query.basket = query.basket + basket
+    db.session.commit()
+
+    return {"food": True}
+
+
+@multiple_root_nodes()
 def basket_delete(request):
     num = request.args.get("basketNo")
     zip_code = request.args.get("areaCode")
@@ -62,11 +80,6 @@ def basket_delete(request):
 def basket_list(request):
     zip_code = request.args.get("areaCode")
     query = UserOrders.query.filter_by(zip_code=zip_code).first()
-
-    # Since basketReset sends the authKey instead of the areaCode, we will append the authKey to the database.
-    # This is the only request in the channel that does this, which is very very annoying but oh well
-    query.auth_key = request.args.get("authKey")
-    db.session.commit()
     price = 0
 
     # Subtract the amount of indices in the list by 2 to get the amount we have to range over
@@ -306,13 +319,13 @@ def shop_one(request):
             "amenity": query.amenity,
             "menuListCode": 1,
             "activate": "on",
-            "waitTime": 1,
+            "waitTime": 10,
             "timeorder": "y",
             "tel": query.phone,
             "yoyakuMinDate": 1,
-            "yoyakuMaxDate": 2,
+            "yoyakuMaxDate": 30,
             "paymentList": {"athing": "Fox Card"},
-            "interval": 5,
+            "interval": 30,
             "shopStatus": {
                 "hours": {
                     "all": {
@@ -321,7 +334,7 @@ def shop_one(request):
                     "today": {
                         "values": {
                             "hours": {
-                                "start": "01:01:01",
+                                "start": "00:00:00",
                                 "end": "24:59:59",
                                 "holiday": "n",
                             }
@@ -330,20 +343,15 @@ def shop_one(request):
                     "delivery": {
                         "values": {
                             "hours": {
-                                "start": "01:01:01",
+                                "start": "00:00:00",
                                 "end": "24:59:59",
                                 "holiday": "n",
                             }
                         }
                     },
                 },
+                # Setting values to null will trigger the confirmation screen
                 "selList": {
-                    "values": {
-                        "option": {
-                            "id": 1,
-                            "name": "Today",
-                        }
-                    }
                 },
                 "holiday": "We're on holiday. Back soon!",
                 "status": {
@@ -492,16 +500,16 @@ def category_list(request):
     return {
         "response": {
             "Pizza": formulate_restaurant(CategoryTypes.Pizza),
-            "Bento": formulate_restaurant(CategoryTypes.Bento_Box),
-            "Sushi": formulate_restaurant(CategoryTypes.Sushi),
-            "Fish": formulate_restaurant(CategoryTypes.Fish),
-            "Seafood": formulate_restaurant(CategoryTypes.Seafood),
-            "American": formulate_restaurant(CategoryTypes.Western),
-            "Fast": formulate_restaurant(CategoryTypes.Fast_Food),
-            "Indian": formulate_restaurant(CategoryTypes.Curry),
-            "Party": formulate_restaurant(CategoryTypes.Party_Food),
-            "Drinks": formulate_restaurant(CategoryTypes.Drinks),
-            "Other": formulate_restaurant(CategoryTypes.Others),
+         #   "Bento": formulate_restaurant(CategoryTypes.Bento_Box),
+          #  "Sushi": formulate_restaurant(CategoryTypes.Sushi),
+           # "Fish": formulate_restaurant(CategoryTypes.Fish),
+            #"Seafood": formulate_restaurant(CategoryTypes.Seafood),
+            #"American": formulate_restaurant(CategoryTypes.Western),
+            #"Fast": formulate_restaurant(CategoryTypes.Fast_Food),
+            #"Indian": formulate_restaurant(CategoryTypes.Curry),
+            #"Party": formulate_restaurant(CategoryTypes.Party_Food),
+            "Drinks": formulate_restaurant(CategoryTypes.Others),
+            "Other": formulate_restaurant(CategoryTypes.Test),
             "Placeholder": formulate_restaurant(CategoryTypes.Others),
         }
     }
@@ -512,9 +520,16 @@ def basket_add(request):
     zip_code = request.form.get("areaCode")
     item_code = request.form.get("itemCode")
     qty = request.form.get("quantity")
+    auth_key = request.form.get("authKey")
 
     query = UserOrders.query.filter_by(zip_code=zip_code).first()
     queried_food = ItemList.query.filter_by(item_code=item_code).first()
+
+    # Check if the user has a stale basket
+    if query.auth_key != auth_key:
+        query.auth_key = auth_key
+        query.basket = []
+        db.session.commit()
 
     # Append data to the database
     # Temporary hack to allow basket migration.
@@ -546,6 +561,7 @@ def order_done(request):
     current_time = datetime.utcnow().strftime("%Y%m%d%H%S")
 
     query.basket = []
+    query.auth_key = None
     db.session.commit()
     return {
         "Message": {"contents": "Thank you! Your order has been placed."},
