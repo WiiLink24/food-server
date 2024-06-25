@@ -7,6 +7,7 @@ import os
 from thepantry.operations import manage_delete_item
 from thepantry.admin import oidc
 
+
 @app.route("/thepantry/restaurants/<restaurant_id>/menus")
 @oidc.require_login
 def list_menus(restaurant_id):

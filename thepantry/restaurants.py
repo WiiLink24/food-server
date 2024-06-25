@@ -10,6 +10,7 @@ from thepantry.operations import manage_delete_item
 import os
 from thepantry.admin import oidc
 
+
 @app.route("/thepantry/restaurants", methods=["GET", "POST"])
 @oidc.require_login
 def select_food_type():

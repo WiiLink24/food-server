@@ -6,9 +6,11 @@ import config
 
 oidc = OpenIDConnect(app)
 
+
 @app.context_processor
 def inject_oidc():
     return dict(oidc=oidc)
+
 
 @app.route("/thepantry")
 @app.route("/thepantry/")
@@ -28,6 +30,7 @@ def login():
 @oidc.require_login
 def admin():
     return render_template("pantry.html")
+
 
 @app.route("/thepantry/logout")
 @oidc.require_login

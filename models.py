@@ -5,6 +5,7 @@ import sqlalchemy, json
 
 db = SQLAlchemy()
 
+
 class DictType(sqlalchemy.types.TypeDecorator):
     impl = sqlalchemy.Text()
 

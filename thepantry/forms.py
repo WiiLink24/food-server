@@ -3,6 +3,7 @@ from wtforms.validators import DataRequired
 from wtforms import StringField, SubmitField, SelectField, FileField
 from models import CategoryTypes
 
+
 class FoodTypes(FlaskForm):
     food = SelectField(
         "Food Types",
