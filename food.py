@@ -35,12 +35,7 @@ db.init_app(app)
 migrate = Migrate(app, db, compare_type=True)
 
 
-@app.before_request
-def initialize_server():
-    # The following line will remove this handler, making it
-    # only run on the first request
-    app.before_request_funcs[None].remove(initialize_server)
-
+with app.app_context():
     # Ensure our database is present.
     db.create_all()
 
