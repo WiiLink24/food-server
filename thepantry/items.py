@@ -1,16 +1,16 @@
 from food import app, db
 from models import ItemList
 from flask import render_template, send_from_directory, redirect, url_for
-from flask_login import login_required
 from werkzeug import exceptions
 from thepantry.forms import ItemEditForm, ItemAddForm
 from thepantry.encodemii import save_food_image
 import os
 from thepantry.operations import manage_delete_item
+from thepantry.admin import oidc
 
 
 @app.route("/thepantry/restaurants/<restaurant_id>/menus/<menu_code>/items")
-@login_required
+@oidc.require_login
 def list_food_items(restaurant_id, menu_code):
     items = (
         ItemList.query.filter_by(menu_code=int(menu_code))
@@ -32,7 +32,7 @@ def list_food_items(restaurant_id, menu_code):
     "/thepantry/restaurants/<restaurant_id>/menus/<menu_code>/items/<item_code>/edit",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def edit_item(restaurant_id, menu_code, item_code):
     form = ItemEditForm()
 
@@ -72,7 +72,7 @@ def edit_item(restaurant_id, menu_code, item_code):
     "/thepantry/restaurants/<restaurant_id>/menus/<menu_code>/items/add",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def add_item(restaurant_id, menu_code):
     form = ItemAddForm()
 
@@ -101,7 +101,7 @@ def add_item(restaurant_id, menu_code):
     "/thepantry/restaurants/<restaurant_id>/menus/<menu_code>/items/<item_code>/delete",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def remove_item(restaurant_id, menu_code, item_code):
     def drop_item():
         item = ItemList.query.filter_by(item_code=item_code).first()
@@ -118,6 +118,6 @@ def remove_item(restaurant_id, menu_code, item_code):
 
 
 @app.route("/thepantry/restaurants/items/<restaurant_id>/<item_code>.jpg")
-@login_required
+@oidc.require_login
 def get_food_image(restaurant_id, item_code):
     return send_from_directory(f"./images/{restaurant_id}/", item_code + ".jpg")

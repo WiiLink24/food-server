@@ -1,30 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired, ValidationError
-from wtforms import StringField, PasswordField, SubmitField, SelectField, FileField
+from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField, FileField
 from models import CategoryTypes
-
-
-class LoginForm(FlaskForm):
-    username = StringField("Username")
-    password = PasswordField("Password")
-    submit = SubmitField("Enter the pantry")
-
-
-class ChangePasswordForm(FlaskForm):
-    current_password = PasswordField("Password", validators=[DataRequired()])
-    new_password = PasswordField("New Password", validators=[DataRequired()])
-    new_password_confirmation = PasswordField(
-        "Confirm New Password", validators=[DataRequired()]
-    )
-    complete = SubmitField("Complete")
-
-    def validate_current_password(self, _):
-        if self.current_password.data == self.new_password.data:
-            return ValidationError("New password cannot be the same as current!")
-
-    def validate_new_password(self, _):
-        if self.new_password.data != self.new_password_confirmation.data:
-            return ValidationError("New passwords must be the same")
 
 
 class FoodTypes(FlaskForm):

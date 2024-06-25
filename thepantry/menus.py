@@ -1,15 +1,15 @@
 from food import app, db
 from models import MenuList, Shops, ItemList
 from flask import render_template, redirect, url_for
-from flask_login import login_required
 from thepantry.forms import MenuEditForm, MenuAddForm
 from werkzeug import exceptions
 import os
 from thepantry.operations import manage_delete_item
+from thepantry.admin import oidc
 
 
 @app.route("/thepantry/restaurants/<restaurant_id>/menus")
-@login_required
+@oidc.require_login
 def list_menus(restaurant_id):
     menus = (
         MenuList.query.filter_by(shop_code=int(restaurant_id))
@@ -30,7 +30,7 @@ def list_menus(restaurant_id):
     "/thepantry/restaurants/<restaurant_id>/menus/<menu_id>/edit",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def edit_menu(restaurant_id, menu_id):
     form = MenuEditForm()
 
@@ -54,7 +54,7 @@ def edit_menu(restaurant_id, menu_id):
 
 
 @app.route("/thepantry/restaurants/<restaurant_id>/menus/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_menu(restaurant_id):
     form = MenuAddForm()
 
@@ -89,7 +89,7 @@ def add_menu(restaurant_id):
     "/thepantry/restaurants/<restaurant_id>/menus/<menu_code>/delete",
     methods=["GET", "POST"],
 )
-@login_required
+@oidc.require_login
 def remove_menu(restaurant_id, menu_code):
     def drop_menu():
         # Delete the menu and it's children

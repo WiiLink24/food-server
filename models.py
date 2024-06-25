@@ -1,18 +1,9 @@
 import enum
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.event import listens_for
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin, LoginManager
 import sqlalchemy, json
 
 db = SQLAlchemy()
-login = LoginManager()
-
-
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 
 class DictType(sqlalchemy.types.TypeDecorator):
@@ -88,29 +79,3 @@ class UserOrders(db.Model):
     zip_code = db.Column(db.String, primary_key=True, nullable=False)
     auth_key = db.Column(db.String)
     basket = db.Column(DictType, nullable=False)
-
-
-class User(db.Model, UserMixin):
-    # Used to login to the Admin Panel
-    id = db.Column(db.Integer, primary_key=True, default=1)
-    username = db.Column(db.String(100))
-    password_hash = db.Column(db.String)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-
-@listens_for(User.__table__, "after_create")
-def create_default_user(target, connection, **kw):
-    """Adds a default user to The Pantry.
-    By default, we assume admin:admin."""
-    table = User.__table__
-    connection.execute(
-        table.insert().values(
-            username="admin",
-            password_hash=generate_password_hash("admin"),
-        )
-    )

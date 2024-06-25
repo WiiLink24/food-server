@@ -1,7 +1,6 @@
 import shutil
 
 from food import app, db
-from flask_login import login_required
 from thepantry.forms import FoodTypes, RestaurantEditForm, RestaurantAddForm
 from flask import render_template, url_for, redirect, send_from_directory
 from werkzeug import exceptions
@@ -9,10 +8,11 @@ from models import Shops, CategoryTypes, ItemList, MenuList
 from thepantry.encodemii import save_restaurant_logo
 from thepantry.operations import manage_delete_item
 import os
+from thepantry.admin import oidc
 
 
 @app.route("/thepantry/restaurants", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def select_food_type():
     form = FoodTypes()
     if form.validate_on_submit():
@@ -23,7 +23,7 @@ def select_food_type():
 
 
 @app.route("/thepantry/restaurants/<category>")
-@login_required
+@oidc.require_login
 def view_restaurants(category):
     restaurants = (
         Shops.query.filter_by(category_code=CategoryTypes(int(category)).name)
@@ -41,7 +41,7 @@ def view_restaurants(category):
 
 
 @app.route("/thepantry/categories/add", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def add_restaurant():
     form = RestaurantAddForm()
 
@@ -69,7 +69,7 @@ def add_restaurant():
 
 
 @app.route("/thepantry/categories/<restaurant_id>/edit", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def edit_restaurant(restaurant_id):
     form = RestaurantEditForm()
 
@@ -108,7 +108,7 @@ def edit_restaurant(restaurant_id):
 
 
 @app.route("/thepantry/categories/<restaurant_id>/delete", methods=["GET", "POST"])
-@login_required
+@oidc.require_login
 def remove_restaurant(restaurant_id):
     def drop_restaurant():
         # Since we are deleting the entire restaurant, we will need to delete food items.
@@ -138,6 +138,6 @@ def remove_restaurant(restaurant_id):
 
 
 @app.route("/thepantry/restaurants/<shop_code>/logo.jpg")
-@login_required
+@oidc.require_login
 def get_restaurant_logo(shop_code):
     return send_from_directory("./images/", f"{shop_code}.jpg")

@@ -9,7 +9,7 @@
 {% endmacro %}
 
 <aside class="menu">
-    {% if current_user.is_authenticated %}
+    {% if g.oidc_user.logged_in %}
     <p class="menu-label">
         General
     </p>
@@ -21,7 +21,6 @@
     <p class="menu-label">
         Account
     </p>
-    {{ menu_item('Change Password', 'change_password', 'fa-key') }}
     <ul class="menu-list">
         <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" style="margin-right: .75em; width: 1em; height: 1em;"></i>Logout</a></li>
     </ul>
