@@ -6,7 +6,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug import exceptions
 from werkzeug.datastructures import ImmutableMultiDict
 
-from models import db, login
+from models import db
 
 import config
 
@@ -24,19 +24,23 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config.db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = config.secret_key
+app.config["OIDC_CLIENT_SECRETS"] = config.oidc_client_secrets_json
+app.config["OIDC_SCOPES"] = "openid profile"
+app.config["OIDC_OVERWRITE_REDIRECT_URI"] = config.oidc_redirect_uri
 
 # Ensure DB tables are created.
 db.init_app(app)
-
-# Ensure we're handling login.
-login.init_app(app)
 
 # Ensure the DB is able to determine migration needs.
 migrate = Migrate(app, db, compare_type=True)
 
 
-@app.before_first_request
+@app.before_request
 def initialize_server():
+    # The following line will remove this handler, making it
+    # only run on the first request
+    app.before_request_funcs[None].remove(initialize_server)
+
     # Ensure our database is present.
     db.create_all()
 

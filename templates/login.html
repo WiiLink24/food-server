@@ -5,17 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.username.label(class_="label") }}
-            {{ form.username(size=32, class_="input") }}
-            <br>
-            <br>
-            {{ form.password.label(class_="label") }}
-            {{ form.password(size=32, class_="input") }}
-        </p>
-        <br>
-        <p>{{ form.submit(class_="button is-link") }}</p>
-    </form>
+    <h1 class="title">Click below to enter the pantry.</h1>
+    <p class="buttons" style="display: block">
+        <a href="{{ url_for('admin') }}">
+            <button class="button is-link">Login with WiiLink Internal</button>
+        </a>
+    </p>
 {% endblock %}

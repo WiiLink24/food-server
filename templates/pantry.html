@@ -5,14 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="title">Welcome, {{ current_user.username }}.</h1>
+    <h1 class="title">Welcome, {{ g.oidc_user.profile.name }}.</h1>
     <h2 class="subtitle">Click on an operation below to get started:</h2>
     <a href="{{ url_for('select_food_type') }}">
         <button>Manage Resturants</button>
-    </a>
-    <br/>
-    <a href="{{ url_for('change_password') }}">
-        <button>Change Password</button>
     </a>
     <br/>
     <br/>
