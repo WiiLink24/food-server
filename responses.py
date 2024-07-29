@@ -499,16 +499,16 @@ def category_list(request):
     return {
         "response": {
             "Pizza": formulate_restaurant(CategoryTypes.Pizza),
-            #   "Bento": formulate_restaurant(CategoryTypes.Bento_Box),
-            #  "Sushi": formulate_restaurant(CategoryTypes.Sushi),
-            # "Fish": formulate_restaurant(CategoryTypes.Fish),
-            # "Seafood": formulate_restaurant(CategoryTypes.Seafood),
-            # "American": formulate_restaurant(CategoryTypes.Western),
-            # "Fast": formulate_restaurant(CategoryTypes.Fast_Food),
-            # "Indian": formulate_restaurant(CategoryTypes.Curry),
-            # "Party": formulate_restaurant(CategoryTypes.Party_Food),
-            "Drinks": formulate_restaurant(CategoryTypes.Others),
-            "Other": formulate_restaurant(CategoryTypes.Test),
+            "Bento": formulate_restaurant(CategoryTypes.Bento_Box),
+            "Sushi": formulate_restaurant(CategoryTypes.Sushi),
+            "Fish": formulate_restaurant(CategoryTypes.Fish),
+            "Seafood": formulate_restaurant(CategoryTypes.Seafood),
+            "American": formulate_restaurant(CategoryTypes.Western),
+            "Fast": formulate_restaurant(CategoryTypes.Fast_Food),
+            "Indian": formulate_restaurant(CategoryTypes.Curry),
+            "Party": formulate_restaurant(CategoryTypes.Party_Food),
+            "Drinks": formulate_restaurant(CategoryTypes.Drinks),
+            "Other": formulate_restaurant(CategoryTypes.Others),
             "Placeholder": formulate_restaurant(CategoryTypes.Others),
         }
     }
