@@ -1,0 +1,50 @@
+name: Push Docker image
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - .*
+jobs:
+  push_docker_image:
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Determine tag name
+        run: |
+          VERSION=$(echo $GITHUB_REF | sed -e 's,.*/\(.*\),\1,')
+
+          # If we're not tagged in git, tag as latest.
+          if [[ "$GITHUB_REF" != "refs/tags/"* ]]; then
+            VERSION=latest
+          fi
+
+          # Preserve our tag name for later
+          echo "tag_name=${VERSION,,}" >> $GITHUB_ENV
+          # Use lowercase name of repository, as buildx rejects the name otherwise.
+          echo "repository=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ghcr.io/${{ env.repository }}:${{ env.tag_name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
