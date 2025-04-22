@@ -1,8 +1,8 @@
 {% extends "generic/base.html" %}
 
-{# Used to verbally identify the type singularly, such as for usage in "1 poster". #}
+{# Used to verbally identify the type singularly, such as for usage in "1 restaurant". #}
 {% block type_name_singular %}{% endblock %}
-{# Used to verbally identify the type pluralized, such as for usage in "Manage Miis" or "22 posters". #}
+{# Used to verbally identify the type pluralized, such as for usage in "Manage Restaurants" or "22 menu items". #}
 {% block type_name %}{% endblock %}
 
 {# Used to show content. #}
@@ -13,10 +13,11 @@
 {#### Actual content ####}
 
 {% block title %}
-    Manage {{ self.type_name() | title }}
+    Manage {{ self.type_name() | title }} - The Pantry
 {% endblock %}
 
 {% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {# type_length must be passed from a call to render_template. #}
     {# type_max_count may as well. #}
 
@@ -26,30 +27,59 @@
         {% set type_max_count=99999999 %}
     {% endif %}
 
-    {% if type_length == 0 %}
-        <div class="notification is-danger">
-            <button class="delete"></button>
-            You have no {{ type_name }}. Demae will break. Please add some {{ type_name }}.
-        </div>
-    {% elif type_length == 1 %}
-        <h2 class="subtitle">There is currently <strong>1</strong> {{ self.type_name_singular() }}.</h2>
-    {% elif type_length >= type_max_count %}
-        <span class="warning">
-            There are currently <strong>{{ type_length }}</strong> {{ type_name }}.
-            Wii no Ma can only handle up to {{ type_max_count }}.
-            Please remove some {{ type_name }}.
-        </span>
-    {% else %}
-        <h2 class="subtitle">There are currently <strong>{{ type_length }}</strong> {{ type_name }}.</h2>
-    {% endif %}
+    <div class="flex flex-col sm:flex-row items-center justify-between mb-8">
+        <h1 class="text-2xl font-bold text-white">Manage {{ self.type_name() | title }}</h1>
+        
+        {% if type_length == 0 %}
+            <div class="mt-4 sm:mt-0 px-4 py-3 bg-red-900/50 border border-red-800 rounded-lg text-red-300 flex items-center">
+                <div class="p-1.5 bg-red-600/20 rounded-md text-red-400 mr-2">
+                    <img src="/static/icon/alert-triangle.svg" alt="Warning" class="w-5 h-5 invert" />
+                </div>
+                <span>You have no {{ type_name }}. Please add some {{ type_name }}.</span>
+            </div>
+        {% elif type_length == 1 %}
+            <div class="mt-4 sm:mt-0 px-4 py-3 bg-blue-900/20 border border-blue-800/50 rounded-lg text-blue-300 flex items-center">
+                <div class="p-1.5 bg-blue-600/20 rounded-md text-blue-400 mr-2">
+                    <img src="/static/icon/info.svg" alt="Info" class="w-5 h-5 invert" />
+                </div>
+                <span>There is currently <strong>1</strong> {{ self.type_name_singular() }}.</span>
+            </div>
+        {% elif type_length >= type_max_count %}
+            <div class="mt-4 sm:mt-0 px-4 py-3 bg-amber-900/20 border border-amber-800/50 rounded-lg text-amber-300 flex items-center">
+                <div class="p-1.5 bg-amber-600/20 rounded-md text-amber-400 mr-2">
+                    <img src="/static/icon/alert-circle.svg" alt="Warning" class="w-5 h-5 invert" />
+                </div>
+                <span>There are currently <strong>{{ type_length }}</strong> {{ type_name }}. Maximum limit is {{ type_max_count }}. Please remove some {{ type_name }}.</span>
+            </div>
+        {% else %}
+            <div class="mt-4 sm:mt-0 px-4 py-3 bg-green-900/20 border border-green-800/50 rounded-lg text-green-300 flex items-center">
+                <div class="p-1.5 bg-green-600/20 rounded-md text-green-400 mr-2">
+                    <img src="/static/icon/check-circle.svg" alt="Success" class="w-5 h-5 invert" />
+                </div>
+                <span>There are currently <strong>{{ type_length }}</strong> {{ type_name }}.</span>
+            </div>
+        {% endif %}
+    </div>
 
-    {{ self.table_listing() }}
+    <div class="relative group mb-8">
+        <div class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"></div>
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
+            {{ self.table_listing() }}
+        </div>
+    </div>
 
     {# Only show the add footer if we have not hit the max for this type. #}
     {% if type_length < type_max_count %}
-        {{ self.add_footer() }}
+        <div class="flex justify-end">
+            {{ self.add_footer() }}
+        </div>
     {% else %}
-        <span class="warning">Remove some {{ type_name }} to add more.</span>
+        <div class="px-4 py-3 bg-red-900/20 border border-red-800/50 rounded-lg text-red-300 flex items-center justify-center">
+            <div class="p-1.5 bg-red-600/20 rounded-md text-red-400 mr-2">
+                <img src="/static/icon/alert-circle.svg" alt="Warning" class="w-5 h-5 invert" />
+            </div>
+            <span>Maximum limit reached. Remove some {{ type_name }} to add more.</span>
+        </div>
     {% endif %}
+</div>
 {% endblock %}
-

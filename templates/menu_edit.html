@@ -1,19 +1,102 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Edit a Menu Category
+Edit Menu Category - The Pantry
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.menu_name.label(class_="label") }} {{ form.menu_name(class_="input") }}
-            <br>
-            <br>
-            {{ form.info.label(class_="label") }} {{ form.info(class_="input") }}
-        </p>
-        <br>
-        <p>{{ form.submit(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Edit Menu Category</h1>
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3">
+                    <img src="/static/icon/pencil.svg" alt="Icon" class="w-6 h-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Editing Menu #{{ store.menu_code }}</h2>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div>
+                    <label for="{{ form.menu_name.id }}" class="block text-sm font-medium text-gray-300 mb-2">Menu
+                        Category Name:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/tag.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.menu_name(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                        rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                        placeholder="e.g. Appetizers, Main Courses, Desserts") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Name for this menu section that customers will see</p>
+                </div>
+
+                <div>
+                    <label for="{{ form.info.id }}"
+                        class="block text-sm font-medium text-gray-300 mb-2">Description:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/file-text.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.info(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2
+                        rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500",
+                        placeholder="Brief description of this menu category") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Short description explaining what types of food are in this
+                        category</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-between pt-4 gap-6">
+                    <div class="flex items-center text-gray-400 text-sm">
+                        <div class="p-1.5 bg-blue-600/10 rounded-md text-blue-400 mr-2">
+                            <img src="/static/icon/fingerprint.svg" alt="Icon" class="w-5 h-5 invert" />
+                        </div>
+                        <span>Menu ID: <span class="font-mono text-blue-300">{{ store.menu_code }}</span></span>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <a href="{{ url_for('list_menus', restaurant_id=store.shop_code) }}"
+                            class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200">
+                            Cancel
+                        </a>
+                        {{ form.submit(class_="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition
+                        duration-200 flex items-center text-sm justify-center w-32", value="Save Changes") }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-6">
+            <div class="flex items-center mb-4">
+                <div class="p-2 bg-red-600/20 rounded-lg text-red-400 mr-3">
+                    <img src="/static/icon/triangle-alert.svg" alt="Icon" class="w-6 h-6 invert" />
+                </div>
+                <h3 class="text-lg font-bold text-red-300">Danger Zone</h3>
+            </div>
+
+            <div class="bg-red-900/20 border border-red-800/50 rounded-lg p-4">
+                <div class="flex">
+                    <div class="flex-shrink-0 text-red-400">
+                        <img src="/static/icon/circle-alert.svg" alt="Icon" class="w-5 h-5 invert" />
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-300">Deleting a menu category cannot be undone. This will permanently
+                            remove this category and all menu items within it.</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex justify-end">
+                    <a href="{{ url_for('remove_menu', restaurant_id=store.shop_code, menu_code=store.menu_code) }}"
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+                        <img src="/static/icon/trash.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Delete Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

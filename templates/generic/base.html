@@ -1,37 +1,177 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('common_css') }}"/>
-    {% include 'includes/header.html' %}
-</head>
-<body>
-{% include 'includes/navigation.html' %}
-{% with messages = get_flashed_messages() %}
-    {% for message in messages %}
-        <p>
-            <span class="warning">{{ message }}</span>
-        </p>
-    {% endfor %}
-{% endwith %}
+<html lang="en">
 
-<section class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-one-quarter">
-                {% include 'includes/sidebar.html' %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Food Delivery Service" />
+    <meta name="author" content="WiiLink Team" />
+    <meta name="theme-color" content="#1F2937" />
+    <link rel="icon" href="/static/icon/favicon.png" type="image/png" />
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 min-h-screen">
+    <div class="w-screen md:hidden fixed p-6 flex flex-row items-center justify-between z-30">
+        <img src="/static/img/is_logo.png" alt="Logo" class="h-8" />
+        <button id="mobileMenuBtn"
+            class="p-2 bg-gray-800 rounded-lg text-white shadow-lg border border-gray-700 focus:outline-none">
+            <img src="/static/icon/menu.svg" alt="Menu" class="w-6 h-6 invert" />
+        </button>
+    </div>
+
+    <div class="flex">
+        <div id="sidebar"
+            class="w-full max-w-[300px] h-screen bg-gray-800/80 backdrop-blur-xl border-r border-gray-700 p-6 fixed top-0 left-0 flex flex-col justify-between transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40">
+            <div class="overflow-y-auto h-full">
+                <div class="mb-6 flex justify-between items-start">
+                    <div>
+                        <img src="/static/img/is_logo.png" alt="Logo" class="h-10 mb-6" />
+                        <h1 class="text-xl font-bold text-white mb-1">
+                            The Pantry
+                        </h1>
+                        <p class="text-gray-400 text-sm italic">
+                            I wonder if restaurants also have food servers...
+                        </p>
+                    </div>
+
+                    <button id="closeSidebarBtn" class="md:hidden text-gray-400 hover:text-white">
+                        <img src="/static/icon/x.svg" alt="Close" class="w-6 h-6 invert" />
+                    </button>
+                </div>
+
+                {# Variable 'sidebar_menu' is used to add custom items to this page's sidebar menu. #}
+
+                {% macro menu_section(title) %}
+                <p class="menu-label text-gray-400 text-sm font-medium mt-6 mb-2">
+                    {{ title }}
+                </p>
+                {% endmacro %}
+
+                {% macro menu_item(name, redirect_func, icon_name) %}
+                <a href="{{ url_for(redirect_func) }}"
+                    class="block w-full px-4 py-2 {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}bg-indigo-600 {% else %}bg-gray-700/40 hover:bg-gray-700/60{% endif %} text-white rounded-xl transition duration-200 flex items-center mb-2">
+                    <img src="/static/icon/{{ icon_name }}.svg" alt="{{ name }}" class="w-5 h-5 invert mr-2" />{{ name
+                    }}
+                </a>
+
+                {% if url_for(request.endpoint, **request.view_args).startswith(url_for(redirect_func)) %}
+                {% if sidebar_menu %}
+                <div class="ml-4 mt-1 mb-3">
+                    {{ sidebar_menu }}
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endmacro %}
+
+                {% if g.oidc_user.logged_in %}
+                {{ menu_item('Dashboard', 'admin', 'house') }}
+                {{ menu_item('Restaurants', 'select_food_type', 'utensils') }}
+
+                {{ menu_section('ACTIONS') }}
+                {{ menu_item('Add Shop', 'add_restaurant', 'plus') }}
+
+                {% else %}
+                <div class="space-y-3 mt-8">
+                    <a href="{{ url_for('root') }}"
+                        class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition duration-200 flex items-center">
+                        <img src="/static/icon/log-out.svg" alt="Login" class="w-5 h-5 rotate-180 invert mr-2" />
+                        Login to Access
+                    </a>
+                </div>
+
+                <div class="mt-6 p-4 bg-gray-700/40 rounded-lg border border-gray-700">
+                    <div class="flex items-center mb-2">
+                        <img src="/static/icon/info.svg" alt="Info" class="w-5 h-5 invert mr-2 opacity-70" />
+                        <h3 class="text-sm font-medium text-gray-300">Access Required</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        You need to be logged in to manage Food Channel content.
+                    </p>
+                </div>
+                {% endif %}
             </div>
-            <div class="column">
-                <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-                    <ul>
-                        <li><a href="{{ url_for('root') }}">The Pantry</a></li>
-                        <li class="is-active"><a href="" aria-current="page">{{ self.title() }}</a></li>
-                    </ul>
-                </nav>
-                {% block content %}{% endblock %}
+
+            <div>
+                {% if g.oidc_id_token and user_info %}
+                <div class="flex items-center space-x-4 my-4 pb-4 border-b border-gray-700">
+                    <!-- User Profile Picture -->
+                    {% if user_info.profile_picture %}
+                    <div class="w-10 h-10 rounded-full bg-gray-700 overflow-hidden shadow-lg border border-gray-600">
+                        <img src="{{ user_info.profile_picture }}" alt="{{ user_info.username }}"
+                            class="w-full h-full object-cover" />
+                    </div>
+                    {% else %}
+                    <div
+                        class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800 flex items-center justify-center text-white shadow-lg">
+                        <img src="/static/icon/user.svg" alt="{{ user_info.username }}" class="w-6 h-6 invert" />
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <div class="text-white font-medium">{{ user_info.username }}</div>
+                        <div class="text-gray-400 text-sm">{{ user_info.full_name }}</div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if g.oidc_user.logged_in %}
+                <a href="{{ url_for('logout') }}"
+                    class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors group mb-6">
+                    <img src="/static/icon/log-out.svg" alt="Logout"
+                        class="w-5 h-5 invert group-hover:-translate-x-1 transition-transform duration-200" />
+                    <span>Logout</span>
+                </a>
+                {% endif %}
+
+                <p class="text-sm text-gray-500">© 2025 WiiLink Team</p>
             </div>
         </div>
+
+        <div id="sidebarOverlay" class="fixed inset-0 bg-gray-900/80 z-30 hidden md:hidden"></div>
+
+        <div class="mt-10 sm:mt-0 w-full md:ml-[300px] md:w-[calc(100%-300px)] min-h-screen p-6">
+            {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+            <div class="bg-yellow-500/20 border border-yellow-600/30 text-yellow-200 px-4 py-3 rounded-lg mb-6">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
     </div>
-</section>
+
+    <script>
+        const sidebar = document.getElementById("sidebar");
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+        const overlay = document.getElementById("sidebarOverlay");
+
+        mobileMenuBtn.addEventListener("click", () => {
+            sidebar.classList.remove("-translate-x-full");
+            overlay.classList.remove("hidden");
+            document.body.classList.add("overflow-hidden");
+        });
+
+        function closeSidebar() {
+            sidebar.classList.add("-translate-x-full");
+            overlay.classList.add("hidden");
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        closeSidebarBtn.addEventListener("click", closeSidebar);
+        overlay.addEventListener("click", closeSidebar);
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth >= 768) {
+                overlay.classList.add("hidden");
+                document.body.classList.remove("overflow-hidden");
+            }
+        });
+    </script>
 </body>
+
 </html>

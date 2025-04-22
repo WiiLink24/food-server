@@ -1,24 +1,89 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Choose the Food Type to view restaurants for
+Choose Food Type - The Pantry
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.food.label(class_="label") }}
-            <div class="control has-icons-left">
-                <div class="select">{{ form.food }}
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-pizza-slice"></i>
-                </div>
-            </div>
-        </p>
-        <br>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Select Food Type</h1>
+        <p class="text-gray-300">Choose a cuisine category to browse restaurants</p>
+    </div>
 
-        <p>{{ form.next(class_="button is-success") }}</p>
+    <form action="" method="post" enctype="multipart/form-data" class="mb-8">
+        {{ form.hidden_tag() }}
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% for subfield in form.food %}
+            <div class="food-type-card">
+                <label
+                    class="relative block bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300 cursor-pointer group {% if subfield.checked %}ring-2 ring-indigo-500{% endif %}">
+                    <input type="radio" name="{{ form.food.name }}" value="{{ subfield.data }}"
+                        class="absolute opacity-0" {% if subfield.checked %}checked{% endif %}>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div
+                            class="p-3 bg-indigo-600/20 rounded-lg text-indigo-400 mb-4 group-hover:bg-indigo-600/40 transition-all">
+                            <img src="/static/icon/{{ subfield.data }}.svg" alt="{{ subfield.label.text }}"
+                                class="h-10 w-10 invert">
+                        </div>
+
+                        <span class="text-lg font-medium text-white">{{ subfield.label.text }}</span>
+                    </div>
+
+                    <div class="check-indicator absolute top-3 right-3 transition-opacity {% if subfield.checked %}opacity-100{% else %}opacity-0 group-hover:opacity-100{% endif %}">
+                        <div class="h-6 w-6 rounded-full bg-indigo-600 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-8">
+            {{ form.next(class_="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 flex items-center justify-center w-full sm:w-auto") }}
+        </div>
     </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radioInputs = document.querySelectorAll('input[type="radio"]');
+
+        radioInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                // Remove selected class from all cards and hide check indicators
+                document.querySelectorAll('.food-type-card label').forEach(card => {
+                    card.classList.remove('ring-2', 'ring-indigo-500');
+                    card.querySelector('.check-indicator').classList.remove('opacity-100');
+                    card.querySelector('.check-indicator').classList.add('opacity-0', 'group-hover:opacity-100');
+                });
+
+                // Add selected class to the chosen card and show check indicator
+                if (this.checked) {
+                    const label = this.closest('label');
+                    label.classList.add('ring-2', 'ring-indigo-500');
+                    
+                    const checkIndicator = label.querySelector('.check-indicator');
+                    checkIndicator.classList.remove('opacity-0', 'group-hover:opacity-100');
+                    checkIndicator.classList.add('opacity-100');
+                }
+            });
+
+            // Set initial state
+            if (input.checked) {
+                input.closest('label').classList.add('ring-2', 'ring-indigo-500');
+                const checkIndicator = input.closest('label').querySelector('.check-indicator');
+                checkIndicator.classList.remove('opacity-0', 'group-hover:opacity-100');
+                checkIndicator.classList.add('opacity-100');
+            }
+        });
+    });
+</script>
 {% endblock %}

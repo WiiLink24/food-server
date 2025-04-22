@@ -1,25 +1,100 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Add a Food Item
+    Add Food Item - The Pantry
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.name.label(class_="label") }} {{ form.name(class_="input") }}
-            <br>
-            <br>
-            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
-            <br>
-            <br>
-            {{ form.price.label(class_="label") }} {{ form.price(class_="input") }}
-            <br>
-            <br>
-            {{ form.image.label(class_="label") }} {{ form.image() }}
-        </p>
-        <br>
-        <p>{{ form.submit(class_="button is-success") }}</p>
-    </form>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Add New Food Item</h1>
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+                    <img src="/static/icon/utensils.svg" alt="Icon" class="w-6 h-6 invert" />
+                </div>
+                <h2 class="text-xl font-bold text-white">Food Item Details</h2>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.name.id }}" class="block text-sm font-medium text-gray-300 mb-2">Food Item Name:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/tag.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.name(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500", placeholder="Enter food item name") }}
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.description.id }}" class="block text-sm font-medium text-gray-300 mb-2">Description:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/file-text.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.description(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500", placeholder="Brief description of the food item") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Describe the food item, its ingredients, or other relevant information</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.price.id }}" class="block text-sm font-medium text-gray-300 mb-2">Price:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/dollar-sign.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.price(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500", placeholder="Price in local currency") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Enter the price without currency symbol (e.g. 9.99)</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.image.id }}" class="block text-sm font-medium text-gray-300 mb-2">Food Image:</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-amber-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/upload.svg" alt="Icon" class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center text-sm text-gray-400">
+                                <label for="{{ form.image.id }}" class="p-1 relative cursor-pointer bg-gray-700 rounded-md font-medium text-amber-400 hover:text-amber-300 focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    {{ form.image(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                PNG, JPG up to 1MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('list_food_items', restaurant_id=restaurant_id, menu_code=menu_code) }}" class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200">
+                        Cancel
+                    </a>
+                    {{ form.submit(class_="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 flex items-center text-sm justify-center", value="Save Food Item") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Icon" class="w-5 h-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">Adding a New Food Item</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>The food item will be added to the selected menu category.</p>
+                        <p>The information provided can be inaccurate, this is Fake Ordering.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

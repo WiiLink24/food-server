@@ -1,47 +1,151 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    Add a Category
+    Add Restaurant - The Pantry
 {% endblock %}
 
 {% block content %}
-    <form action="" method="post" enctype="multipart/form-data">
-        <p>
-            {{ form.hidden_tag() }}
-            {{ form.restaurant_name.label(class_="label") }} {{ form.restaurant_name(class_="input") }}
-            <br>
-            <br>
-            {{ form.food_type.label(class_="label") }}
-            <div class="control has-icons-left">
-                <div class="select">{{ form.food_type }}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="mb-6 text-2xl font-bold text-white">Add New Restaurant</h1>
+    <div class="relative group mb-10">
+        <div class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700 p-8">
+            <div class="flex items-center mb-6 pb-4 border-b border-gray-700">
+                <div class="p-2 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+                    <img src="/static/icon/utensils.svg" alt="Icon" class="w-6 h-6 invert" />
                 </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-pizza-slice"></i>
+                <h2 class="text-xl font-bold text-white">Restaurant Details</h2>
+            </div>
+            
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <div>
+                    <label for="{{ form.restaurant_name.id }}" class="block text-sm font-medium text-gray-300 mb-2">Restaurant Name:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/type.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.restaurant_name(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Enter restaurant name") }}
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.food_type.id }}" class="block text-sm font-medium text-gray-300 mb-2">Food Type:</label>
+                    <div class="relative">
+                        {{ form.food_type(class_="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-white") }}
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/utensils.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.description.id }}" class="block text-sm font-medium text-gray-300 mb-2">Description:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/file-text.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.description(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Brief description of the restaurant") }}
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.wait_time.id }}" class="block text-sm font-medium text-gray-300 mb-2">Wait Time (minutes):</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/clock.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.wait_time(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Average waiting time") }}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.phone.id }}" class="block text-sm font-medium text-gray-300 mb-2">Phone Number:</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <img src="/static/icon/phone.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                            </div>
+                            {{ form.phone(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Contact phone number") }}
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.address.id }}" class="block text-sm font-medium text-gray-300 mb-2">Address:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/map-pin.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.address(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Full restaurant address") }}
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.amenity.id }}" class="block text-sm font-medium text-gray-300 mb-2">Amenities:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/check.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.amenity(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="e.g. Wi-Fi, Parking, Delivery") }}
+                    </div>
+                    <p class="mt-1 text-xs text-gray-400">Separate multiple amenities with commas</p>
+                </div>
+                
+                <div>
+                    <label for="{{ form.message.id }}" class="block text-sm font-medium text-gray-300 mb-2">Restaurant Message:</label>
+                    <div class="relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <img src="/static/icon/message-square.svg" alt="Icon" class="w-5 h-5 invert opacity-70" />
+                        </div>
+                        {{ form.message(class_="bg-gray-700 border border-gray-600 text-white pl-10 w-full px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500", placeholder="Special message or promotional text") }}
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="{{ form.logo.id }}" class="block text-sm font-medium text-gray-300 mb-2">Restaurant Logo:</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-600 border-dashed rounded-md hover:border-indigo-500 transition-colors duration-200">
+                        <div class="space-y-1 text-center">
+                            <img src="/static/icon/upload.svg" alt="Icon" class="mx-auto h-12 w-12 invert opacity-70" />
+                            <div class="flex flex-row items-center text-sm text-gray-400">
+                                <label for="{{ form.logo.id }}" class="p-1 relative cursor-pointer bg-gray-700 rounded-md font-medium text-indigo-400 hover:text-indigo-300 focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    {{ form.logo(class_="sr-only") }}
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-400">
+                                PNG, JPG up to 1MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6">
+                    <a href="{{ url_for('view_restaurants', category=form.category_code) }}" class="px-5 py-2 border border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors duration-200">
+                        Cancel
+                    </a>
+                    {{ form.submit(class_="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 flex items-center text-sm justify-center", value="Save Restaurant") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <div class="relative bg-gray-800/80 border border-gray-700 rounded-lg p-6">
+            <div class="flex">
+                <div class="p-2 bg-blue-600/20 rounded-lg text-blue-400 mr-3 self-start">
+                    <img src="/static/icon/info.svg" alt="Icon" class="w-5 h-5 invert" />
+                </div>
+                <div>
+                    <h3 class="text-sm font-medium text-white mb-2">Adding a New Restaurant</h3>
+                    <div class="text-sm text-gray-300 space-y-2">
+                        <p>After adding a restaurant, you'll be able to create menu categories and add food items to each category.</p>
+                        <p>Remember this is mock data for Fake Ordering, so the data doesn't need to be real or accurate!</p>
+                    </div>
                 </div>
             </div>
-            <br>
-            <br>
-            {{ form.description.label(class_="label") }} {{ form.description(class_="input") }}
-            <br>
-            <br>
-            {{ form.wait_time.label(class_="label") }} {{ form.wait_time(class_="input") }}
-            <br>
-            <br>
-            {{ form.address.label(class_="label") }} {{ form.address(class_="input") }}
-            <br>
-            <br>
-            {{ form.amenity.label(class_="label") }} {{ form.amenity(class_="input") }}
-            <br>
-            <br>
-            {{ form.phone.label(class_="label") }} {{ form.phone(class_="input") }}
-            <br>
-            <br>
-            {{ form.message.label(class_="label") }} {{ form.message(class_="input") }}
-            <br>
-            <br>
-            {{ form.logo.label(class_="label") }} {{ form.logo() }}
-        </p>
-        <br>
-        <p>{{ form.submit(class_="button is-success") }}</p>
-    </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

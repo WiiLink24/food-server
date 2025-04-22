@@ -1,63 +1,209 @@
-{% extends "generic/base_manage.html" %}
+{% extends "generic/base.html" %}
 
-{% block type_name %}food items{% endblock %}
-{% block type_name_singular %}food item{% endblock %}
-
-{% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Item Code</th>
-            <th scope="col">Name</th>
-            <th scope="col">Image</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in items.items %}
-            <tr>
-                <td>{{ item.item_code }}</td>
-                <td>{{ item.name }}</td>
-                <td>
-                    <img src="{{ url_for('get_food_image', restaurant_id=restaurant_id, item_code=item.item_code) }}"
-                         alt="Image for food ID {{ item.item_code }}"
-                         width="50%"
-                    />
-                </td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.price }}</td>
-                <td>
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('edit_item', restaurant_id=restaurant_id, item_code=item.item_code, menu_code=item.menu_code) }}" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                                <span>Edit</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="{{ url_for('remove_item', restaurant_id=restaurant_id, menu_code=item.menu_code, item_code=item.item_code) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
-                        </p>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block title %}
+    Food Items - The Pantry
 {% endblock %}
 
-{% block add_footer %}
-    <a href="{{ url_for('add_item', restaurant_id=restaurant_id, menu_code=menu_code) }}">
-        <button class="button is-success">
-            <span>Add a Food Item</span>
-        </button>
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row items-center justify-end gap-6 mb-10">
+    <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+      <div
+        class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p
+              class="text-gray-400 text-sm font-medium uppercase tracking-wider"
+            >
+              Total Food Items
+            </p>
+            <p class="text-3xl text-white font-bold mt-1">
+              {{ items.total }}
+            </p>
+          </div>
+          <div
+            class="p-3 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 shadow-lg"
+          >
+          <img src="/static/icon/utensils.svg" alt="Icon" class="w-6 h-6 invert" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full sm:w-auto relative group h-full overflow-hidden rounded-xl">
+      <div
+        class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p
+              class="text-gray-400 text-sm font-medium uppercase tracking-wider"
+            >
+              Menu Category
+            </p>
+            <p class="text-3xl text-white font-bold mt-1">
+              #{{ menu_code }}
+            </p>
+          </div>
+          <div
+            class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg"
+          >
+          <img src="/static/icon/menu.svg" alt="Icon" class="w-6 h-6 invert" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="food-items" class="relative group mb-10">
+    <div
+      class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"
+    ></div>
+    <div
+      class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700"
+    >
+      <div
+        class="flex items-center justify-between p-6 border-b border-gray-700"
+      >
+        <div class="flex items-center">
+          <div class="p-2 bg-amber-600/20 rounded-lg text-amber-400 mr-3">
+            <img src="/static/icon/utensils.svg" alt="Icon" class="w-5 h-5 invert" />
+          </div>
+          <h2 class="text-xl font-bold text-white">Food Items</h2>
+        </div>
+        <a
+          href="{{ url_for('add_item', restaurant_id=restaurant_id, menu_code=menu_code) }}"
+          class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-200 flex items-center text-sm"
+        >
+          <img src="/static/icon/plus.svg" alt="Icon" class="w-4 h-4 mr-2 invert" /> Add Food Item
+        </a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-gray-900/50 backdrop-blur-sm">
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Item Code
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Image
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Description
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Price
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700 bg-gray-800">
+            {% for item in items.items %}
+            <tr class="transition-colors hover:bg-gray-700/50">
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-mono text-amber-300"
+              >
+                {{ item.item_code }}
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white"
+              >
+                {{ item.name }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <img src="{{ url_for('get_food_image', restaurant_id=restaurant_id, item_code=item.item_code) }}"
+                     alt="Image for food ID {{ item.item_code }}"
+                     class="h-16 w-auto object-contain"
+                />
+              </td>
+              <td
+                class="px-6 py-4 text-sm text-gray-300 max-w-xs truncate"
+              >
+                {{ item.description }}
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white"
+              >
+                ${{ item.price }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <div class="flex space-x-2">
+                  <a
+                    href="{{ url_for('edit_item', restaurant_id=restaurant_id, item_code=item.item_code, menu_code=item.menu_code) }}"
+                    class="inline-flex items-center px-3 py-1 rounded-md bg-amber-700/30 text-amber-300 hover:bg-amber-600/50 hover:text-white transition-colors duration-200"
+                  >
+                    <img src="/static/icon/pencil.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Edit
+                  </a>
+                  <a
+                    href="{{ url_for('remove_item', restaurant_id=restaurant_id, menu_code=item.menu_code, item_code=item.item_code) }}"
+                    class="inline-flex items-center px-3 py-1 rounded-md bg-red-700/30 text-red-300 hover:bg-red-600/50 hover:text-white transition-colors duration-200"
+                  >
+                    <img src="/static/icon/trash.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      {% if items.pages > 1 %}
+      <div class="px-6 py-4 bg-gray-800 border-t border-gray-700">
+        <div class="flex justify-between items-center">
+          <div class="text-sm text-gray-400">
+            Showing page {{ items.page }} of {{ items.pages }}
+          </div>
+          <div class="flex space-x-2">
+            {% if items.has_prev %}
+            <a href="{{ url_for('list_food_items', restaurant_id=restaurant_id, menu_code=menu_code, page=items.prev_num) }}" 
+               class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-md transition-colors">
+              Previous
+            </a>
+            {% endif %}
+            
+            {% if items.has_next %}
+            <a href="{{ url_for('list_food_items', restaurant_id=restaurant_id, menu_code=menu_code, page=items.next_num) }}"
+               class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-md transition-colors">
+              Next
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="flex justify-between items-center">
+    <a href="{{ url_for('list_menus', restaurant_id=restaurant_id) }}" 
+       class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 flex items-center text-sm">
+      <img src="/static/icon/arrow-left.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Back to Menu Categories
     </a>
+  </div>
+</div>
 {% endblock %}
