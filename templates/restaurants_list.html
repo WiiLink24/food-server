@@ -1,67 +1,186 @@
 {% extends "generic/base_manage.html" %}
 
-{% block type_name %}restaurants{% endblock %}
-{% block type_name_singular %}restaurant{% endblock %}
-
-{% block table_listing %}
-    <table class="table is-fullwidth is-hoverable is-striped">
-        <thead>
-        <tr>
-            <th scope="col">Restaurant ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Logo</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for store in stores.items %}
-            <tr>
-                <td>{{ store.shop_code }}</td>
-                <td>{{ store.name }}</td>
-                <td>
-                    <img src="{{ url_for('get_restaurant_logo', shop_code=store.shop_code) }}"
-                         alt="Logo for restaurant ID {{ store.shop_code }}"
-                         width="50%"
-                    />
-                </td>
-                <td>
-                    <div class="field has-addons">
-                        <p class="control">
-                            <a href="{{ url_for('edit_restaurant', restaurant_id=store.shop_code) }}" class="button">
-                            <span class="icon is-small">
-                                <i class="fas fa-edit"></i>
-                            </span>
-                                <span>Edit</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="{{ url_for('list_menus', restaurant_id=store.shop_code) }}" class="button is-link">
-                            <span class="icon is-small">
-                                <i class="fas fa-list"></i>
-                            </span>
-                                <span>Manage Restaurant</span>
-                            </a>
-                        </p>
-                        <p class="control">
-                            <a href="{{ url_for('remove_restaurant', restaurant_id=store.shop_code) }}" class="button is-danger">
-                            <span class="icon is-small">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                                <span>Delete</span>
-                            </a>
-                        </p>
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block title %}
+    Restaurants - The Pantry
 {% endblock %}
 
-{% block add_footer %}
-    <a href="{{ url_for('add_restaurant') }}">
-        <button class="button is-success">
-            <span>Add a Restaurant</span>
-        </button>
-    </a>
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row items-center justify-end gap-6 mb-10">
+    <div class="w-full sm:w-auto relative group rounded-xl overflow-hidden">
+      <div
+        class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p
+              class="text-gray-400 text-sm font-medium uppercase tracking-wider"
+            >
+              Total Restaurants
+            </p>
+            <p class="text-3xl text-white font-bold mt-1">
+              {{ stores.total }}
+            </p>
+          </div>
+          <div
+            class="p-3 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-800 shadow-lg"
+          >
+          <img src="/static/icon/utensils.svg" alt="Icon" class="w-6 h-6 invert" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full sm:w-auto relative group h-full overflow-hidden rounded-xl">
+      <div
+        class="relative p-6 rounded-xl bg-gray-800/80 border border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300"
+      >
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <p
+              class="text-gray-400 text-sm font-medium uppercase tracking-wider"
+            >
+              Active Categories
+            </p>
+            <p class="text-3xl text-white font-bold mt-1">
+              11
+            </p>
+          </div>
+          <div
+            class="p-3 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg"
+          >
+          <img src="/static/icon/grid.svg" alt="Icon" class="w-6 h-6 invert" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="restaurants" class="relative group mb-10">
+    <div
+      class="absolute rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-200"
+    ></div>
+    <div
+      class="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700"
+    >
+      <div
+        class="flex items-center justify-between p-6 border-b border-gray-700"
+      >
+        <div class="flex items-center">
+          <div class="p-2 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+            <img src="/static/icon/utensils.svg" alt="Icon" class="w-5 h-5 invert" />
+          </div>
+          <h2 class="text-xl font-bold text-white">Restaurants</h2>
+        </div>
+        <a
+          href="{{ url_for('add_restaurant') }}"
+          class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200 flex items-center text-sm"
+        >
+          <img src="/static/icon/plus.svg" alt="Icon" class="w-4 h-4 mr-2 invert" /> Add Restaurant
+        </a>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-gray-900/50 backdrop-blur-sm">
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Restaurant ID
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Logo
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+              >
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700 bg-gray-800">
+            {% for store in stores.items %}
+            <tr class="transition-colors hover:bg-gray-700/50">
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-mono text-indigo-300"
+              >
+                {{ store.shop_code }}
+              </td>
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white"
+              >
+                {{ store.name }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <img src="{{ url_for('get_restaurant_logo', shop_code=store.shop_code) }}"
+                     alt="Logo for restaurant ID {{ store.shop_code }}"
+                     class="h-10 w-auto object-contain"
+                />
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <div class="flex space-x-2">
+                  <a
+                    href="{{ url_for('edit_restaurant', restaurant_id=store.shop_code) }}"
+                    class="inline-flex items-center px-3 py-1 rounded-md bg-indigo-700/30 text-indigo-300 hover:bg-indigo-600/50 hover:text-white transition-colors duration-200"
+                  >
+                    <img src="/static/icon/pencil.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Edit
+                  </a>
+                  <a
+                    href="{{ url_for('list_menus', restaurant_id=store.shop_code) }}"
+                    class="inline-flex items-center px-3 py-1 rounded-md bg-blue-700/30 text-blue-300 hover:bg-blue-600/50 hover:text-white transition-colors duration-200"
+                  >
+                    <img src="/static/icon/list.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Manage
+                  </a>
+                  <a
+                    href="{{ url_for('remove_restaurant', restaurant_id=store.shop_code) }}"
+                    class="inline-flex items-center px-3 py-1 rounded-md bg-red-700/30 text-red-300 hover:bg-red-600/50 hover:text-white transition-colors duration-200"
+                  >
+                    <img src="/static/icon/trash.svg" alt="Icon" class="w-4 h-4 mr-1.5 invert" /> Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      {% if stores.pages > 1 %}
+      <div class="px-6 py-4 bg-gray-800 border-t border-gray-700">
+        <div class="flex justify-between items-center">
+          <div class="text-sm text-gray-400">
+            Showing page {{ stores.page }} of {{ stores.pages }}
+          </div>
+          <div class="flex space-x-2">
+            {% if stores.has_prev %}
+            <a href="{{ url_for('restaurants_list', page=stores.prev_num) }}" 
+               class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-md transition-colors">
+              Previous
+            </a>
+            {% endif %}
+            
+            {% if stores.has_next %}
+            <a href="{{ url_for('restaurants_list', page=stores.next_num) }}"
+               class="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200 rounded-md transition-colors">
+              Next
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

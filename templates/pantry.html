@@ -1,19 +1,46 @@
 {% extends "generic/base.html" %}
 
 {% block title %}
-    The Pantry
+    Dashboard - The Pantry
 {% endblock %}
 
 {% block content %}
-    <h1 class="title">Welcome, {{ g.oidc_user.profile.name }}.</h1>
-    <h2 class="subtitle">Click on an operation below to get started:</h2>
-    <a href="{{ url_for('select_food_type') }}">
-        <button>Manage Resturants</button>
-    </a>
-    <br/>
-    <br/>
-    <a href="{{ url_for('logout') }}">
-        <button>Logout</button>
-    </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Welcome, {{ g.oidc_user.profile.name }}</h1>
+        <p class="text-gray-300">Manage your food delivery service</p>
+    </div>
+    
+    <div class="flex flex-col sm:flex-row gap-6 mb-8">
+        <!-- Restaurants Card -->
+        <div class="relative group">
+            <div class="relative bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 p-6 hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-indigo-600/20 rounded-lg text-indigo-400 mr-3">
+                        <img src="/static/icon/utensils.svg" alt="Restaurants" class="h-8 w-8 invert" />
+                    </div>
+                    <h2 class="text-xl font-bold text-white">Restaurants</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-6">Manage restaurant listings and their menus in The Pantry.</p>
+                
+                <a href="{{ url_for('select_food_type') }}" class="inline-flex items-center justify-center w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Manage Restaurants
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="flex justify-start">
+        <a href="{{ url_for('logout') }}" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-200 flex items-center text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Logout
+        </a>
+    </div>
+</div>
 {% endblock %}
-
